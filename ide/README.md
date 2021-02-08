@@ -1,6 +1,6 @@
-# 下载和安装
+# 基于 Visual Studio Code 的 Python 开发环境部署
 
-## 1. 下载和安装 Python
+## 一、下载和安装 Python
 
 页面说明 | 网址
 ---  | ---
@@ -24,7 +24,7 @@ Windows 下安装 Python 需要注意两点：
 
     ![Disable path length limit](disable-path-length-limit.png)
 
-## 2. 下载和安装 Visual Studio Code
+## 二、下载和安装 Visual Studio Code
 
 页面说明 | 网址
 ---  | ---
@@ -34,10 +34,12 @@ Windows 下安装 Python 需要注意两点：
 
 说明：
 
-- 先从下载页面下载安装包，然后运行安装程序，按照向导提示，一步一步完成完成即可。
+- 先从下载页面下载安装包，然后运行安装程序，按照向导提示，一步一步完成完成即可；
 
-- 文档里专门有一章叫《SETUP》，各种操作系统下的安装介绍都有。
+- 文档里专门有一章叫《SETUP》，各种操作系统下的安装介绍都有；
 
-## 3. 安装 Python 扩展插件
+- 在以后的文章中，非必要情况下，Visual Studio Code 一律简称 VS Code。
 
-参考官方文档《[Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial)》。
+## 三、安装 Python 扩展插件
+
+详情可参考官方文档：[Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial)
