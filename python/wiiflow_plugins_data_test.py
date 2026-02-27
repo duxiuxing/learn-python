@@ -56,7 +56,7 @@ if __name__ == "__main__":
         print(f"\n1. 根据 {WiiFlow_Configs.plugin_name()}.xml 生成 roms.xml")
         print("2. 打印游戏分类列表")
         print("其他输入表示退出")
-        user_input = input("请输入操作的序号：")
+        user_input = input("请输入操作的序号 > ")
         try:
             number = int(user_input)
             if number == 1:

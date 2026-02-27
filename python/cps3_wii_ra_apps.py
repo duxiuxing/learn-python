@@ -76,7 +76,7 @@ if __name__ == "__main__":
         print("1. 输出 USB App")
         print("2. 输出 SD App")
         print("其他输入表示退出")
-        user_input = input("请输入操作的序号：")
+        user_input = input("请输入操作的序号 > ")
         try:
             number = int(user_input)
             if number == 1:
