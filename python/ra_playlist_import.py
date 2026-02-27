@@ -89,7 +89,7 @@ class RA_PlaylistImport:
                 f"发现新游戏的 ROM 文件：{ra_rom.file_path.name}，请输入新游戏的英文名称"
             )
             game_title_input = input(
-                f"直接按回车则使用“{game_title}”作为新游戏的英文名称："
+                f"直接按回车则使用“{game_title}”作为新游戏的英文名称 > "
             )
             if len(game_title_input) > 0:
                 game_title = game_title_input

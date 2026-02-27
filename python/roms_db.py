@@ -33,7 +33,7 @@ class RomsDB:
         RomsDB._instance()._crc32_to_rom[rom.crc32] = rom
 
     @staticmethod
-    def query_rom(rom_crc32=None, rom_file_name=None):
+    def query_rom(rom_crc32=None, rom_file_name=None) -> Rom | None:
         roms_db = RomsDB._instance()
         if rom_crc32 is not None:
             return roms_db._crc32_to_rom.get(rom_crc32)
