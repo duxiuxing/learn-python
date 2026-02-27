@@ -12,11 +12,9 @@ from wiiflow_plugins_data import WiiFlow_PluginsData
 class Init_Global_Configs:
     def __init__(self):
         # LocalConfigs
-        LocalConfigs._repository_directory = Path(
-            "C:\\workspace\\github\\duxiuxing\\r-sam-neogeo"
-        )
+        LocalConfigs._repository_directory = Path("C:\\workspace\\github\\duxiuxing\\r-sam-cps1")
         dir0 = "C:\\Users\\duxiu\\AppData\\Roaming\\Dolphin Emulator\\Load\\WiiSDSync"
-        dir1 = "C:\\workspace\\github\\R-Sam-1980\\neogeo"
+        dir1 = "D:\\workspace\\github\\R-Sam-1980\\cps1"
         dir2 = "X:\\"
         LocalConfigs._export_to_directory = Path(dir1)
 
@@ -24,18 +22,18 @@ class Init_Global_Configs:
         LocalConfigs._seven_zip_exe_path = Path("C:\\Program Files\\7-Zip\\7z.exe")
 
         # WiiRA_AppConfigs
-        WiiRA_AppConfigs._default_short_description = "SNK Neo Geo Emulator"
+        WiiRA_AppConfigs._default_short_description = "Capcom Play System 1 Emulator"
 
         # WiiRA_Configs
-        WiiRA_Configs._core_name = "Arcade (FB Alpha 2012 Neo Geo)"
-        WiiRA_Configs._core_file_name = Path("fbalpha2012_neogeo_libretro_wii.dol")
-        WiiRA_Configs._core_info_file_name = Path("fbalpha2012_neogeo_libretro.info")
-        WiiRA_Configs._db_name = Path("SNK - Neo Geo.lpl")
+        WiiRA_Configs._core_name = "Arcade (FB Alpha 2012 CPS-1)"
+        WiiRA_Configs._core_file_name = Path("fbalpha2012_cps1_libretro_wii.dol")
+        WiiRA_Configs._core_info_file_name = Path("fbalpha2012_cps1_libretro.info")
+        WiiRA_Configs._db_name = Path("Capcom - CP System I.lpl")
         WiiRA_Configs._release_date = "2025-11-20 10:41"
         WiiRA_Configs._version = "1.22.2"
 
         # WiiFlow_Configs
-        WiiFlow_Configs._plugin_name = "NEOGEO"
+        WiiFlow_Configs._plugin_name = "CPS1"
 
         WiiFlow_PluginsData()
         RomsXML()
