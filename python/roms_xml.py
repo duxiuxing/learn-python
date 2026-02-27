@@ -47,7 +47,7 @@ class RomsXML:
     def __init__(self):
         repository_dir = LocalConfigs.repository_directory()
         if Helper.files_in_letter_folder():
-            for letter in "#ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+            for letter in "#A":
                 xml_file_path = repository_dir.joinpath(f"roms\\{letter}\\{letter}.xml")
                 RomsXML._parse(xml_file_path)
         else:

@@ -314,20 +314,15 @@ if __name__ == "__main__":
 
     app_configs_list = []
     app_configs = WiiRA_AppConfigs(
-        long_name="Capcom - CP System III",
-        short_name="cps3",
+        long_name="SNK - Neo Geo",
+        short_name="neogeo",
         rom_file_list=[
             "jojoba.zip",
-            "jojo.zip",
-            "redearth.zip",
-            "sfiii.zip",
-            "sfiii2.zip",
-            "sfiii3.zip",
         ],
     )
     app_configs.long_description = (
-        "- Emulator for CPS-3 games based on RetroArch.\n"
-        "- Based on a snapshot of the FB Alpha codebase from 2012.\n"
+        "- Emulator for Neo Geo games based on RetroArch.\n"
+        "- Based on a snapshot of the FB Alpha codebase from circa 2012.\n"
         "- Compatible with FB Alpha v0.2.97.29 ROM sets."
     )
     # app_configs_list.append(app_configs)
@@ -337,63 +332,63 @@ if __name__ == "__main__":
         short_name="1941",
         rom_file_list=["1941.zip"],
     )
-    app_configs_list.append(app_configs)
+    # app_configs_list.append(app_configs)
 
     app_configs = WiiRA_AppConfigs(
         long_name="Cadillacs and Dinosaurs",
         short_name="dino",
         rom_file_list=["dino.zip"],
     )
-    app_configs_list.append(app_configs)
+    # app_configs_list.append(app_configs)
 
     app_configs = WiiRA_AppConfigs(
         long_name="Captain Commando",
         short_name="captcomm",
         rom_file_list=["captcomm.zip"],
     )
-    app_configs_list.append(app_configs)
+    # app_configs_list.append(app_configs)
 
     app_configs = WiiRA_AppConfigs(
         long_name="Dynasty Wars",
         short_name="dynwar",
         rom_file_list=["dynwar.zip"],
     )
-    app_configs_list.append(app_configs)
+    # app_configs_list.append(app_configs)
 
     app_configs = WiiRA_AppConfigs(
         long_name="Final Fight",
         short_name="ffight",
         rom_file_list=["ffight.zip"],
     )
-    app_configs_list.append(app_configs)
+    # app_configs_list.append(app_configs)
 
     app_configs = WiiRA_AppConfigs(
         long_name="Street Fighter 2' CE",
         short_name="sf2ce",
         rom_file_list=["sf2ce.zip"],
     )
-    app_configs_list.append(app_configs)
+    # app_configs_list.append(app_configs)
 
     app_configs = WiiRA_AppConfigs(
         long_name="The Punisher",
         short_name="punisher",
         rom_file_list=["punisher.zip"],
     )
-    app_configs_list.append(app_configs)
+    # app_configs_list.append(app_configs)
 
     app_configs = WiiRA_AppConfigs(
         long_name="Three Wonders",
         short_name="3wonders",
         rom_file_list=["3wonders.zip"],
     )
-    app_configs_list.append(app_configs)
+    # app_configs_list.append(app_configs)
 
     app_configs = WiiRA_AppConfigs(
         long_name="Warriors of Fate",
         short_name="wof",
         rom_file_list=["wof.zip"],
     )
-    app_configs_list.append(app_configs)
+    # app_configs_list.append(app_configs)
 
     app_configs = WiiRA_AppConfigs(
         long_name="Street Fighter 3.1",
@@ -408,13 +403,20 @@ if __name__ == "__main__":
         rom_file_list=["sfiii2.zip"],
     )
     # app_configs_list.append(app_configs)
+    
+    app_configs = WiiRA_AppConfigs(
+        long_name="Aero Fighters 2",
+        short_name="sonicwi2",
+        rom_file_list=["sonicwi2.zip"],
+    )
+    app_configs_list.append(app_configs)
 
     app_configs = WiiRA_AppConfigs(
-        long_name="Street Fighter 3.3",
-        short_name="sfiii3",
-        rom_file_list=["sfiii3.zip"],
+        long_name="Aero Fighters 3",
+        short_name="sonicwi3",
+        rom_file_list=["sonicwi3.zip"],
     )
-    # app_configs_list.append(app_configs)
+    app_configs_list.append(app_configs)
 
     for app_configs in app_configs_list:
         app_configs.device = WiiRA_AppConfigs.DEVICE_USB

@@ -4,6 +4,7 @@ import fnmatch
 import os
 
 from helper import Helper
+from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
 from PIL import Image
@@ -103,4 +104,5 @@ class LogoExporter:
 
 
 if __name__ == "__main__":
+    Init_Global_Configs()
     LogoExporter().run()
