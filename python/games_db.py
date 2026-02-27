@@ -39,7 +39,7 @@ class GamesDB:
         GamesDB._instance()._id_to_game[game.id] = game
 
     @staticmethod
-    def query_game(game_id=None, game_title=None):
+    def query_game(game_id=None, game_title=None) -> Game | None:
         games_db = GamesDB._instance()
         if game_id is not None:
             game = games_db._id_to_game.get(game_id)
