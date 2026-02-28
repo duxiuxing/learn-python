@@ -170,6 +170,7 @@ class WiiRA_App:
             'quick_menu_show_reset_core_association = "false"',
             'quick_menu_show_start_recording = "false"',
             'quick_menu_show_start_streaming = "false"',
+            'quick_menu_show_undo_save_load_state = "false"',
             # 其他
             f'assets_directory = "{app_dir}/assets"',
             f'audio_filter_dir = "{app_dir}/filters/audio"',
