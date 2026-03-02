@@ -2,21 +2,44 @@
 
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
+from pathlib import Path
 from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_app import WiiRA_App
+from wiiflow_configs import WiiFlow_Configs
+
+
+def game_app_configs(long_name: str, short_name: str):
+    rom_file_path = Path("games").joinpath(
+        WiiFlow_Configs.plugin_name().lower(),
+        f"{short_name}{WiiFlow_Configs.rom_file_extension()}",
+    )
+    return WiiRA_AppConfigs(
+        long_name=long_name,
+        short_name=short_name,
+        rom_file_path_list=[rom_file_path],
+    )
 
 
 if __name__ == "__main__":
     Init_Global_Configs()
 
     app_configs_list = []
+
+    rom_file_list = [
+        "sonicwi2.zip",
+        "sonicwi3.zip",
+    ]
+    rom_file_path_list = []
+    for rom_file_name in rom_file_list:
+        rom_file_path = Path("games").joinpath(
+            WiiFlow_Configs.plugin_name().lower(),
+            rom_file_name,
+        )
+        rom_file_path_list.append(rom_file_path)
     app_configs = WiiRA_AppConfigs(
         long_name="SNK - Neo Geo",
         short_name="neogeo",
-        rom_file_list=[
-            "sonicwi2.zip",
-            "sonicwi3.zip",
-        ],
+        rom_file_path_list=rom_file_path_list,
     )
     app_configs.long_description = (
         "- Emulator for Neo Geo games based on RetroArch.\n"
@@ -25,45 +48,39 @@ if __name__ == "__main__":
     )
     # app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Aero Fighters 2",
         short_name="sonicwi2",
-        rom_file_list=["sonicwi2.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Aero Fighters 3",
         short_name="sonicwi3",
-        rom_file_list=["sonicwi3.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Alpha Mission II",
         short_name="alpham2",
-        rom_file_list=["alpham2.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Art of Fighting",
         short_name="aof",
-        rom_file_list=["aof.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Art of Fighting 2",
         short_name="aof2",
-        rom_file_list=["aof2.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Art of Fighting 3",
         short_name="aof3",
-        rom_file_list=["aof3.zip"],
     )
     app_configs_list.append(app_configs)
 
