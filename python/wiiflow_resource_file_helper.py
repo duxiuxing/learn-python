@@ -1,9 +1,5 @@
 # -- coding: UTF-8 --
 
-import os
-import shutil
-
-from console_configs import ConsoleConfigs
 from helper import Helper
 from local_configs import LocalConfigs
 from pathlib import Path
@@ -16,37 +12,56 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 
 class WiiFlow_ResourceFileHelper:
     @staticmethod
-    def compute_png_cover_file_path(rom: WiiFlow_Rom):
-        game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
-        repository_dir = Path(LocalConfigs.repository_directory())
-        plugin_name = WiiFlow_Configs.plugin_name()
+    def png_blank_cover_path():
+        return LocalConfigs.repository_directory().joinpath(
+            "wii\\wiiflow\\boxcovers\\blank_covers",
+            f"{WiiFlow_Configs.plugin_name()}.png",
+        )
 
+    @staticmethod
+    def png_cover_root_directory():
+        return LocalConfigs.repository_directory().joinpath(
+            f"wii\\wiiflow\\boxcovers\\{WiiFlow_Configs.plugin_name()}"
+        )
+
+    @staticmethod
+    def compute_png_cover_path(rom_file_name):
         if Helper.files_in_letter_folder():
+            rom = WiiFlow_RomsDB.query_rom(rom_file_title=Path(rom_file_name).stem)
+            game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
             letter = game.name.upper()[0]
             if letter not in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
                 letter = "#"
-            return repository_dir.joinpath(
-                f"wii\\wiiflow\\boxcovers\\{plugin_name}\\{letter}\\{rom.file_title}{ConsoleConfigs.rom_file_extension()}.png",
+            return LocalConfigs.repository_directory().joinpath(
+                WiiFlow_ResourceFileHelper.png_cover_root_directory(),
+                f"{letter}\\{rom_file_name}.png",
             )
         else:
-            return repository_dir.joinpath(
-                f"wii\\wiiflow\\boxcovers\\{plugin_name}\\{rom.file_title}{ConsoleConfigs.rom_file_extension()}.png",
+            return LocalConfigs.repository_directory().joinpath(
+                WiiFlow_ResourceFileHelper.png_cover_root_directory(),
+                f"{rom_file_name}.png",
             )
 
     @staticmethod
-    def compute_wfc_cover_file_path(rom: WiiFlow_Rom):
-        game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
-        repository_dir = Path(LocalConfigs.repository_directory())        
-        plugin_name = WiiFlow_Configs.plugin_name()
+    def wfc_blank_cover_path():
+        return LocalConfigs.repository_directory().joinpath(
+            "wii\\wiiflow\\cache\\blank_covers", f"{WiiFlow_Configs.plugin_name()}.wfc"
+        )
 
+    @staticmethod
+    def compute_wfc_cover_path(rom_file_name):
         if Helper.files_in_letter_folder():
+            rom = WiiFlow_RomsDB.query_rom(rom_file_title=Path(rom_file_name).stem)
+            game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
             letter = game.name.upper()[0]
             if letter not in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
                 letter = "#"
-            return repository_dir.joinpath(
-                f"wii\\wiiflow\\cache\\{plugin_name}\\{letter}\\{rom.file_title}{ConsoleConfigs.rom_file_extension()}.wfc",
+            return LocalConfigs.repository_directory().joinpath(
+                "wii\\wiiflow\\cache",
+                f"{WiiFlow_Configs.plugin_name()}\\{letter}\\{rom_file_name}.wfc",
             )
         else:
-            return repository_dir.joinpath(
-                f"wii\\wiiflow\\cache\\{plugin_name}\\{rom.file_title}{ConsoleConfigs.rom_file_extension()}.wfc",
+            return LocalConfigs.repository_directory().joinpath(
+                "wii\\wiiflow\\cache",
+                f"{WiiFlow_Configs.plugin_name()}\\{rom_file_name}.wfc",
             )
