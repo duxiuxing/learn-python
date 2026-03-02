@@ -8,7 +8,7 @@ from wii_ra_app import WiiRA_App
 from wiiflow_configs import WiiFlow_Configs
 
 
-def cps3_game_app_configs(long_name: str, short_name: str):
+def game_app_configs(long_name: str, short_name: str):
     rom_file_path = Path("games").joinpath(
         WiiFlow_Configs.plugin_name().lower(),
         f"{short_name}{WiiFlow_Configs.rom_file_extension()}",
@@ -52,37 +52,37 @@ if __name__ == "__main__":
     )
     app_configs_list.append(app_configs)
 
-    app_configs = cps3_game_app_configs(
+    app_configs = game_app_configs(
         long_name="JoJo's Venture 2",
         short_name="jojoba",
     )
     app_configs_list.append(app_configs)
 
-    app_configs = cps3_game_app_configs(
+    app_configs = game_app_configs(
         long_name="JoJo's Venture",
         short_name="jojo",
     )
     app_configs_list.append(app_configs)
 
-    app_configs = cps3_game_app_configs(
+    app_configs = game_app_configs(
         long_name="Red Earth",
         short_name="redearth",
     )
     app_configs_list.append(app_configs)
 
-    app_configs = cps3_game_app_configs(
+    app_configs = game_app_configs(
         long_name="Street Fighter 3.1",
         short_name="sfiii",
     )
     app_configs_list.append(app_configs)
 
-    app_configs = cps3_game_app_configs(
+    app_configs = game_app_configs(
         long_name="Street Fighter 3.2",
         short_name="sfiii2",
     )
     app_configs_list.append(app_configs)
 
-    app_configs = cps3_game_app_configs(
+    app_configs = game_app_configs(
         long_name="Street Fighter 3.3",
         short_name="sfiii3",
     )
