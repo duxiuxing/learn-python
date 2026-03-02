@@ -2,31 +2,54 @@
 
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
+from pathlib import Path
 from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_app import WiiRA_App
+from wiiflow_configs import WiiFlow_Configs
+
+
+def game_app_configs(long_name: str, short_name: str):
+    rom_file_path = Path("games").joinpath(
+        WiiFlow_Configs.plugin_name().lower(),
+        f"{short_name}{WiiFlow_Configs.rom_file_extension()}",
+    )
+    return WiiRA_AppConfigs(
+        long_name=long_name,
+        short_name=short_name,
+        rom_file_path_list=[rom_file_path],
+    )
 
 
 if __name__ == "__main__":
     Init_Global_Configs()
 
     app_configs_list = []
+
+    rom_file_list = [
+        "1941.zip",
+        "dino.zip",
+        "captcomm.zip",
+        "dynwar.zip",
+        "ffight.zip",
+        "sf2ce.zip",
+        "sf2hf.zip",
+        "sf2.zip",
+        "sfzch.zip",
+        "punisher.zip",
+        "3wonders.zip",
+        "wof.zip",
+    ]
+    rom_file_path_list = []
+    for rom_file_name in rom_file_list:
+        rom_file_path = Path("games").joinpath(
+            WiiFlow_Configs.plugin_name().lower(),
+            rom_file_name,
+        )
+        rom_file_path_list.append(rom_file_path)
     app_configs = WiiRA_AppConfigs(
         long_name="Capcom - CP System I",
         short_name="cps1",
-        rom_file_list=[
-            "1941.zip",
-            "dino.zip",
-            "captcomm.zip",
-            "dynwar.zip",
-            "ffight.zip",
-            "sf2ce.zip",
-            "sf2hf.zip",
-            "sf2.zip",
-            "sfzch.zip",
-            "punisher.zip",
-            "3wonders.zip",
-            "wof.zip",
-        ],
+        rom_file_path_list=rom_file_path_list,
     )
     app_configs.long_description = (
         "- Emulator for CPS-1 games based on RetroArch.\n"
@@ -35,66 +58,57 @@ if __name__ == "__main__":
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="1941 - Counter Attack",
         short_name="1941",
-        rom_file_list=["1941.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Cadillacs and Dinosaurs",
         short_name="dino",
-        rom_file_list=["dino.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Captain Commando",
         short_name="captcomm",
-        rom_file_list=["captcomm.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Dynasty Wars",
         short_name="dynwar",
-        rom_file_list=["dynwar.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Final Fight",
         short_name="ffight",
-        rom_file_list=["ffight.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Street Fighter 2' CE",
         short_name="sf2ce",
-        rom_file_list=["sf2ce.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="The Punisher",
         short_name="punisher",
-        rom_file_list=["punisher.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Three Wonders",
         short_name="3wonders",
-        rom_file_list=["3wonders.zip"],
     )
     app_configs_list.append(app_configs)
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = game_app_configs(
         long_name="Warriors of Fate",
         short_name="wof",
-        rom_file_list=["wof.zip"],
     )
     app_configs_list.append(app_configs)
 
