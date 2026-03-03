@@ -16,7 +16,7 @@ from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
 
-class WiiRA_App:
+class WiiRA_VM_App:
     def __init__(self, configs: WiiRA_AppConfigs):
         self.configs = configs
 
@@ -72,7 +72,7 @@ class WiiRA_App:
             xml_file.write('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n')
             xml_file.write('<app version="1">\n')
             xml_file.write(f"  <name>{self.configs.long_name}</name>\n")
-            xml_file.write("  <author>Libretro &amp; R-Sam</author>\n")
+            xml_file.write("  <author>MundoWiiHACK &amp; R-Sam</author>\n")
             xml_file.write(
                 f"  <version>{WiiRA_Configs.version()}.{self.configs.device}</version>\n"
             )
@@ -147,31 +147,32 @@ class WiiRA_App:
             'rgui_inline_thumbnails = "true"',
             # 在游戏过程中使用手柄的左摇杆
             'input_max_users = "4"',
-            'input_player1_analog_dpad_mode = "3"',
-            'input_player2_analog_dpad_mode = "3"',
-            'input_player3_analog_dpad_mode = "3"',
-            'input_player4_analog_dpad_mode = "3"',
+            'input_player1_analog_dpad_mode = "1"',
+            'input_player2_analog_dpad_mode = "1"',
+            'input_player3_analog_dpad_mode = "1"',
+            'input_player4_analog_dpad_mode = "1"',
             # 快捷键相关的设置
+            'input_menu_toggle = "nul"',
             'input_menu_toggle_axis = "+2"',
-            'input_menu_toggle_gamepad_combo = "9"',
+            'input_menu_toggle_gamepad_combo = "8"',
             'input_load_state_axis = "-2"',
+            'input_state_slot_decrease = "nul"',
             'input_state_slot_decrease_axis = "-3"',
+            'input_state_slot_increase = "nul"',
             'input_state_slot_increase_axis = "+3"',
-            'menu_swap_ok_cancel_buttons = "false"',
             # 精简 MAIN MENU 界面
-            'content_show_netplay = "false"',
             'menu_show_load_content = "false"',
             'menu_show_load_core = "false"',
             # 精简 PLAYLISTS 界面
-            'content_show_add_entry = "0"',
-            'content_show_explore = "false"',
+            'content_show_add = "false"',
+            'content_show_music = "false"',
             'playlist_entry_rename = "false"',
             # 精简游戏的快捷菜单界面
+            'menu_show_help = "false"',
             'menu_show_latency = "false"',
             'menu_show_overlays = "false"',
             'menu_show_rewind = "false"',
             'quick_menu_show_cheats = "false"',
-            'quick_menu_show_download_thumbnails = "false"',
             'quick_menu_show_options = "false"',
             'quick_menu_show_save_content_dir_overrides = "false"',
             'quick_menu_show_save_core_overrides = "false"',
@@ -190,26 +191,18 @@ class WiiRA_App:
             f'content_image_history_path = "{app_dir}/playlists/builtin/content_image_history.lpl"',
             f'content_music_history_path = "{app_dir}/playlists/builtin/content_music_history.lpl"',
             f'content_video_history_path = "{app_dir}/playlists/builtin/content_video_history.lpl"',
+            f'input_remapping_directory = "{retroarch_dir}/remaps"',
             f'joypad_autoconfig_dir = "{app_dir}/autoconfig"',
             f'libretro_directory = "{app_dir}"',
             f'libretro_info_path = "{app_dir}/info"',
+            f'libretro_path = "{app_dir}/{WiiRA_Configs.core_file_name()}"',
             f'log_dir = "{retroarch_dir}/logs"',
-            f'osk_overlay_directory = "{app_dir}/overlays/keyboards"',
             f'overlay_directory = "{app_dir}/overlays"',
             f'savefile_directory = "{retroarch_dir}/savefiles"',
             f'savestate_directory = "{retroarch_dir}/savestates"',
             f'system_directory = "{retroarch_dir}/system"',
             f'video_filter_dir = "{app_dir}/filters/video"',
         ]
-
-        if len(self.configs.rom_file_path_list) > 10:
-            list_ret.append('content_show_history = "true"')
-            list_ret.append('content_show_playlists = "true"')
-            list_ret.append('quick_menu_show_add_to_favorites = "true"')
-        else:
-            list_ret.append('content_show_history = "false"')
-            list_ret.append('content_show_playlists = "false"')
-            list_ret.append('quick_menu_show_add_to_favorites = "false"')
 
         return list_ret
 
@@ -221,10 +214,13 @@ class WiiRA_App:
 
         return dict_ret
 
-    def export_retroarch_cfg(self):
-        dst_cfg_file_path = self.directory().joinpath(
-            WiiRA_Configs.core_cfg_file_name()
+    def export_retroarch_vm_cfg(self):
+        dst_cfg_file_path = LocalConfigs.export_to_directory().joinpath(
+            "retroarch", WiiRA_Configs.core_cfg_file_name()
         )
+        if not Helper.verify_exist_directory_ex(dst_cfg_file_path.parent):
+            print(f"【错误】无效的目标文件 {dst_cfg_file_path}")
+            return
         if dst_cfg_file_path.exists() and dst_cfg_file_path.is_file():
             dst_cfg_file_path.unlink()
 
@@ -245,25 +241,11 @@ class WiiRA_App:
                     line = src_file.readline()
             dst_file.close()
 
-    def export_retroarch_salamander_cfg(self):
-        cfg_file_path = self.directory().joinpath("retroarch-salamander.cfg")
-        if cfg_file_path.exists() and cfg_file_path.is_file():
-            cfg_file_path.unlink()
-
-        with open(cfg_file_path, "w", encoding="utf-8") as cfg_file:
-            core_path = f"{self.configs.device}:/apps/{self.configs.short_name}-{self.configs.device}/{WiiRA_Configs.core_file_name()}"
-            cfg_file.write(f'libretro_path = "{core_path}"\n')
-            cfg_file.close()
-
     def export_playlist(self):
-        lpl_file_path = self.directory().joinpath(
-            "playlists\\builtin\\content_favorites.lpl"
-        )
-        if len(self.configs.rom_file_path_list) > 10:
-            lpl_file_path = self.directory().joinpath(
-                "playlists", WiiRA_Configs.db_name()
-            )
-        if not Helper.verify_exist_directory_ex(lpl_file_path.parent):
+        lpl_file_path = self.directory().joinpath("playlists", WiiRA_Configs.db_name())
+        if not Helper.verify_exist_directory_ex(
+            self.directory().joinpath("playlists\\builtin")
+        ):
             print(f"【错误】无效的目标文件 {lpl_file_path}")
             return
         if lpl_file_path.exists() and lpl_file_path.is_file():
@@ -273,14 +255,12 @@ class WiiRA_App:
             core_path = f"{self.configs.device}:/apps/{self.configs.short_name}-{self.configs.device}/{WiiRA_Configs.core_file_name()}"
             head = (
                 "{\n"
-                '  "version": "1.5",\n'
+                '  "version": "1.2",\n'
                 f'  "default_core_path": "{core_path}",\n'
                 f'  "default_core_name": "{WiiRA_Configs.core_name()}",\n'
                 '  "label_display_mode": 0,\n'
                 '  "right_thumbnail_mode": 3,\n'
                 '  "left_thumbnail_mode": 2,\n'
-                '  "thumbnail_match_mode": 0,\n'
-                '  "sort_mode": 1,\n'
                 '  "items": [\n'
             )
             lpl_file.write(head)
@@ -318,6 +298,5 @@ class WiiRA_App:
         self.export_core_files()
         self.export_icon_png()
         self.export_meta_xml()
-        self.export_retroarch_cfg()
-        self.export_retroarch_salamander_cfg()
+        self.export_retroarch_vm_cfg()
         self.export_playlist()
