@@ -42,7 +42,7 @@ if __name__ == "__main__":
         rom_file_path_list=rom_file_path_list,
     )
     app_configs.long_description = (
-        "- Emulator for Neo Geo games based on RetroArch.\n"
+        "- Emulator for Neo Geo games smaller than 23 MB.\n"
         "- Based on a snapshot of the FB Alpha codebase from circa 2012.\n"
         "- Compatible with FB Alpha v0.2.97.29 ROM sets."
     )
