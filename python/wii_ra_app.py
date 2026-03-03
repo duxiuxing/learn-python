@@ -27,7 +27,7 @@ class WiiRA_App:
 
     def export_core_files(self):
         src_app_dir = LocalConfigs.repository_directory().joinpath(
-            "wii\\apps\\retroarch-wii"
+            "wii\\apps", WiiRA_Configs.core_folder_name()
         )
         dst_app_dir = self.directory()
 
@@ -229,7 +229,8 @@ class WiiRA_App:
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
             configs_dict = self.configs_dict()
             src_cfg_file_path = LocalConfigs.repository_directory().joinpath(
-                "wii\\apps\\retroarch-wii\\retroarch.cfg"
+                f"wii\\apps\\{WiiRA_Configs.core_folder_name()}",
+                WiiRA_Configs.core_cfg_file_name(),
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
                 line = src_file.readline()
