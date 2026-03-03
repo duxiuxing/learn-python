@@ -4,6 +4,12 @@ from pathlib import Path
 
 
 class WiiRA_Configs:
+    _core_cfg_file_name = Path("retroarch.cfg")
+
+    @staticmethod
+    def core_cfg_file_name() -> Path:
+        return WiiRA_Configs._core_cfg_file_name
+
     _core_name = None
 
     @staticmethod
@@ -15,6 +21,12 @@ class WiiRA_Configs:
     @staticmethod
     def core_file_name() -> Path:
         return WiiRA_Configs._core_file_name
+
+    _core_folder_name = "retroarch-wii"
+
+    @staticmethod
+    def core_folder_name() -> str:
+        return WiiRA_Configs._core_folder_name
 
     _core_info_file_name = None
 
