@@ -26,8 +26,27 @@ if __name__ == "__main__":
     app_configs_list = []
 
     rom_file_list = [
+        "3countb.zip",
+        "2020bb.zip",
+        "alpham2.zip",
+        "androdun.zip",
+        "aodk.zip",
+        "aof.zip",
+        "aof2.zip",
+        "aof3.zip",
         "sonicwi2.zip",
         "sonicwi3.zip",
+        "b2buster.zip",
+        "bakatono.zip",
+        "bangbead.zip",
+        "bjourney.zip",
+        "blazstar.zip",
+        "breakers.zip",
+        "breakrev.zip",
+        "bstars.zip",
+        "bstars2.zip",
+        "burningf.zip",
+        "flipshot.zip",
     ]
     rom_file_path_list = []
     for rom_file_name in rom_file_list:
@@ -46,23 +65,35 @@ if __name__ == "__main__":
         "- Based on a snapshot of the FB Alpha codebase from circa 2012.\n"
         "- Compatible with FB Alpha v0.2.97.29 ROM sets."
     )
-    # app_configs_list.append(app_configs)
+    app_configs_list.append(app_configs)
 
     app_configs = game_app_configs(
-        long_name="Aero Fighters 2",
-        short_name="sonicwi2",
+        long_name="3 Count Bout",
+        short_name="3countb",
     )
     app_configs_list.append(app_configs)
 
     app_configs = game_app_configs(
-        long_name="Aero Fighters 3",
-        short_name="sonicwi3",
+        long_name="2020 Super Baseball",
+        short_name="2020bb",
     )
     app_configs_list.append(app_configs)
 
     app_configs = game_app_configs(
         long_name="Alpha Mission II",
         short_name="alpham2",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Andro Dunos",
+        short_name="androdun",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Aggressors of Dark Kombat",
+        short_name="aodk",
     )
     app_configs_list.append(app_configs)
 
@@ -81,6 +112,84 @@ if __name__ == "__main__":
     app_configs = game_app_configs(
         long_name="Art of Fighting 3",
         short_name="aof3",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Aero Fighters 2",
+        short_name="sonicwi2",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Aero Fighters 3",
+        short_name="sonicwi3",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Bang Bang Busters",
+        short_name="b2buster",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Mahjong",
+        short_name="bakatono",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Bang Bead",
+        short_name="bangbead",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Blue's Journey",
+        short_name="bjourney",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Blazing Star",
+        short_name="blazstar",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Breakers",
+        short_name="breakers",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Breakers Revenge",
+        short_name="breakrev",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Baseball Stars Professional",
+        short_name="bstars",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Baseball Stars 2",
+        short_name="bstars2",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Burning Fight",
+        short_name="burningf",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Battle Flip Shot",
+        short_name="flipshot",
     )
     app_configs_list.append(app_configs)
 
