@@ -61,7 +61,16 @@ class WiiFlow_PluginsData:
                 elif elem.tag == "publisher":
                     publisher = elem.text
                 elif elem.tag == "date":
-                    date = f'{elem.attrib["year"]}-{elem.attrib["month"]}-{elem.attrib["day"]}'
+                    year = elem.attrib["year"]
+                    month = elem.attrib["month"]
+                    if len(month) == 0:
+                        date = year
+                    else:
+                        day = elem.attrib["day"]
+                        if len(day) == 0:
+                            date = f"{year}-{month}"
+                        else:
+                            date = f"{year}-{month}-{day}"
                 elif elem.tag == "input":
                     players = elem.attrib["players"]
 
