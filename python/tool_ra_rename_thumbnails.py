@@ -11,6 +11,8 @@ from pathlib import Path
 from rom import Rom
 from roms_db import RomsDB
 from wii_ra_configs import WiiRA_Configs
+from wiiflow_rom import WiiFlow_Rom
+from wiiflow_roms_db import WiiFlow_RomsDB
 
 
 class RA_RenameThumbnails:
@@ -39,6 +41,8 @@ class RA_RenameThumbnails:
                 rom_file_name = Path(item["path"]).name
                 rom_file_title = Path(rom_file_name).stem
                 rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                if rom is None:
+                    rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
                 game = GamesDB.query_game(game_id=rom.game_id)
 
                 old_file_path = png_folder_path.joinpath(f"{rom_file_title}.png")
@@ -61,6 +65,10 @@ class RA_RenameThumbnails:
                 rom_file_name = Path(item["path"]).name
                 rom_file_title = Path(rom_file_name).stem
                 rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                if rom is None:
+                    rom = WiiFlow_RomsDB.query_rom(
+                        rom_file_title=Path(rom_file_name).stem
+                    )
                 game = GamesDB.query_game(game_id=rom.game_id)
 
                 old_file_path = png_folder_path.joinpath(f"{game.en_title}.png")
