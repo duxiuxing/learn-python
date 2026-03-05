@@ -1,10 +1,12 @@
 # -- coding: UTF-8 --
 
+import fnmatch
 import os
 
 from init_global_configs import Init_Global_Configs
 from pathlib import Path
 from PIL import Image
+from wiiflow_configs import WiiFlow_Configs
 from wiiflow_resource_file_helper import WiiFlow_ResourceFileHelper
 
 
@@ -17,6 +19,8 @@ def old_png_cover(rom_file_name):
         print(f"【错误】无效的文件 {png_file_path}")
         return None
 
+    print(f"准备合成 {rom_file_name} 的全封面")
+    print(f"\t选择背景：{png_file_path.name}")
     return Image.open(png_file_path)
 
 
@@ -34,16 +38,18 @@ def new_png_cover(rom_file_name, png_file_path_dict):
     x2 = 575
 
     if "front" in png_file_path_dict.keys():
+        front_png_file_path = png_file_path_dict["front"]
+        print(f"\t选择封面：{front_png_file_path.name}")
         cover.paste(
-            Image.open(png_file_path_dict["front"]).resize(
-                (cover.width - x2, cover.height)
-            ),
+            Image.open(front_png_file_path).resize((cover.width - x2, cover.height)),
             (x2, 0),
         )
 
     if "back" in png_file_path_dict.keys():
+        back_png_file_path = png_file_path_dict["back"]
+        print(f"\t选择封底：{back_png_file_path.name}")
         cover.paste(
-            Image.open(png_file_path_dict["back"]).resize((x1, cover.height)),
+            Image.open(back_png_file_path).resize((x1, cover.height)),
             (0, 0),
         )
 
@@ -55,6 +61,7 @@ def new_png_cover(rom_file_name, png_file_path_dict):
     if new_cover_path.exists() and new_cover_path.is_file():
         new_cover_path.unlink()
     cover.save(new_cover_path)
+    print(f"\t保存全封面：{new_cover_path}")
 
     wfc_cover_path = WiiFlow_ResourceFileHelper.compute_wfc_cover_path(rom_file_name)
     if wfc_cover_path.exists() and wfc_cover_path.is_file():
@@ -71,7 +78,7 @@ if __name__ == "__main__":
 
     rom_file_name_to_png_file_path_dict = {}
     for file_name in os.listdir(root_dir):
-        src_path = os.path.join(root_dir, file_name)
+        src_path = root_dir.joinpath(file_name)
         if file_name.endswith("-front.jpg") or file_name.endswith("-front.png"):
             rom_file_name = file_name[:-10]
             if rom_file_name in rom_file_name_to_png_file_path_dict.keys():
@@ -89,4 +96,5 @@ if __name__ == "__main__":
         rom_file_name,
         png_file_path_dict,
     ) in rom_file_name_to_png_file_path_dict.items():
-        new_png_cover(rom_file_name, png_file_path_dict)
+        if fnmatch.fnmatch(rom_file_name, f"*{WiiFlow_Configs.rom_file_extension()}"):
+            new_png_cover(rom_file_name, png_file_path_dict)
