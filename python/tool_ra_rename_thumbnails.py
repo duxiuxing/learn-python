@@ -120,6 +120,15 @@ class RA_RenameThumbnails:
                 elif not new_file_path.exists():
                     print(f"【错误】无效的源文件 {old_file_path}")
 
+    @staticmethod
+    def f5_label_to_game_en_title(lpl_file_path: Path, png_folder_path: Path):
+        RA_RenameThumbnails.f1_label_to_rom_file_title(
+            lpl_file_path=lpl_file_path, png_folder_path=png_folder_path
+        )
+        RA_RenameThumbnails.f3_rom_file_title_to_game_en_title(
+            lpl_file_path=lpl_file_path, png_folder_path=png_folder_path
+        )
+
 
 if __name__ == "__main__":
     Init_Global_Configs()
@@ -175,6 +184,7 @@ if __name__ == "__main__":
         print("2. 3wonders.png -> label")
         print("3. 3wonders.png -> Three Wonders.png")
         print("4. Three Wonders.png -> 3wonders.png")
+        print("5. label -> Three Wonders.png")
         print("其他输入表示重新设置文件夹路径")
         user_input = input("请输入操作的序号 > ")
         try:
@@ -193,6 +203,10 @@ if __name__ == "__main__":
                 )
             elif number == 4:
                 RA_RenameThumbnails.f4_game_en_title_to_rom_file_title(
+                    lpl_file_path, png_folder_path
+                )
+            elif number == 5:
+                RA_RenameThumbnails.f5_label_to_game_en_title(
                     lpl_file_path, png_folder_path
                 )
         except ValueError:
