@@ -47,6 +47,15 @@ if __name__ == "__main__":
         "bstars2.zip",
         "burningf.zip",
         "flipshot.zip",
+        "magdrop2.zip",
+        "magdrop3.zip",
+        "maglord.zip",
+        "mahretsu.zip",
+        "miexchng.zip",
+        "minasan.zip",
+        "mslug.zip",
+        "mslug2.zip",
+        "mutnat.zip",
     ]
     rom_file_path_list = []
     for rom_file_name in rom_file_list:
@@ -134,7 +143,7 @@ if __name__ == "__main__":
     app_configs_list.append(app_configs)
 
     app_configs = game_app_configs(
-        long_name="Mahjong",
+        long_name="Mahjong 3",
         short_name="bakatono",
     )
     app_configs_list.append(app_configs)
@@ -190,6 +199,60 @@ if __name__ == "__main__":
     app_configs = game_app_configs(
         long_name="Battle Flip Shot",
         short_name="flipshot",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Magical Drop II",
+        short_name="magdrop2",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Magical Drop III",
+        short_name="magdrop3",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Magician Lord",
+        short_name="maglord",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Mahjong 2",
+        short_name="mahretsu",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Money Puzzle Exchanger",
+        short_name="miexchng",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Mahjong 1",
+        short_name="minasan",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Metal Slug",
+        short_name="mslug",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Metal Slug 2",
+        short_name="mslug2",
+    )
+    app_configs_list.append(app_configs)
+
+    app_configs = game_app_configs(
+        long_name="Mutation Nation",
+        short_name="mutnat",
     )
     app_configs_list.append(app_configs)
 
