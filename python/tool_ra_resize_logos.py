@@ -66,10 +66,9 @@ if __name__ == "__main__":
 
     src_dir = None
     while True:
-        src_dir = LocalConfigs.repository_directory().joinpath("media\\logo")
-        print(
-            f"\n即将对源文件夹里的 Logo 文件进行重新剪裁\n默认源文件夹路径：{src_dir}"
-        )
+        src_dir = LocalConfigs.repository_directory().joinpath("media\\logo-hd")
+        print("\n即将对源文件夹里的 Logo 文件进行重新剪裁")
+        print(f"\n默认源文件夹路径：{src_dir}")
         user_input = input("请确认源文件夹路径，使用默认路径请直接按回车 > ")
         if len(user_input) > 0:
             src_dir = Path(user_input)
@@ -96,10 +95,9 @@ if __name__ == "__main__":
             and src_logo.height < DESTINATION_LOGO_HEIGHT
         ):
             print(
-                f"【错误】{src_logo.width} x {src_logo.height} 的源 Logo 不符合剪裁要求"
+                f"【警告】{src_logo.width} x {src_logo.height} 的源 Logo 分辨率较低，建议使用更高分辨率的图片"
             )
             print(f"\t图片路径：{src_png_path}")
-            continue
         dst_logo_offset_x = 0
         dst_logo_offset_y = 0
         dst_logo = None
