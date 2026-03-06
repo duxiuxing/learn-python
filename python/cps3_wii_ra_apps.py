@@ -90,8 +90,8 @@ if __name__ == "__main__":
 
     while True:
         export_to_dir = LocalConfigs.export_to_directory()
-        print(f"\n默认目标文件夹路径：{export_to_dir}")
-        user_input = input("请目标文件夹路径，使用默认路径请直接按回车 > ")
+        print(f"\n即将输出 Wii App 到目标文件夹\n默认目标文件夹路径：{export_to_dir}")
+        user_input = input("请确认目标文件夹路径，使用默认路径请直接按回车 > ")
         if len(user_input) > 0:
             export_to_dir = Path(user_input)
 
