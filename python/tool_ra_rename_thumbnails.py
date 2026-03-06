@@ -136,6 +136,7 @@ if __name__ == "__main__":
     lpl_file_path = None
     while True:
         lpl_file_path = RA_RenameThumbnails.default_lpl_file_path()
+        print("\n即将根据 .lpl 文件对缩略图文件进行重命名")
         print(f"\n默认 .lpl 文件路径：{lpl_file_path}")
         user_input = input("请输入 .lpl 文件路径，使用默认路径请直接按回车 > ")
         if len(user_input) > 0:

@@ -12,7 +12,9 @@ from wiiflow_plugins_data import WiiFlow_PluginsData
 class Init_Global_Configs:
     def __init__(self):
         # LocalConfigs
-        LocalConfigs._repository_directory = Path("C:\\workspace\\github\\duxiuxing\\r-sam-cps2")
+        LocalConfigs._repository_directory = Path(
+            "C:\\workspace\\github\\duxiuxing\\r-sam-cps2"
+        )
         dir0 = "C:\\Users\\duxiu\\AppData\\Roaming\\Dolphin Emulator\\Load\\WiiSDSync"
         dir1 = "D:\\workspace\\github\\R-Sam-1980\\cps2"
         dir2 = "X:\\"
@@ -36,7 +38,7 @@ class Init_Global_Configs:
         WiiFlow_Configs._plugin_name = "CPS2"
 
         WiiFlow_PluginsData()
-        # RomsXML()
+        RomsXML()
 
 
 if __name__ == "__main__":
