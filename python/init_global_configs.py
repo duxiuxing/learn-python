@@ -12,9 +12,9 @@ from wiiflow_plugins_data import WiiFlow_PluginsData
 class Init_Global_Configs:
     def __init__(self):
         # LocalConfigs
-        LocalConfigs._repository_directory = Path("C:\\workspace\\github\\duxiuxing\\r-sam-cps3")
+        LocalConfigs._repository_directory = Path("C:\\workspace\\github\\duxiuxing\\r-sam-cps2")
         dir0 = "C:\\Users\\duxiu\\AppData\\Roaming\\Dolphin Emulator\\Load\\WiiSDSync"
-        dir1 = "D:\\workspace\\github\\R-Sam-1980\\cps3"
+        dir1 = "D:\\workspace\\github\\R-Sam-1980\\cps2"
         dir2 = "X:\\"
         LocalConfigs._export_to_directory = Path(dir1)
 
@@ -22,21 +22,21 @@ class Init_Global_Configs:
         LocalConfigs._seven_zip_exe_path = Path("C:\\Program Files\\7-Zip\\7z.exe")
 
         # WiiRA_AppConfigs
-        WiiRA_AppConfigs._default_short_description = "Capcom Play System 3 Emulator"
+        WiiRA_AppConfigs._default_short_description = "Capcom Play System 2 Emulator"
 
         # WiiRA_Configs
-        WiiRA_Configs._core_name = "Arcade (FB Alpha 2012 CPS-3)"
-        WiiRA_Configs._core_file_name = Path("fbalpha2012_cps3_libretro_wii.dol")
-        WiiRA_Configs._core_info_file_name = Path("fbalpha2012_cps3_libretro.info")
-        WiiRA_Configs._db_name = Path("Capcom - CP System III.lpl")
+        WiiRA_Configs._core_name = "Arcade (FB Alpha 2012 CPS-2)"
+        WiiRA_Configs._core_file_name = Path("fbalpha2012_cps2_libretro_wii.dol")
+        WiiRA_Configs._core_info_file_name = Path("fbalpha2012_cps2_libretro.info")
+        WiiRA_Configs._db_name = Path("Capcom - CP System II.lpl")
         WiiRA_Configs._release_date = "2025-11-20 10:41"
         WiiRA_Configs._version = "1.22.2"
 
         # WiiFlow_Configs
-        WiiFlow_Configs._plugin_name = "CPS3"
+        WiiFlow_Configs._plugin_name = "CPS2"
 
         WiiFlow_PluginsData()
-        RomsXML()
+        # RomsXML()
 
 
 if __name__ == "__main__":
