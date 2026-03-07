@@ -70,8 +70,10 @@ def f5_print_roms_by_rom_file():
     for game in WiiFlow_GamesDB.all_games():
         rom_list.append(WiiFlow_RomsDB.query_rom(game_id=game.id))
 
+    print("    rom_file_title_list = [")
     for rom in sorted(rom_list, key=lambda x: x.file_title):
-        print(rom.file_title)
+        print(f'        "{rom.file_title}",')
+    print("    ]")
 
 
 def f6_print_rom_and_en_title_by_rom_file():
@@ -81,7 +83,9 @@ def f6_print_rom_and_en_title_by_rom_file():
 
     for rom in sorted(rom_list, key=lambda x: x.file_title):
         game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
-        print(f"{rom.file_title}\t{game.en_title}")
+        print(
+            f'    add_game_app_configs(short_name="{rom.file_title}", long_name="{game.en_title}")'
+        )
 
 
 if __name__ == "__main__":
