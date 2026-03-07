@@ -36,7 +36,8 @@ class WiiFlow_PluginsData:
             zhcn_title = ""
             developer = ""
             publisher = ""
-            genre = ""
+            en_genre = ""
+            zhcn_genre = ""
             date = ""
             players = ""
 
@@ -53,9 +54,12 @@ class WiiFlow_PluginsData:
                             print(f"\ttitle\t= {en_title}")
                         genre_elem = elem.find("genre")
                         if genre_elem is not None:
-                            genre = genre_elem.text
+                            en_genre = genre_elem.text
                     elif lang == "ZHCN":
                         zhcn_title = elem.find("title").text
+                        genre_elem = elem.find("genre")
+                        if genre_elem is not None:
+                            zhcn_genre = genre_elem.text
                 elif elem.tag == "developer":
                     developer = elem.text
                 elif elem.tag == "publisher":
@@ -81,7 +85,8 @@ class WiiFlow_PluginsData:
                 zhcn_title=zhcn_title,
                 developer=developer,
                 publisher=publisher,
-                genre=genre,
+                en_genre=en_genre,
+                zhcn_genre=zhcn_genre,
                 date=date,
                 players=players,
             )
