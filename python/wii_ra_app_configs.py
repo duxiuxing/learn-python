@@ -7,9 +7,9 @@ class WiiRA_AppConfigs:
 
     _default_short_description = None
 
-    def __init__(self, long_name: str, short_name: str, rom_file_path_list: list):
-        self.long_name = long_name
-        self.short_name = short_name
+    def __init__(self, app_name: str, folder_name: str, rom_file_path_list: list):
+        self.app_name = app_name
+        self.folder_name = folder_name
         self.rom_file_path_list = rom_file_path_list
         self.device = None
         self.long_description = None

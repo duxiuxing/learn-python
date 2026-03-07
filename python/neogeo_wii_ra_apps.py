@@ -6,67 +6,94 @@ from pathlib import Path
 from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_app import WiiRA_App
 from wiiflow_configs import WiiFlow_Configs
+from wiiflow_game import WiiFlow_Game
+from wiiflow_games_db import WiiFlow_GamesDB
+from wiiflow_rom import WiiFlow_Rom
+from wiiflow_roms_db import WiiFlow_RomsDB
 
 
-def game_app_configs(long_name: str, short_name: str):
+app_configs_list = []
+
+
+def add_game_app_configs(rom_file_title: str, app_name=None):
+    rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
+    game = WiiFlow_GamesDB.query_game(rom.game_id)
+    if app_name is None:
+        app_name = game.name
+    elif app_name == game.name:
+        print(f"【提示】{rom_file_title} App 无需指定 app_name")
+
     rom_file_path = Path("games").joinpath(
         WiiFlow_Configs.plugin_name().lower(),
-        f"{short_name}{WiiFlow_Configs.rom_file_extension()}",
+        f"{rom_file_title}{WiiFlow_Configs.rom_file_extension()}",
     )
-    return WiiRA_AppConfigs(
-        long_name=long_name,
-        short_name=short_name,
+
+    app_configs = WiiRA_AppConfigs(
+        app_name=app_name,
+        folder_name=rom_file_title,
         rom_file_path_list=[rom_file_path],
     )
+    app_configs_list.append(app_configs)
 
 
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    app_configs_list = []
-
-    rom_file_list = [
-        "3countb.zip",
-        "2020bb.zip",
-        "alpham2.zip",
-        "androdun.zip",
-        "aodk.zip",
-        "aof.zip",
-        "aof2.zip",
-        "aof3.zip",
-        "sonicwi2.zip",
-        "sonicwi3.zip",
-        "b2buster.zip",
-        "bakatono.zip",
-        "bangbead.zip",
-        "bjourney.zip",
-        "blazstar.zip",
-        "breakers.zip",
-        "breakrev.zip",
-        "bstars.zip",
-        "bstars2.zip",
-        "burningf.zip",
-        "flipshot.zip",
-        "magdrop2.zip",
-        "magdrop3.zip",
-        "maglord.zip",
-        "mahretsu.zip",
-        "miexchng.zip",
-        "minasan.zip",
-        "mslug.zip",
-        "mslug2.zip",
-        "mutnat.zip",
+    rom_file_title_list = [
+        "2020bb",
+        "3countb",
+        # A
+        "alpham2",
+        "androdun",
+        "aodk",
+        "aof",
+        "aof2",
+        "aof3",
+        "sonicwi2",
+        "sonicwi3",
+        # B
+        "b2buster",
+        "bakatono",
+        "bangbead",
+        "bjourney",
+        "blazstar",
+        "breakers",
+        "breakrev",
+        "bstars",
+        "bstars2",
+        "burningf",
+        "flipshot",
+        # M
+        "magdrop2",
+        "magdrop3",
+        "maglord",
+        "mahretsu",
+        # "matrim"
+        "miexchng",
+        "minasan",
+        "mslug",
+        "mslug2",
+        # "mslug3", "mslug4", "mslug5", "mslugx"
+        "mutnat",
     ]
+
+    game_list = []
+    for rom_file_title in rom_file_title_list:
+        game_id = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title).game_id
+        game_list.append(WiiFlow_GamesDB.query_game(game_id=game_id))
+
     rom_file_path_list = []
-    for rom_file_name in rom_file_list:
+    for game in sorted(game_list, key=lambda x: x.name):
+        rom = WiiFlow_RomsDB.query_rom(game_id=game.id)
         rom_file_path = Path("games").joinpath(
             WiiFlow_Configs.plugin_name().lower(),
-            rom_file_name,
+            f"{rom.file_title}{WiiFlow_Configs.rom_file_extension()}",
         )
         rom_file_path_list.append(rom_file_path)
+
     app_configs = WiiRA_AppConfigs(
-        long_name="SNK - Neo Geo",
-        short_name="neogeo",
+        app_name="SNK - Neo Geo",
+        folder_name="neogeo",
         rom_file_path_list=rom_file_path_list,
     )
     app_configs.long_description = (
@@ -76,185 +103,42 @@ if __name__ == "__main__":
     )
     app_configs_list.append(app_configs)
 
-    app_configs = game_app_configs(
-        long_name="3 Count Bout",
-        short_name="3countb",
-    )
-    app_configs_list.append(app_configs)
+    add_game_app_configs(rom_file_title="2020bb")
+    add_game_app_configs(rom_file_title="3countb")
 
-    app_configs = game_app_configs(
-        long_name="2020 Super Baseball",
-        short_name="2020bb",
-    )
-    app_configs_list.append(app_configs)
+    # A
+    add_game_app_configs(rom_file_title="alpham2")
+    add_game_app_configs(rom_file_title="androdun")
+    add_game_app_configs(rom_file_title="aodk")
+    add_game_app_configs(rom_file_title="aof")
+    add_game_app_configs(rom_file_title="aof2")
+    add_game_app_configs(rom_file_title="aof3")
+    add_game_app_configs(rom_file_title="sonicwi2")
+    add_game_app_configs(rom_file_title="sonicwi3")
 
-    app_configs = game_app_configs(
-        long_name="Alpha Mission II",
-        short_name="alpham2",
-    )
-    app_configs_list.append(app_configs)
+    # B
+    add_game_app_configs(rom_file_title="b2buster")
+    add_game_app_configs(rom_file_title="bakatono", app_name="Mahjong 3")
+    add_game_app_configs(rom_file_title="bangbead")
+    add_game_app_configs(rom_file_title="bjourney")
+    add_game_app_configs(rom_file_title="blazstar")
+    add_game_app_configs(rom_file_title="breakers")
+    add_game_app_configs(rom_file_title="breakrev")
+    add_game_app_configs(rom_file_title="bstars")
+    add_game_app_configs(rom_file_title="bstars2")
+    add_game_app_configs(rom_file_title="burningf")
+    add_game_app_configs(rom_file_title="flipshot")
 
-    app_configs = game_app_configs(
-        long_name="Andro Dunos",
-        short_name="androdun",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Aggressors of Dark Kombat",
-        short_name="aodk",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Art of Fighting",
-        short_name="aof",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Art of Fighting 2",
-        short_name="aof2",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Art of Fighting 3",
-        short_name="aof3",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Aero Fighters 2",
-        short_name="sonicwi2",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Aero Fighters 3",
-        short_name="sonicwi3",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Bang Bang Busters",
-        short_name="b2buster",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Mahjong 3",
-        short_name="bakatono",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Bang Bead",
-        short_name="bangbead",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Blue's Journey",
-        short_name="bjourney",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Blazing Star",
-        short_name="blazstar",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Breakers",
-        short_name="breakers",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Breakers Revenge",
-        short_name="breakrev",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Baseball Stars Professional",
-        short_name="bstars",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Baseball Stars 2",
-        short_name="bstars2",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Burning Fight",
-        short_name="burningf",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Battle Flip Shot",
-        short_name="flipshot",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Magical Drop II",
-        short_name="magdrop2",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Magical Drop III",
-        short_name="magdrop3",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Magician Lord",
-        short_name="maglord",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Mahjong 2",
-        short_name="mahretsu",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Money Puzzle Exchanger",
-        short_name="miexchng",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Mahjong 1",
-        short_name="minasan",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Metal Slug",
-        short_name="mslug",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Metal Slug 2",
-        short_name="mslug2",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Mutation Nation",
-        short_name="mutnat",
-    )
-    app_configs_list.append(app_configs)
+    # M
+    add_game_app_configs(rom_file_title="magdrop2")
+    add_game_app_configs(rom_file_title="magdrop3")
+    add_game_app_configs(rom_file_title="maglord")
+    add_game_app_configs(rom_file_title="mahretsu", app_name="Mahjong 2")
+    add_game_app_configs(rom_file_title="miexchng")
+    add_game_app_configs(rom_file_title="minasan", app_name="Mahjong 1")
+    add_game_app_configs(rom_file_title="mslug", app_name="Metal Slug")
+    add_game_app_configs(rom_file_title="mslug2", app_name="Metal Slug 2")
+    add_game_app_configs(rom_file_title="mutnat")
 
     while True:
         export_to_dir = LocalConfigs.export_to_directory()
