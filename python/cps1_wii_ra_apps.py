@@ -131,7 +131,7 @@ if __name__ == "__main__":
     add_game_app_configs(short_name="slammast", long_name="Sat. Night Slam Masters")
     add_game_app_configs(short_name="strider")
     add_game_app_configs(short_name="unsquad")
-    add_game_app_configs(long_name="Varth", short_name="varth")
+    add_game_app_configs(short_name="varth", long_name="Varth")
     add_game_app_configs(short_name="willow")
     add_game_app_configs(short_name="wof")
 
