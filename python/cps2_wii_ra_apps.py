@@ -26,12 +26,9 @@ if __name__ == "__main__":
     app_configs_list = []
 
     rom_file_list = [
-        "jojoba.zip",
-        "jojo.zip",
-        "redearth.zip",
-        "sfiii.zip",
-        "sfiii2.zip",
-        "sfiii3.zip",
+        "hsf2.zip",
+        "spf2t.zip",
+        "ssf2.zip",
     ]
     rom_file_path_list = []
     for rom_file_name in rom_file_list:
@@ -41,50 +38,38 @@ if __name__ == "__main__":
         )
         rom_file_path_list.append(rom_file_path)
     app_configs = WiiRA_AppConfigs(
-        long_name="Capcom - CP System III",
-        short_name="cps3",
+        long_name="Capcom - CP System II",
+        short_name="cps2",
         rom_file_path_list=rom_file_path_list,
     )
     app_configs.long_description = (
-        "- Emulator for CPS-3 games based on RetroArch.\n"
+        "- Emulator for CPS-2 games based on RetroArch.\n"
         "- Based on a snapshot of the FB Alpha codebase from 2012.\n"
         "- Compatible with FB Alpha v0.2.97.29 ROM sets."
     )
     app_configs_list.append(app_configs)
 
     app_configs = game_app_configs(
-        long_name="JoJo's Venture 2",
-        short_name="jojoba",
+        long_name="Hyper Street Fighter 2",
+        short_name="hsf2",
     )
     app_configs_list.append(app_configs)
 
     app_configs = game_app_configs(
-        long_name="JoJo's Venture",
-        short_name="jojo",
+        long_name="Super Puzzle Fighter",
+        short_name="spf2t",
     )
     app_configs_list.append(app_configs)
 
     app_configs = game_app_configs(
-        long_name="Red Earth",
-        short_name="redearth",
+        long_name="Super Street Fighter 2",
+        short_name="ssf2",
     )
     app_configs_list.append(app_configs)
 
     app_configs = game_app_configs(
-        long_name="Street Fighter 3.1",
-        short_name="sfiii",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Street Fighter 3.2",
-        short_name="sfiii2",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Street Fighter 3.3",
-        short_name="sfiii3",
+        long_name="Super Street Fighter 2T",
+        short_name="ssf2t",
     )
     app_configs_list.append(app_configs)
 
