@@ -206,10 +206,13 @@ class WiiRA_App:
         if len(self.configs.rom_file_path_list) > 10:
             list_ret.append('content_show_history = "true"')
             list_ret.append('content_show_playlists = "true"')
+            list_ret.append('playlist_entry_remove_enable = "1"')
             list_ret.append('quick_menu_show_add_to_favorites = "true"')
         else:
+
             list_ret.append('content_show_history = "false"')
             list_ret.append('content_show_playlists = "false"')
+            list_ret.append('playlist_entry_remove_enable = "2"')
             list_ret.append('quick_menu_show_add_to_favorites = "false"')
 
         return list_ret
