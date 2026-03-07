@@ -71,7 +71,8 @@ class WiiRA_App:
         with open(meta_xml_path, "w", encoding="utf-8") as xml_file:
             xml_file.write('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n')
             xml_file.write('<app version="1">\n')
-            xml_file.write(f"  <name>{self.configs.long_name}</name>\n")
+            name = self.configs.long_name.replace("&", "&amp;")
+            xml_file.write(f"  <name>{name}</name>\n")
             xml_file.write("  <author>Libretro &amp; R-Sam</author>\n")
             xml_file.write(
                 f"  <version>{WiiRA_Configs.version()}.{self.configs.device}</version>\n"
@@ -87,7 +88,8 @@ class WiiRA_App:
                 rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
                 game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
 
-                xml_file.write(f"  <long_description>{game.name}\n\n")
+                game_name = game.name.replace("&", "&amp;")
+                xml_file.write(f"  <long_description>{game_name}\n\n")
 
                 if game.developer == game.publisher:
                     xml_file.write(f"- Developer &amp; Publisher: {game.developer}\n")
