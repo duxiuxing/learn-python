@@ -22,7 +22,7 @@ class WiiRA_App:
 
     def directory(self):
         return LocalConfigs.export_to_directory().joinpath(
-            "apps", f"{self.configs.short_name}-{self.configs.device}"
+            "apps", f"{self.configs.folder_name}-{self.configs.device}"
         )
 
     def export_core_files(self):
@@ -42,7 +42,7 @@ class WiiRA_App:
         Helper.copy_file_if_not_exist(src_file_path, dst_file_path)
 
     def export_icon_png(self):
-        game = Game(id=None, en_title=self.configs.long_name, zhcn_title=None)
+        game = Game(id=None, en_title=self.configs.app_name, zhcn_title=None)
         src_icon_png_path = ResourceFileHelper.compute_game_media_file_path(
             game, "logo", ".png"
         )
@@ -71,8 +71,8 @@ class WiiRA_App:
         with open(meta_xml_path, "w", encoding="utf-8") as xml_file:
             xml_file.write('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n')
             xml_file.write('<app version="1">\n')
-            name = self.configs.long_name.replace("&", "&amp;")
-            xml_file.write(f"  <name>{name}</name>\n")
+            app_name = self.configs.app_name.replace("&", "&amp;")
+            xml_file.write(f"  <name>{app_name}</name>\n")
             xml_file.write("  <author>Libretro &amp; R-Sam</author>\n")
             xml_file.write(
                 f"  <version>{WiiRA_Configs.version()}.{self.configs.device}</version>\n"
@@ -131,7 +131,7 @@ class WiiRA_App:
             xml_file.close()
 
     def configs_list(self):
-        app_dir = f"{self.configs.device}:/apps/{self.configs.short_name}-{self.configs.device}"
+        app_dir = f"{self.configs.device}:/apps/{self.configs.folder_name}-{self.configs.device}"
         retroarch_dir = f"{self.configs.device}:/retroarch"
 
         list_ret = [
@@ -257,7 +257,7 @@ class WiiRA_App:
             cfg_file_path.unlink()
 
         with open(cfg_file_path, "w", encoding="utf-8") as cfg_file:
-            core_path = f"{self.configs.device}:/apps/{self.configs.short_name}-{self.configs.device}/{WiiRA_Configs.core_file_name()}"
+            core_path = f"{self.configs.device}:/apps/{self.configs.folder_name}-{self.configs.device}/{WiiRA_Configs.core_file_name()}"
             cfg_file.write(f'libretro_path = "{core_path}"\n')
             cfg_file.close()
 
@@ -276,7 +276,7 @@ class WiiRA_App:
             lpl_file_path.unlink()
 
         with open(lpl_file_path, "w", encoding="utf-8") as lpl_file:
-            core_path = f"{self.configs.device}:/apps/{self.configs.short_name}-{self.configs.device}/{WiiRA_Configs.core_file_name()}"
+            core_path = f"{self.configs.device}:/apps/{self.configs.folder_name}-{self.configs.device}/{WiiRA_Configs.core_file_name()}"
             head = (
                 "{\n"
                 '  "version": "1.5",\n'
