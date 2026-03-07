@@ -15,11 +15,19 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 app_configs_list = []
 
 
-def add_game_app_configs(long_name: str, short_name: str):
+def add_game_app_configs(short_name: str, long_name=None):
+    rom = WiiFlow_RomsDB.query_rom(rom_file_title=short_name)
+    game = WiiFlow_GamesDB.query_game(rom.game_id)
+    if long_name is None:
+        long_name = game.name
+    elif long_name == game.name:
+        print(f"【提示】{short_name} App 无需指定 long_name")
+
     rom_file_path = Path("games").joinpath(
         WiiFlow_Configs.plugin_name().lower(),
         f"{short_name}{WiiFlow_Configs.rom_file_extension()}",
     )
+
     app_configs = WiiRA_AppConfigs(
         long_name=long_name,
         short_name=short_name,
@@ -93,170 +101,39 @@ if __name__ == "__main__":
     )
     app_configs_list.append(app_configs)
 
-    add_game_app_configs(
-        long_name="1941 - Counter Attack",
-        short_name="1941",
-    )
-
-    add_game_app_configs(
-        long_name="Three Wonders",
-        short_name="3wonders",
-    )
-
-    add_game_app_configs(
-        long_name="Captain Commando",
-        short_name="captcomm",
-    )
-
-    add_game_app_configs(
-        long_name="Carrier Air Wing",
-        short_name="cawing",
-    )
-
-    add_game_app_configs(
-        long_name="Capcom World 2",
-        short_name="cworld2j",
-    )
-
-    add_game_app_configs(
-        long_name="Cadillacs and Dinosaurs",
-        short_name="dino",
-    )
-
-    add_game_app_configs(
-        long_name="Dynasty Wars",
-        short_name="dynwar",
-    )
-
-    add_game_app_configs(
-        long_name="Final Fight",
-        short_name="ffight",
-    )
-
-    add_game_app_configs(
-        long_name="Forgotten Worlds",
-        short_name="forgottn",
-    )
-
-    add_game_app_configs(
-        long_name="Ghouls'n Ghosts",
-        short_name="ghouls",
-    )
-
-    add_game_app_configs(
-        long_name="Knights of the Round",
-        short_name="knights",
-    )
-
-    add_game_app_configs(
-        long_name="The King of Dragons",
-        short_name="kod",
-    )
-
-    add_game_app_configs(
-        long_name="Muscle Bomber Duo",
-        short_name="mbombrd",
-    )
-
-    add_game_app_configs(
-        long_name="The Power Battle CPS-1",
-        short_name="megaman",
-    )
-
-    add_game_app_configs(
-        long_name="Mercs",
-        short_name="mercs",
-    )
-
-    add_game_app_configs(
-        long_name="Magic Sword",
-        short_name="msword",
-    )
-
-    add_game_app_configs(
-        long_name="Mega Twins",
-        short_name="mtwins",
-    )
-
-    add_game_app_configs(
-        long_name="Nemo",
-        short_name="nemo",
-    )
-
-    add_game_app_configs(
-        long_name="Pang! 3",
-        short_name="pang3",
-    )
-
-    add_game_app_configs(
-        long_name="Pnickies",
-        short_name="pnickj",
-    )
-
-    add_game_app_configs(
-        long_name="The Punisher",
-        short_name="punisher",
-    )
-
-    add_game_app_configs(
-        long_name="Quiz & Dragons",
-        short_name="qad",
-    )
-
-    add_game_app_configs(
-        long_name="Quiz Tonosama no Yabou 2",
-        short_name="qtono2j",
-    )
-
-    add_game_app_configs(
-        long_name="Street Fighter 2",
-        short_name="sf2",
-    )
-
-    add_game_app_configs(
-        long_name="Street Fighter 2' CE",
-        short_name="sf2ce",
-    )
-
-    add_game_app_configs(
-        long_name="Street Fighter 2' HF",
-        short_name="sf2hf",
-    )
-
-    add_game_app_configs(
-        long_name="Street Fighter Zero",
-        short_name="sfzch",
-    )
-
-    add_game_app_configs(
-        long_name="Sat. Night Slam Masters",
-        short_name="slammast",
-    )
-
-    add_game_app_configs(
-        long_name="Strider",
-        short_name="strider",
-    )
-
-    add_game_app_configs(
-        long_name="U.N. Squadron",
-        short_name="unsquad",
-    )
-
-    add_game_app_configs(
-        long_name="Varth",
-        short_name="varth",
-    )
-
-    add_game_app_configs(
-        long_name="Willow",
-        short_name="willow",
-    )
-
-    add_game_app_configs(
-        long_name="Warriors of Fate",
-        short_name="wof",
-    )
+    add_game_app_configs(short_name="1941")
+    add_game_app_configs(short_name="3wonders")
+    add_game_app_configs(short_name="captcomm")
+    add_game_app_configs(short_name="cawing")
+    add_game_app_configs(short_name="cworld2j", long_name="Capcom World 2")
+    add_game_app_configs(short_name="dino")
+    add_game_app_configs(short_name="dynwar")
+    add_game_app_configs(short_name="ffight")
+    add_game_app_configs(short_name="forgottn")
+    add_game_app_configs(short_name="ghouls")
+    add_game_app_configs(short_name="knights")
+    add_game_app_configs(short_name="kod")
+    add_game_app_configs(short_name="mbombrd", long_name="Muscle Bomber Duo")
+    add_game_app_configs(short_name="megaman", long_name="The Power Battle CPS-1")
+    add_game_app_configs(short_name="mercs")
+    add_game_app_configs(short_name="msword", long_name="Magic Sword")
+    add_game_app_configs(short_name="mtwins")
+    add_game_app_configs(short_name="nemo")
+    add_game_app_configs(short_name="pang3")
+    add_game_app_configs(short_name="pnickj")
+    add_game_app_configs(short_name="punisher")
+    add_game_app_configs(short_name="qad")
+    add_game_app_configs(short_name="qtono2j", long_name="Quiz Tonosama no Yabou 2")
+    add_game_app_configs(short_name="sf2", long_name="Street Fighter 2")
+    add_game_app_configs(short_name="sf2ce", long_name="Street Fighter 2' CE")
+    add_game_app_configs(short_name="sf2hf", long_name="Street Fighter 2' HF")
+    add_game_app_configs(short_name="sfzch")
+    add_game_app_configs(short_name="slammast", long_name="Sat. Night Slam Masters")
+    add_game_app_configs(short_name="strider")
+    add_game_app_configs(short_name="unsquad")
+    add_game_app_configs(long_name="Varth", short_name="varth")
+    add_game_app_configs(short_name="willow")
+    add_game_app_configs(short_name="wof")
 
     while True:
         export_to_dir = LocalConfigs.export_to_directory()
