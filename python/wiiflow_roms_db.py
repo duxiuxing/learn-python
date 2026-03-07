@@ -33,7 +33,9 @@ class WiiFlow_RomsDB:
         WiiFlow_RomsDB._instance()._crc32_to_rom[rom.crc32] = rom
 
     @staticmethod
-    def query_rom(rom_crc32=None, rom_file_title=None) -> WiiFlow_Rom | None:
+    def query_rom(
+        rom_crc32=None, rom_file_title=None, game_id=None
+    ) -> WiiFlow_Rom | None:
         roms_db = WiiFlow_RomsDB._instance()
         if rom_crc32 is not None:
             return roms_db._crc32_to_rom.get(rom_crc32)
@@ -41,6 +43,11 @@ class WiiFlow_RomsDB:
         if rom_file_title is not None:
             for rom in roms_db._crc32_to_rom.values():
                 if rom.file_title == rom_file_title:
+                    return rom
+
+        if game_id is not None:
+            for rom in roms_db._crc32_to_rom.values():
+                if rom.game_id == game_id:
                     return rom
 
         return None
