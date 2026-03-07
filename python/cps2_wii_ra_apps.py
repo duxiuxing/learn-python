@@ -15,22 +15,22 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 app_configs_list = []
 
 
-def add_game_app_configs(short_name: str, long_name=None):
-    rom = WiiFlow_RomsDB.query_rom(rom_file_title=short_name)
+def add_game_app_configs(rom_file_title: str, app_name=None):
+    rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
     game = WiiFlow_GamesDB.query_game(rom.game_id)
-    if long_name is None:
-        long_name = game.name
-    elif long_name == game.name:
-        print(f"【提示】{short_name} App 无需指定 long_name")
+    if app_name is None:
+        app_name = game.name
+    elif app_name == game.name:
+        print(f"【提示】{rom_file_title} App 无需指定 app_name")
 
     rom_file_path = Path("games").joinpath(
         WiiFlow_Configs.plugin_name().lower(),
-        f"{short_name}{WiiFlow_Configs.rom_file_extension()}",
+        f"{rom_file_title}{WiiFlow_Configs.rom_file_extension()}",
     )
 
     app_configs = WiiRA_AppConfigs(
-        long_name=long_name,
-        short_name=short_name,
+        app_name=app_name,
+        folder_name=rom_file_title,
         rom_file_path_list=[rom_file_path],
     )
     app_configs_list.append(app_configs)
@@ -98,8 +98,8 @@ if __name__ == "__main__":
         rom_file_path_list.append(rom_file_path)
 
     app_configs = WiiRA_AppConfigs(
-        long_name="Capcom - CP System II",
-        short_name="cps2",
+        app_name="Capcom - CP System II",
+        folder_name="cps2",
         rom_file_path_list=rom_file_path_list,
     )
     app_configs.long_description = (
@@ -109,47 +109,47 @@ if __name__ == "__main__":
     )
     app_configs_list.append(app_configs)
 
-    add_game_app_configs(short_name="1944")
-    add_game_app_configs(short_name="19xx", long_name="19XX")
-    add_game_app_configs(short_name="armwar")
-    add_game_app_configs(short_name="avsp")
-    add_game_app_configs(short_name="batcir")
-    add_game_app_configs(short_name="choko")
-    add_game_app_configs(short_name="csclub")
-    add_game_app_configs(short_name="cybots", long_name="Cyberbots")
-    add_game_app_configs(short_name="ddsom", long_name="Dungeons & Dragons 2")
-    add_game_app_configs(short_name="ddtod", long_name="Dungeons & Dragons")
-    add_game_app_configs(short_name="dimahoo")
-    add_game_app_configs(short_name="dstlk", long_name="Darkstalkers")
-    add_game_app_configs(short_name="ecofghtr")
-    add_game_app_configs(short_name="gigawing")
-    add_game_app_configs(short_name="hsf2", long_name="Hyper Street Fighter 2")
-    add_game_app_configs(short_name="jyangoku", long_name="Jyangokushi")
-    add_game_app_configs(short_name="megaman2", long_name="Mega Man 2")
-    add_game_app_configs(short_name="mmancp2u", long_name="Mega Man for CPS-2")
-    add_game_app_configs(short_name="mmatrix", long_name="Mars Matrix")
-    add_game_app_configs(short_name="mpang")
-    add_game_app_configs(short_name="msh")
-    add_game_app_configs(short_name="mshvsf", long_name="Marvel vs. Street Fighter")
-    add_game_app_configs(short_name="mvsc", long_name="Marvel vs. Capcom")
-    add_game_app_configs(short_name="nwarr", long_name="Vampire Hunter")
-    add_game_app_configs(short_name="progear")
-    add_game_app_configs(short_name="pzloop2")
-    add_game_app_configs(short_name="qndream", long_name="Quiz Nanairo Dreams")
-    add_game_app_configs(short_name="ringdest", long_name="Slam Masters 2")
-    add_game_app_configs(short_name="sfa", long_name="Street Fighter Alpha")
-    add_game_app_configs(short_name="sfa2")
-    add_game_app_configs(short_name="sfa3")
-    add_game_app_configs(short_name="sfz2al")
-    add_game_app_configs(short_name="sgemf", long_name="Super Gem Fighter")
-    add_game_app_configs(short_name="spf2t", long_name="Super Puzzle Fighter")
-    add_game_app_configs(short_name="ssf2", long_name="Super Street Fighter 2")
-    add_game_app_configs(short_name="ssf2t", long_name="Super Street Fighter 2T")
-    add_game_app_configs(short_name="vhunt2", long_name="Vampire Hunter 2")
-    add_game_app_configs(short_name="vsav", long_name="Vampire Savior")
-    add_game_app_configs(short_name="vsav2", long_name="Vampire Savior 2")
-    add_game_app_configs(short_name="xmcota", long_name="X-Men")
-    add_game_app_configs(short_name="xmvsf", long_name="X-Men vs. Street Fighter")
+    add_game_app_configs(rom_file_title="1944")
+    add_game_app_configs(rom_file_title="19xx", app_name="19XX")
+    add_game_app_configs(rom_file_title="armwar")
+    add_game_app_configs(rom_file_title="avsp")
+    add_game_app_configs(rom_file_title="batcir")
+    add_game_app_configs(rom_file_title="choko")
+    add_game_app_configs(rom_file_title="csclub")
+    add_game_app_configs(rom_file_title="cybots", app_name="Cyberbots")
+    add_game_app_configs(rom_file_title="ddsom", app_name="Dungeons & Dragons 2")
+    add_game_app_configs(rom_file_title="ddtod", app_name="Dungeons & Dragons")
+    add_game_app_configs(rom_file_title="dimahoo")
+    add_game_app_configs(rom_file_title="dstlk", app_name="Darkstalkers")
+    add_game_app_configs(rom_file_title="ecofghtr")
+    add_game_app_configs(rom_file_title="gigawing")
+    add_game_app_configs(rom_file_title="hsf2", app_name="Hyper Street Fighter 2")
+    add_game_app_configs(rom_file_title="jyangoku", app_name="Jyangokushi")
+    add_game_app_configs(rom_file_title="megaman2", app_name="Mega Man 2")
+    add_game_app_configs(rom_file_title="mmancp2u", app_name="Mega Man for CPS-2")
+    add_game_app_configs(rom_file_title="mmatrix", app_name="Mars Matrix")
+    add_game_app_configs(rom_file_title="mpang")
+    add_game_app_configs(rom_file_title="msh")
+    add_game_app_configs(rom_file_title="mshvsf", app_name="Marvel vs. Street Fighter")
+    add_game_app_configs(rom_file_title="mvsc", app_name="Marvel vs. Capcom")
+    add_game_app_configs(rom_file_title="nwarr", app_name="Vampire Hunter")
+    add_game_app_configs(rom_file_title="progear")
+    add_game_app_configs(rom_file_title="pzloop2")
+    add_game_app_configs(rom_file_title="qndream", app_name="Quiz Nanairo Dreams")
+    add_game_app_configs(rom_file_title="ringdest", app_name="Slam Masters 2")
+    add_game_app_configs(rom_file_title="sfa", app_name="Street Fighter Alpha")
+    add_game_app_configs(rom_file_title="sfa2")
+    add_game_app_configs(rom_file_title="sfa3")
+    add_game_app_configs(rom_file_title="sfz2al")
+    add_game_app_configs(rom_file_title="sgemf", app_name="Super Gem Fighter")
+    add_game_app_configs(rom_file_title="spf2t", app_name="Super Puzzle Fighter")
+    add_game_app_configs(rom_file_title="ssf2", app_name="Super Street Fighter 2")
+    add_game_app_configs(rom_file_title="ssf2t", app_name="Super Street Fighter 2T")
+    add_game_app_configs(rom_file_title="vhunt2", app_name="Vampire Hunter 2")
+    add_game_app_configs(rom_file_title="vsav", app_name="Vampire Savior")
+    add_game_app_configs(rom_file_title="vsav2", app_name="Vampire Savior 2")
+    add_game_app_configs(rom_file_title="xmcota", app_name="X-Men")
+    add_game_app_configs(rom_file_title="xmvsf")
 
     while True:
         export_to_dir = LocalConfigs.export_to_directory()
