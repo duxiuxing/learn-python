@@ -99,7 +99,7 @@ class WiiRA_SS_AppExporter:
                 xml_file.write(f"- Developer : {game_info.developer}\n")
                 xml_file.write(f"- Publisher : {game_info.publisher}\n")
 
-            xml_file.write(f"- Genre : {game_info.genre}\n")
+            xml_file.write(f"- Genre : {game_info.en_genre}\n")
             xml_file.write(f"- Release Date : {game_info.date}\n")
             xml_file.write(f"- Max Players : {game_info.players}\n\n")
 

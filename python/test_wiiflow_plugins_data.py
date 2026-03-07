@@ -34,20 +34,22 @@ def f1_generate_roms_xml():
 
 
 def f2_print_games_by_genre():
-    genre_list = []
-    genre_to_game_list = {}
+    en_genre_list = []
+    en_genre_to_game_list = {}
 
     for game in WiiFlow_GamesDB.all_games():
-        if game.genre in genre_to_game_list.keys():
-            genre_to_game_list[game.genre].append(game)
+        if game.en_genre in en_genre_to_game_list.keys():
+            en_genre_to_game_list[game.en_genre].append(game)
         else:
-            genre_list.append(game.genre)
-            genre_to_game_list[game.genre] = [game]
+            en_genre_list.append(game.en_genre)
+            en_genre_to_game_list[game.en_genre] = [game]
 
-    for genre in sorted(genre_list):
-        print(genre)
-        for game in sorted(genre_to_game_list[genre], key=lambda x: x.name):
-            print(f"\ten = {game.en_title}, zhcn = {game.zhcn_title}")
+    for en_genre in sorted(en_genre_list):
+        print(en_genre)
+        for game in sorted(en_genre_to_game_list[en_genre], key=lambda x: x.name):
+            print(
+                f"\t{game.zhcn_genre}\tzhcn = {game.zhcn_title}, en = {game.en_title}"
+            )
 
 
 def f3_print_games_by_en_title():

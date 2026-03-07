@@ -95,7 +95,7 @@ class WiiRA_VM_App:
                     xml_file.write(f"- Developer: {game.developer}\n")
                     xml_file.write(f"- Publisher: {game.publisher}\n")
 
-                xml_file.write(f"- Genre: {game.genre}\n")
+                xml_file.write(f"- Genre: {game.en_genre}\n")
                 xml_file.write(f"- Release Date: {game.date}\n")
                 xml_file.write(f"- Max Players: {game.players}\n\n")
             else:
