@@ -15,22 +15,22 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 app_configs_list = []
 
 
-def add_game_app_configs(short_name: str, long_name=None):
-    rom = WiiFlow_RomsDB.query_rom(rom_file_title=short_name)
+def add_game_app_configs(rom_file_title: str, app_name=None):
+    rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
     game = WiiFlow_GamesDB.query_game(rom.game_id)
-    if long_name is None:
-        long_name = game.name
-    elif long_name == game.name:
-        print(f"【提示】{short_name} App 无需指定 long_name")
+    if app_name is None:
+        app_name = game.name
+    elif app_name == game.name:
+        print(f"【提示】{rom_file_title} App 无需指定 app_name")
 
     rom_file_path = Path("games").joinpath(
         WiiFlow_Configs.plugin_name().lower(),
-        f"{short_name}{WiiFlow_Configs.rom_file_extension()}",
+        f"{rom_file_title}{WiiFlow_Configs.rom_file_extension()}",
     )
 
     app_configs = WiiRA_AppConfigs(
-        long_name=long_name,
-        short_name=short_name,
+        app_name=app_name,
+        folder_name=rom_file_title,
         rom_file_path_list=[rom_file_path],
     )
     app_configs_list.append(app_configs)
@@ -90,8 +90,8 @@ if __name__ == "__main__":
         rom_file_path_list.append(rom_file_path)
 
     app_configs = WiiRA_AppConfigs(
-        long_name="Capcom - CP System I",
-        short_name="cps1",
+        app_name="Capcom - CP System I",
+        folder_name="cps1",
         rom_file_path_list=rom_file_path_list,
     )
     app_configs.long_description = (
@@ -101,39 +101,39 @@ if __name__ == "__main__":
     )
     app_configs_list.append(app_configs)
 
-    add_game_app_configs(short_name="1941")
-    add_game_app_configs(short_name="3wonders")
-    add_game_app_configs(short_name="captcomm")
-    add_game_app_configs(short_name="cawing")
-    add_game_app_configs(short_name="cworld2j", long_name="Capcom World 2")
-    add_game_app_configs(short_name="dino")
-    add_game_app_configs(short_name="dynwar")
-    add_game_app_configs(short_name="ffight")
-    add_game_app_configs(short_name="forgottn")
-    add_game_app_configs(short_name="ghouls")
-    add_game_app_configs(short_name="knights")
-    add_game_app_configs(short_name="kod")
-    add_game_app_configs(short_name="mbombrd", long_name="Slam Masters - UTB")
-    add_game_app_configs(short_name="megaman", long_name="Mega Man for CPS-1")
-    add_game_app_configs(short_name="mercs")
-    add_game_app_configs(short_name="msword", long_name="Magic Sword")
-    add_game_app_configs(short_name="mtwins")
-    add_game_app_configs(short_name="nemo")
-    add_game_app_configs(short_name="pang3")
-    add_game_app_configs(short_name="pnickj")
-    add_game_app_configs(short_name="punisher")
-    add_game_app_configs(short_name="qad")
-    add_game_app_configs(short_name="qtono2j", long_name="Quiz Tonosama no Yabou 2")
-    add_game_app_configs(short_name="sf2", long_name="Street Fighter 2")
-    add_game_app_configs(short_name="sf2ce", long_name="Street Fighter 2' CE")
-    add_game_app_configs(short_name="sf2hf", long_name="Street Fighter 2' HF")
-    add_game_app_configs(short_name="sfzch")
-    add_game_app_configs(short_name="slammast", long_name="Slam Masters")
-    add_game_app_configs(short_name="strider")
-    add_game_app_configs(short_name="unsquad")
-    add_game_app_configs(short_name="varth", long_name="Varth")
-    add_game_app_configs(short_name="willow")
-    add_game_app_configs(short_name="wof")
+    add_game_app_configs(rom_file_title="1941")
+    add_game_app_configs(rom_file_title="3wonders")
+    add_game_app_configs(rom_file_title="captcomm")
+    add_game_app_configs(rom_file_title="cawing")
+    add_game_app_configs(rom_file_title="cworld2j", app_name="Capcom World 2")
+    add_game_app_configs(rom_file_title="dino")
+    add_game_app_configs(rom_file_title="dynwar")
+    add_game_app_configs(rom_file_title="ffight")
+    add_game_app_configs(rom_file_title="forgottn")
+    add_game_app_configs(rom_file_title="ghouls")
+    add_game_app_configs(rom_file_title="knights")
+    add_game_app_configs(rom_file_title="kod")
+    add_game_app_configs(rom_file_title="mbombrd", app_name="Slam Masters - UTB")
+    add_game_app_configs(rom_file_title="megaman", app_name="Mega Man for CPS-1")
+    add_game_app_configs(rom_file_title="mercs")
+    add_game_app_configs(rom_file_title="msword", app_name="Magic Sword")
+    add_game_app_configs(rom_file_title="mtwins")
+    add_game_app_configs(rom_file_title="nemo")
+    add_game_app_configs(rom_file_title="pang3")
+    add_game_app_configs(rom_file_title="pnickj")
+    add_game_app_configs(rom_file_title="punisher")
+    add_game_app_configs(rom_file_title="qad")
+    add_game_app_configs(rom_file_title="qtono2j", app_name="Quiz Tonosama no Yabou 2")
+    add_game_app_configs(rom_file_title="sf2", app_name="Street Fighter 2")
+    add_game_app_configs(rom_file_title="sf2ce", app_name="Street Fighter 2' CE")
+    add_game_app_configs(rom_file_title="sf2hf", app_name="Street Fighter 2' HF")
+    add_game_app_configs(rom_file_title="sfzch")
+    add_game_app_configs(rom_file_title="slammast", app_name="Slam Masters")
+    add_game_app_configs(rom_file_title="strider")
+    add_game_app_configs(rom_file_title="unsquad")
+    add_game_app_configs(rom_file_title="varth", app_name="Varth")
+    add_game_app_configs(rom_file_title="willow")
+    add_game_app_configs(rom_file_title="wof")
 
     while True:
         export_to_dir = LocalConfigs.export_to_directory()
