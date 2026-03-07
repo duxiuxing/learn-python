@@ -84,7 +84,7 @@ def f6_print_rom_and_en_title_by_rom_file():
     for rom in sorted(rom_list, key=lambda x: x.file_title):
         game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
         print(
-            f'    add_game_app_configs(short_name="{rom.file_title}", long_name="{game.en_title}")'
+            f'    add_game_app_configs(rom_file_title="{rom.file_title}", app_name="{game.en_title}")'
         )
 
 
