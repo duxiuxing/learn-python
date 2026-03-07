@@ -6,40 +6,62 @@ from pathlib import Path
 from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_app import WiiRA_App
 from wiiflow_configs import WiiFlow_Configs
+from wiiflow_game import WiiFlow_Game
+from wiiflow_games_db import WiiFlow_GamesDB
+from wiiflow_rom import WiiFlow_Rom
+from wiiflow_roms_db import WiiFlow_RomsDB
 
 
-def game_app_configs(long_name: str, short_name: str):
+app_configs_list = []
+
+
+def add_game_app_configs(short_name: str, long_name=None):
+    rom = WiiFlow_RomsDB.query_rom(rom_file_title=short_name)
+    game = WiiFlow_GamesDB.query_game(rom.game_id)
+    if long_name is None:
+        long_name = game.name
+    elif long_name == game.name:
+        print(f"【提示】{short_name} App 无需指定 long_name")
+
     rom_file_path = Path("games").joinpath(
         WiiFlow_Configs.plugin_name().lower(),
         f"{short_name}{WiiFlow_Configs.rom_file_extension()}",
     )
-    return WiiRA_AppConfigs(
+
+    app_configs = WiiRA_AppConfigs(
         long_name=long_name,
         short_name=short_name,
         rom_file_path_list=[rom_file_path],
     )
+    app_configs_list.append(app_configs)
 
 
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    app_configs_list = []
-
-    rom_file_list = [
-        "jojoba.zip",
-        "jojo.zip",
-        "redearth.zip",
-        "sfiii.zip",
-        "sfiii2.zip",
-        "sfiii3.zip",
+    rom_file_title_list = [
+        "jojoba",
+        "jojo",
+        "redearth",
+        "sfiii",
+        "sfiii2",
+        "sfiii3",
     ]
+
+    game_list = []
+    for rom_file_title in rom_file_title_list:
+        game_id = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title).game_id
+        game_list.append(WiiFlow_GamesDB.query_game(game_id=game_id))
+
     rom_file_path_list = []
-    for rom_file_name in rom_file_list:
+    for game in sorted(game_list, key=lambda x: x.name):
+        rom = WiiFlow_RomsDB.query_rom(game_id=game.id)
         rom_file_path = Path("games").joinpath(
             WiiFlow_Configs.plugin_name().lower(),
-            rom_file_name,
+            f"{rom.file_title}{WiiFlow_Configs.rom_file_extension()}",
         )
         rom_file_path_list.append(rom_file_path)
+
     app_configs = WiiRA_AppConfigs(
         long_name="Capcom - CP System III",
         short_name="cps3",
@@ -52,41 +74,12 @@ if __name__ == "__main__":
     )
     app_configs_list.append(app_configs)
 
-    app_configs = game_app_configs(
-        long_name="JoJo's Venture 2",
-        short_name="jojoba",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="JoJo's Venture",
-        short_name="jojo",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Red Earth",
-        short_name="redearth",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Street Fighter 3.1",
-        short_name="sfiii",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Street Fighter 3.2",
-        short_name="sfiii2",
-    )
-    app_configs_list.append(app_configs)
-
-    app_configs = game_app_configs(
-        long_name="Street Fighter 3.3",
-        short_name="sfiii3",
-    )
-    app_configs_list.append(app_configs)
+    add_game_app_configs(short_name="jojoba", long_name="JoJo's Venture 2")
+    add_game_app_configs(short_name="jojo")
+    add_game_app_configs(short_name="redearth")
+    add_game_app_configs(short_name="sfiii", long_name="Street Fighter 3.1")
+    add_game_app_configs(short_name="sfiii2", long_name="Street Fighter 3.2")
+    add_game_app_configs(short_name="sfiii3", long_name="Street Fighter 3.3")
 
     while True:
         export_to_dir = LocalConfigs.export_to_directory()
