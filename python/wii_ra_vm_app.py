@@ -135,7 +135,7 @@ class WiiRA_VM_App:
 
         list_ret = [
             # 界面比例和配色
-            'aspect_ratio_index = "1"',
+            'aspect_ratio_index = "22"',
             'rgui_aspect_ratio = "1"',
             'rgui_menu_color_theme = "29"',
             # 目录相关的设置

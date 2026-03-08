@@ -136,7 +136,7 @@ class WiiRA_App:
 
         list_ret = [
             # 界面比例、分辨率和配色
-            'aspect_ratio_index = "1"',
+            'aspect_ratio_index = "22"',
             'current_resolution_id = "30"',
             'rgui_aspect_ratio = "1"',
             'rgui_menu_color_theme = "29"',
