@@ -1,6 +1,7 @@
 # -- coding: UTF-8 --
 
 import fnmatch
+import json
 import os
 
 from game import Game
@@ -9,9 +10,11 @@ from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
+from ra_rom import RA_Rom
 from resource_file_helper import ResourceFileHelper
 from rom import Rom
 from roms_db import RomsDB
+from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -22,40 +25,48 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    src_dir = None
+    lpl_file_path = None
     while True:
-        src_dir = LocalConfigs.import_from_directory().joinpath(
-            f"games\\{WiiFlow_Configs.plugin_name().lower()}-import"
+        lpl_file_path = LocalConfigs.retroarch_directory().joinpath(
+            "playlists", WiiRA_Configs.db_name()
         )
-        print("\n即将导入源文件夹里的 ROM 文件")
-        print(f"默认源文件夹路径：{src_dir}")
-        user_input = input("请确认源文件夹路径，使用默认路径请直接按回车 > ")
+        print("\n即将根据 .lpl 文件导入 ROM 文件")
+        print(f"默认 .lpl 文件路径：{lpl_file_path}")
+        user_input = input("请输入 .lpl 文件路径，使用默认路径请直接按回车 > ")
         if len(user_input) > 0:
-            src_dir = Path(user_input)
+            lpl_file_path = Path(user_input)
 
-        if src_dir.exists() and src_dir.is_dir():
+        if lpl_file_path.exists() and lpl_file_path.is_file():
             break
         else:
-            print(f"【错误】无效的源文件夹路径：{src_dir}")
-            continue
+            print(f"【错误】无效的文件路径：{lpl_file_path}")
+
+    ra_rom_list = []
+    with open(lpl_file_path, "r", encoding="utf-8") as file:
+        items = json.load(file)["items"]
+        for item in items:
+            ra_rom = RA_Rom(
+                file_path=Path(item["path"]),
+                label=item["label"],
+                crc32=item["crc32"].split("|")[0],
+                playlist_name=Path(item["db_name"]).name,
+            )
+            ra_rom_list.append(ra_rom)
 
     new_roms_count = 0
-    for rom_file_name in os.listdir(src_dir):
+    for ra_rom in ra_rom_list:
         if not fnmatch.fnmatch(
-            rom_file_name, f"*{WiiFlow_Configs.rom_file_extension()}"
-        ):
-            continue
-
-        src_rom_file_path = src_dir.joinpath(rom_file_name)
-        rom_crc32 = Helper.compute_crc32(src_rom_file_path)
-        if RomsDB.rom_exist(rom_crc32):
+            ra_rom.file_path, f"*{WiiFlow_Configs.rom_file_extension()}"
+        ) or RomsDB.rom_exist(ra_rom.crc32):
             continue
 
         wiiflow_rom = WiiFlow_RomsDB.query_rom(
-            rom_crc32=rom_crc32, rom_file_title=Path(rom_file_name).stem
+            rom_crc32=ra_rom.crc32, rom_file_title=ra_rom.file_path.stem
         )
         if wiiflow_rom is None:
-            print(f"未知的 ROM 文件：{rom_file_name} rom_crc32={rom_crc32}")
+            print(
+                f"未知的 ROM 文件：{ra_rom.file_path.name} ra_rom.crc32={ra_rom.crc32}"
+            )
             continue
 
         wiiflow_game = WiiFlow_GamesDB.query_game(game_id=wiiflow_rom.game_id)
@@ -64,16 +75,16 @@ if __name__ == "__main__":
         print(f'\t\tzhcn_title="{wiiflow_game.zhcn_title}"')
         print('\t\thfsplay="" launchbox="">')
 
-        rom_bytes = str(src_rom_file_path.stat().st_size)
-        print(f'\t\t<Rom crc32="{rom_crc32}" bytes="{rom_bytes}"')
-        print(f'\t\t\tfile_name="{rom_file_name}"')
-        print('\t\t\ten_title=""')
+        rom_bytes = str(ra_rom.file_path.stat().st_size)
+        print(f'\t\t<Rom crc32="{ra_rom.crc32}" bytes="{rom_bytes}"')
+        print(f'\t\t\tfile_name="{ra_rom.file_path.name}"')
+        print(f'\t\t\ten_title="{ra_rom.label}"')
         print('\t\t\tzhcn_title=""')
         print('\t\t\tcores-work="" cores-not-work=""')
         print("\t\t/>")
         print("\t</Game>")
 
-        print(f"导入 ROM 文件：{rom_file_name} rom_crc32={rom_crc32}")
+        print(f"导入 ROM 文件：{ra_rom.file_path.name} ra_rom.crc32={ra_rom.crc32}")
         game = GamesDB.query_game(game_id=wiiflow_game.id)
         if game is None:
             game = Game(
@@ -85,9 +96,9 @@ if __name__ == "__main__":
 
         rom = Rom(
             game_id=game.id,
-            crc32=rom_crc32,
+            crc32=ra_rom.crc32,
             bytes=rom_bytes,
-            file_name=rom_file_name,
+            file_name=ra_rom.file_path.name,
             parent_rom=None,
             en_title="",
             zhcn_title="",
@@ -110,8 +121,8 @@ if __name__ == "__main__":
                 continue
 
         if Helper.verify_exist_directory_ex(dst_rom_file_path.parent):
-            Helper.copy_file_if_not_exist(src_rom_file_path, dst_rom_file_path)
-            print(f"\t{rom_file_name} -> {dst_rom_file_path}")
+            Helper.copy_file_if_not_exist(ra_rom.file_path, dst_rom_file_path)
+            print(f"\t{ra_rom.file_path.name} -> {dst_rom_file_path}")
             new_roms_count = new_roms_count + 1
 
     if new_roms_count == 0:
