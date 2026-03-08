@@ -2,11 +2,11 @@
 
 import os
 
+from game import Game
+from games_db import GamesDB
 from helper import Helper
 from init_global_configs import Init_Global_Configs
 from resource_file_helper import ResourceFileHelper
-from game import Game
-from games_db import GamesDB
 from rom import Rom
 from roms_db import RomsDB
 from wiiflow_game import WiiFlow_Game
