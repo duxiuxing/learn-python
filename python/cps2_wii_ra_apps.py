@@ -144,7 +144,7 @@ if __name__ == "__main__":
     add_game_app_configs(rom_file_title="sgemf", app_name="Super Gem Fighter")
     add_game_app_configs(rom_file_title="spf2t", app_name="Super Puzzle Fighter")
     add_game_app_configs(rom_file_title="ssf2", app_name="Super Street Fighter 2")
-    add_game_app_configs(rom_file_title="ssf2t", app_name="Super Street Fighter 2T")
+    add_game_app_configs(rom_file_title="ssf2t", app_name="Super Street Fighter 2X")
     add_game_app_configs(rom_file_title="vhunt2", app_name="Vampire Hunter 2")
     add_game_app_configs(rom_file_title="vsav", app_name="Vampire Savior")
     add_game_app_configs(rom_file_title="vsav2", app_name="Vampire Savior 2")
