@@ -19,6 +19,13 @@ class LocalConfigs:
         # 导出根目录路径
         return LocalConfigs._export_to_directory
 
+    _import_from_directory = None
+
+    @staticmethod
+    def import_from_directory() -> Path:
+        # 导入根目录路径
+        return LocalConfigs._import_from_directory
+
     _retroarch_directory = None
 
     @staticmethod

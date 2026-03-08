@@ -13,3 +13,9 @@ class WiiFlow_Configs:
     @staticmethod
     def rom_file_extension() -> str:
         return WiiFlow_Configs._rom_file_extension
+
+    _rom_file_renameable = False
+
+    @staticmethod
+    def rom_file_renameable() -> bool:
+        return WiiFlow_Configs._rom_file_renameable
