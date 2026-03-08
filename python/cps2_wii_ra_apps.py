@@ -57,7 +57,7 @@ if __name__ == "__main__":
         "hsf2",
         "jyangoku",
         "megaman2",
-        "mmancp2u",
+        # "mmancp2u",
         "mmatrix",
         "mpang",
         "msh",
@@ -126,7 +126,7 @@ if __name__ == "__main__":
     add_game_app_configs(rom_file_title="hsf2", app_name="Hyper Street Fighter 2")
     add_game_app_configs(rom_file_title="jyangoku", app_name="Jyangokushi")
     add_game_app_configs(rom_file_title="megaman2", app_name="Mega Man 2")
-    add_game_app_configs(rom_file_title="mmancp2u", app_name="Mega Man for CPS-2")
+    # add_game_app_configs(rom_file_title="mmancp2u")
     add_game_app_configs(rom_file_title="mmatrix", app_name="Mars Matrix")
     add_game_app_configs(rom_file_title="mpang")
     add_game_app_configs(rom_file_title="msh")
