@@ -261,7 +261,7 @@ class WiiRA_App:
             cfg_file.write(f'libretro_path = "{core_path}"\n')
             cfg_file.close()
 
-    def export_playlist(self):
+    def export_lpl_file(self):
         lpl_file_path = self.directory().joinpath(
             "playlists\\builtin\\content_favorites.lpl"
         )
@@ -326,4 +326,4 @@ class WiiRA_App:
         self.export_meta_xml()
         self.export_retroarch_cfg()
         self.export_retroarch_salamander_cfg()
-        self.export_playlist()
+        self.export_lpl_file()
