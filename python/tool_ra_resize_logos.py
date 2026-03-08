@@ -84,17 +84,17 @@ if __name__ == "__main__":
         print(f"【错误】无效的目标文件夹路径：{dst_dir}")
         exit()
 
-    for src_png_name in os.listdir(src_dir):
-        if not fnmatch.fnmatch(src_png_name, "*.png"):
+    for png_file_name in os.listdir(src_dir):
+        if not fnmatch.fnmatch(png_file_name, "*.png"):
             continue
 
-        src_png_path = src_dir.joinpath(src_png_name)
-        src_logo = crop_logo(src_png_path)
+        src_png_file_path = src_dir.joinpath(png_file_name)
+        src_logo = crop_logo(src_png_file_path)
         if src_logo.width < DESTINATION_WIDTH and src_logo.height < DESTINATION_HEIGHT:
             print(
                 f"【警告】{src_logo.width} x {src_logo.height} 的源 Logo 分辨率较低，建议使用更高分辨率的图片"
             )
-            print(f"\t图片路径：{src_png_path}")
+            print(f"\t图片路径：{src_png_file_path}")
         dst_logo_offset_x = 0
         dst_logo_offset_y = 0
         dst_logo = None
@@ -117,7 +117,7 @@ if __name__ == "__main__":
             "RGBA", (DESTINATION_WIDTH, DESTINATION_HEIGHT), (0, 0, 0, 0)
         )
         dst_png.paste(dst_logo, (dst_logo_offset_x, dst_logo_offset_y))
-        dst_png_path = dst_dir.joinpath(src_png_name)
-        if dst_png_path.exists() and dst_png_path.is_file():
-            dst_png_path.unlink()
-        dst_png.save(dst_png_path)
+        dst_png_file_path = dst_dir.joinpath(png_file_name)
+        if dst_png_file_path.exists() and dst_png_file_path.is_file():
+            dst_png_file_path.unlink()
+        dst_png.save(dst_png_file_path)

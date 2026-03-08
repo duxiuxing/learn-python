@@ -136,7 +136,7 @@ class WiiRA_App:
 
         list_ret = [
             # 界面比例、分辨率和配色
-            'aspect_ratio_index = "1"',
+            'aspect_ratio_index = "22"',
             'current_resolution_id = "30"',
             'rgui_aspect_ratio = "1"',
             'rgui_menu_color_theme = "29"',
@@ -261,7 +261,7 @@ class WiiRA_App:
             cfg_file.write(f'libretro_path = "{core_path}"\n')
             cfg_file.close()
 
-    def export_playlist(self):
+    def export_lpl_file(self):
         lpl_file_path = self.directory().joinpath(
             "playlists\\builtin\\content_favorites.lpl"
         )
@@ -326,4 +326,4 @@ class WiiRA_App:
         self.export_meta_xml()
         self.export_retroarch_cfg()
         self.export_retroarch_salamander_cfg()
-        self.export_playlist()
+        self.export_lpl_file()
