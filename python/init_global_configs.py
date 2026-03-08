@@ -19,6 +19,7 @@ class Init_Global_Configs:
         dir1 = "D:\\workspace\\github\\R-Sam-1980\\cps2"
         dir2 = "X:\\"
         LocalConfigs._export_to_directory = Path(dir1)
+        LocalConfigs._import_from_directory = Path(dir2)
 
         LocalConfigs._retroarch_directory = Path("X:\\RetroArch-Win64")
         LocalConfigs._seven_zip_exe_path = Path("C:\\Program Files\\7-Zip\\7z.exe")
