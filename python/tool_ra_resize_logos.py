@@ -10,8 +10,8 @@ from pathlib import Path
 from PIL import Image
 
 
-DESTINATION_LOGO_WIDTH = 400
-DESTINATION_LOGO_HEIGHT = 200
+DESTINATION_WIDTH = 400
+DESTINATION_HEIGHT = 200
 
 
 def check_logo_left(logo, pixel_test):
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     while True:
         src_dir = LocalConfigs.repository_directory().joinpath("media\\logo-hd")
         print("\n即将对源文件夹里的 Logo 文件进行重新剪裁")
-        print(f"\n默认源文件夹路径：{src_dir}")
+        print(f"默认源文件夹路径：{src_dir}")
         user_input = input("请确认源文件夹路径，使用默认路径请直接按回车 > ")
         if len(user_input) > 0:
             src_dir = Path(user_input)
@@ -79,48 +79,45 @@ if __name__ == "__main__":
             print(f"【错误】无效的源文件夹路径：{src_dir}")
             continue
 
-    dst_dir = src_dir.joinpath(f"{DESTINATION_LOGO_WIDTH}x{DESTINATION_LOGO_HEIGHT}")
+    dst_dir = src_dir.joinpath(f"{DESTINATION_WIDTH}x{DESTINATION_HEIGHT}")
     if not Helper.verify_exist_directory(dst_dir):
         print(f"【错误】无效的目标文件夹路径：{dst_dir}")
         exit()
 
-    for src_png_name in os.listdir(src_dir):
-        if not fnmatch.fnmatch(src_png_name, "*.png"):
+    for png_file_name in os.listdir(src_dir):
+        if not fnmatch.fnmatch(png_file_name, "*.png"):
             continue
 
-        src_png_path = src_dir.joinpath(src_png_name)
-        src_logo = crop_logo(src_png_path)
-        if (
-            src_logo.width < DESTINATION_LOGO_WIDTH
-            and src_logo.height < DESTINATION_LOGO_HEIGHT
-        ):
+        src_png_file_path = src_dir.joinpath(png_file_name)
+        src_logo = crop_logo(src_png_file_path)
+        if src_logo.width < DESTINATION_WIDTH and src_logo.height < DESTINATION_HEIGHT:
             print(
                 f"【警告】{src_logo.width} x {src_logo.height} 的源 Logo 分辨率较低，建议使用更高分辨率的图片"
             )
-            print(f"\t图片路径：{src_png_path}")
+            print(f"\t图片路径：{src_png_file_path}")
         dst_logo_offset_x = 0
         dst_logo_offset_y = 0
         dst_logo = None
-        if src_logo.height * 2 < src_logo.width:
-            dst_logo_width = DESTINATION_LOGO_WIDTH
+        if (src_logo.height * DESTINATION_WIDTH / DESTINATION_HEIGHT) < src_logo.width:
+            dst_logo_width = DESTINATION_WIDTH
             dst_logo_height = int(dst_logo_width * src_logo.height / src_logo.width)
             dst_logo = src_logo.resize((dst_logo_width, dst_logo_height))
-            dst_logo_offset_y = int((DESTINATION_LOGO_HEIGHT - dst_logo_height) / 2)
-        elif src_logo.height * 2 == src_logo.width:
-            dst_logo = src_logo.resize(
-                (DESTINATION_LOGO_WIDTH, DESTINATION_LOGO_HEIGHT)
-            )
+            dst_logo_offset_y = int((DESTINATION_HEIGHT - dst_logo_height) / 2)
+        elif (
+            src_logo.height * DESTINATION_WIDTH / DESTINATION_HEIGHT
+        ) == src_logo.width:
+            dst_logo = src_logo.resize((DESTINATION_WIDTH, DESTINATION_HEIGHT))
         else:
-            dst_logo_height = DESTINATION_LOGO_HEIGHT
+            dst_logo_height = DESTINATION_HEIGHT
             dst_logo_width = int(dst_logo_height * src_logo.width / src_logo.height)
             dst_logo = src_logo.resize((dst_logo_width, dst_logo_height))
-            dst_logo_offset_x = int((DESTINATION_LOGO_WIDTH - dst_logo_width) / 2)
+            dst_logo_offset_x = int((DESTINATION_WIDTH - dst_logo_width) / 2)
 
         dst_png = Image.new(
-            "RGBA", (DESTINATION_LOGO_WIDTH, DESTINATION_LOGO_HEIGHT), (0, 0, 0, 0)
+            "RGBA", (DESTINATION_WIDTH, DESTINATION_HEIGHT), (0, 0, 0, 0)
         )
         dst_png.paste(dst_logo, (dst_logo_offset_x, dst_logo_offset_y))
-        dst_png_path = dst_dir.joinpath(src_png_name)
-        if dst_png_path.exists() and dst_png_path.is_file():
-            dst_png_path.unlink()
-        dst_png.save(dst_png_path)
+        dst_png_file_path = dst_dir.joinpath(png_file_name)
+        if dst_png_file_path.exists() and dst_png_file_path.is_file():
+            dst_png_file_path.unlink()
+        dst_png.save(dst_png_file_path)
