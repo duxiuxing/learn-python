@@ -134,8 +134,9 @@ class WiiRA_VM_App:
         retroarch_dir = f"{self.configs.device}:/retroarch"
 
         list_ret = [
-            # 界面比例和配色
+            # 界面比例、分辨率和配色
             'aspect_ratio_index = "22"',
+            'current_resolution_id = "30"',
             'rgui_aspect_ratio = "1"',
             'rgui_menu_color_theme = "29"',
             # 目录相关的设置
