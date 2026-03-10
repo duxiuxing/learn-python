@@ -9,6 +9,7 @@ from PIL import Image
 from resource_file_helper import ResourceFileHelper
 from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_configs import WiiRA_Configs
+from wii_ra_ss_configs import WiiRA_SS_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -20,7 +21,7 @@ class WiiRA_App:
     def __init__(self, configs: WiiRA_AppConfigs):
         self.configs = configs
 
-    def directory(self):
+    def app_directory(self):
         return LocalConfigs.export_to_directory().joinpath(
             "apps", f"{self.configs.folder_name}-{self.configs.device}"
         )
@@ -29,7 +30,7 @@ class WiiRA_App:
         src_app_dir = LocalConfigs.repository_directory().joinpath(
             "wii\\apps", WiiRA_Configs.core_folder_name()
         )
-        dst_app_dir = self.directory()
+        dst_app_dir = self.app_directory()
 
         src_dir = src_app_dir.joinpath("info")
         dst_dir = dst_app_dir.joinpath("info")
@@ -57,14 +58,14 @@ class WiiRA_App:
                 print(f"【错误】无效的源文件 {src_icon_png_path}")
                 return
 
-        dst_icon_png_path = self.directory().joinpath("icon.png")
+        dst_icon_png_path = self.app_directory().joinpath("icon.png")
         if dst_icon_png_path.exists() and dst_icon_png_path.is_file():
             dst_icon_png_path.unlink()
 
         Image.open(src_icon_png_path).resize((128, 48)).save(dst_icon_png_path)
 
     def export_meta_xml(self):
-        meta_xml_path = self.directory().joinpath("meta.xml")
+        meta_xml_path = self.app_directory().joinpath("meta.xml")
         if meta_xml_path.exists() and meta_xml_path.is_file():
             meta_xml_path.unlink()
 
@@ -133,12 +134,15 @@ class WiiRA_App:
     def configs_list(self):
         app_dir = f"{self.configs.device}:/apps/{self.configs.folder_name}-{self.configs.device}"
         retroarch_dir = f"{self.configs.device}:/retroarch"
+        ra_ss_data_dir = (
+            f"{self.configs.device}:/private/{WiiRA_SS_Configs.data_folder_name()}"
+        )
 
         list_ret = [
             # 界面比例、分辨率和配色
             'aspect_ratio_index = "22"',
             'current_resolution_id = "30"',
-            'rgui_aspect_ratio = "1"',
+            'rgui_aspect_ratio = "11"',
             'rgui_menu_color_theme = "29"',
             # 目录相关的设置
             f'playlist_directory = "{app_dir}/playlists"',
@@ -198,11 +202,14 @@ class WiiRA_App:
             f'libretro_info_path = "{app_dir}/info"',
             f'log_dir = "{retroarch_dir}/logs"',
             f'osk_overlay_directory = "{app_dir}/overlays/keyboards"',
-            f'overlay_directory = "{app_dir}/overlays"',
+            f'overlay_directory = "{ra_ss_data_dir}/overlays"',
             f'savefile_directory = "{retroarch_dir}/savefiles"',
             f'savestate_directory = "{retroarch_dir}/savestates"',
             f'system_directory = "{retroarch_dir}/system"',
             f'video_filter_dir = "{app_dir}/filters/video"',
+            # 刷新率一律填 60
+            'crt_video_refresh_rate = "60.000000"',
+            'video_refresh_rate = "60.000000"',
         ]
 
         if len(self.configs.rom_file_path_list) > 10:
@@ -228,7 +235,7 @@ class WiiRA_App:
         return dict_ret
 
     def export_retroarch_cfg(self):
-        dst_cfg_file_path = self.directory().joinpath(
+        dst_cfg_file_path = self.app_directory().joinpath(
             WiiRA_Configs.core_cfg_file_name()
         )
         if dst_cfg_file_path.exists() and dst_cfg_file_path.is_file():
@@ -252,7 +259,7 @@ class WiiRA_App:
             dst_file.close()
 
     def export_retroarch_salamander_cfg(self):
-        cfg_file_path = self.directory().joinpath("retroarch-salamander.cfg")
+        cfg_file_path = self.app_directory().joinpath("retroarch-salamander.cfg")
         if cfg_file_path.exists() and cfg_file_path.is_file():
             cfg_file_path.unlink()
 
@@ -262,11 +269,11 @@ class WiiRA_App:
             cfg_file.close()
 
     def export_lpl_file(self):
-        lpl_file_path = self.directory().joinpath(
+        lpl_file_path = self.app_directory().joinpath(
             "playlists\\builtin\\content_favorites.lpl"
         )
         if len(self.configs.rom_file_path_list) > 10:
-            lpl_file_path = self.directory().joinpath(
+            lpl_file_path = self.app_directory().joinpath(
                 "playlists", WiiRA_Configs.db_name()
             )
         if not Helper.verify_exist_directory_ex(lpl_file_path.parent):
@@ -317,10 +324,11 @@ class WiiRA_App:
             lpl_file.close()
 
     def export_all(self):
-        dst_app_dir = self.directory()
-        if not Helper.verify_exist_directory_ex(dst_app_dir):
-            print(f"【错误】无效的目标文件夹 {dst_app_dir}")
+        app_dir = self.app_directory()
+        if not Helper.verify_exist_directory_ex(app_dir):
+            print(f"【错误】无效的目标文件夹 {app_dir}")
             return
+
         self.export_core_files()
         self.export_icon_png()
         self.export_meta_xml()
