@@ -3,8 +3,9 @@
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
-from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_app import WiiRA_App
+from wii_ra_app_configs import WiiRA_AppConfigs
+from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -23,9 +24,8 @@ def add_game_app_configs(rom_file_title: str, app_name=None):
     elif app_name == game.name:
         print(f"【提示】{rom_file_title} App 无需指定 app_name")
 
-    rom_file_path = Path("games").joinpath(
-        WiiFlow_Configs.plugin_name().lower(),
-        f"{rom_file_title}{WiiFlow_Configs.rom_file_extension()}",
+    rom_file_path = WiiRA_Configs.roms_directory().joinpath(
+        f"{rom.file_title}{WiiFlow_Configs.rom_file_extension()}",
     )
 
     app_configs = WiiRA_AppConfigs(
@@ -56,8 +56,7 @@ if __name__ == "__main__":
     rom_file_path_list = []
     for game in sorted(game_list, key=lambda x: x.name):
         rom = WiiFlow_RomsDB.query_rom(game_id=game.id)
-        rom_file_path = Path("games").joinpath(
-            WiiFlow_Configs.plugin_name().lower(),
+        rom_file_path = WiiRA_Configs.roms_directory().joinpath(
             f"{rom.file_title}{WiiFlow_Configs.rom_file_extension()}",
         )
         rom_file_path_list.append(rom_file_path)

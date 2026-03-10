@@ -51,3 +51,9 @@ class WiiRA_Configs:
     @staticmethod
     def version() -> str:
         return WiiRA_Configs._version
+
+    _roms_directory = None
+
+    @staticmethod
+    def roms_directory() -> Path:
+        return WiiRA_Configs._roms_directory

@@ -12,7 +12,9 @@ from wiiflow_plugins_data import WiiFlow_PluginsData
 class Init_Global_Configs:
     def __init__(self):
         # LocalConfigs
-        LocalConfigs._repository_directory = Path("C:\\workspace\\github\\duxiuxing\\r-sam-cps3")
+        LocalConfigs._repository_directory = Path(
+            "C:\\workspace\\github\\duxiuxing\\r-sam-cps3"
+        )
         dir0 = "C:\\Users\\duxiu\\AppData\\Roaming\\Dolphin Emulator\\Load\\WiiSDSync"
         dir1 = "D:\\workspace\\github\\R-Sam-1980\\cps3"
         dir2 = "X:\\"
@@ -31,6 +33,7 @@ class Init_Global_Configs:
         WiiRA_Configs._db_name = Path("Capcom - CP System III.lpl")
         WiiRA_Configs._release_date = "2025-11-20 10:41"
         WiiRA_Configs._version = "1.22.2"
+        WiiRA_Configs._roms_directory = Path("games").joinpath("fba", "cps3")
 
         # WiiFlow_Configs
         WiiFlow_Configs._plugin_name = "CPS3"
