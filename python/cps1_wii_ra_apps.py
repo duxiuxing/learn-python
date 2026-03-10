@@ -126,7 +126,7 @@ if __name__ == "__main__":
     add_game_app_configs(rom_file_title="knights")
     add_game_app_configs(rom_file_title="kod")
     add_game_app_configs(rom_file_title="mbombrd", app_name="Slam Masters - UTB")
-    add_game_app_configs(rom_file_title="megaman", app_name="Mega Man for CPS-1")
+    add_game_app_configs(rom_file_title="megaman", app_name="Mega Man")
     add_game_app_configs(rom_file_title="mercs")
     add_game_app_configs(rom_file_title="msword", app_name="Magic Sword")
     add_game_app_configs(rom_file_title="mtwins")

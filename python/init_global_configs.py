@@ -38,9 +38,6 @@ class Init_Global_Configs:
         WiiRA_Configs._version = "1.22.2"
         WiiRA_Configs._roms_directory = Path("games").joinpath("fba", "cps1")
 
-        # WiiRA_SS_AppConfigs
-        WiiRA_SS_AppConfigs._default_short_description = "Capcom Play System 1 Emulator"
-
         # WiiRA_SS_Configs
         WiiRA_SS_Configs._core_file_name = Path("Arcade CPS1.dol")
         WiiRA_SS_Configs._data_folder_name = "C1MOD"
