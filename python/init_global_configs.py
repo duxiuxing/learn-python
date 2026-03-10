@@ -5,7 +5,6 @@ from pathlib import Path
 from roms_xml import RomsXML
 from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_configs import WiiRA_Configs
-from wii_ra_ss_app_configs import WiiRA_SS_AppConfigs
 from wii_ra_ss_configs import WiiRA_SS_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_plugins_data import WiiFlow_PluginsData
