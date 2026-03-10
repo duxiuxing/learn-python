@@ -39,6 +39,7 @@ if __name__ == "__main__":
             print(f"【错误】无效的源文件夹路径：{src_dir}")
             continue
 
+    exist_rom_file_name_to_crc32_to_dict = {}
     new_roms_count = 0
     for rom_file_name in os.listdir(src_dir):
         if not fnmatch.fnmatch(
@@ -49,29 +50,34 @@ if __name__ == "__main__":
         src_rom_file_path = src_dir.joinpath(rom_file_name)
         rom_crc32 = Helper.compute_crc32(src_rom_file_path)
         if RomsDB.rom_exist(rom_crc32):
+            exist_rom_file_name_to_crc32_to_dict[rom_file_name] = rom_crc32
             continue
 
         wiiflow_rom = WiiFlow_RomsDB.query_rom(
             rom_crc32=rom_crc32, rom_file_title=Path(rom_file_name).stem
         )
         if wiiflow_rom is None:
-            print(f"未知的 ROM 文件：{rom_file_name} rom_crc32={rom_crc32}")
+            print(f"【提示】未知的 ROM 文件：{rom_file_name} rom_crc32={rom_crc32}")
             continue
 
         wiiflow_game = WiiFlow_GamesDB.query_game(game_id=wiiflow_rom.game_id)
-        print(f'\t<Game id="{wiiflow_game.id}"')
-        print(f'\t\ten_title="{wiiflow_game.en_title}"')
-        print(f'\t\tzhcn_title="{wiiflow_game.zhcn_title}"')
-        print('\t\thfsplay="" launchbox="">')
+        print(
+            f'    <Game id="{wiiflow_game.id}"\n'
+            f'        en_title="{wiiflow_game.en_title}"\n'
+            f'        zhcn_title="{wiiflow_game.zhcn_title}"\n'
+            '        hfsplay="" launchbox="">'
+        )
 
         rom_bytes = str(src_rom_file_path.stat().st_size)
-        print(f'\t\t<Rom crc32="{rom_crc32}" bytes="{rom_bytes}"')
-        print(f'\t\t\tfile_name="{rom_file_name}"')
-        print('\t\t\ten_title=""')
-        print('\t\t\tzhcn_title=""')
-        print('\t\t\tcores-work="" cores-not-work=""')
-        print("\t\t/>")
-        print("\t</Game>")
+        print(
+            f'        <Rom crc32="{rom_crc32}" bytes="{rom_bytes}"\n'
+            f'            file_name="{rom_file_name}"\n'
+            '            en_title=""\n'
+            '            zhcn_title=""\n'
+            '            cores-work="" cores-not-work=""\n'
+            "        />\n"
+            "    </Game>"
+        )
 
         print(f"导入 ROM 文件：{rom_file_name} rom_crc32={rom_crc32}")
         game = GamesDB.query_game(game_id=wiiflow_game.id)
@@ -118,3 +124,8 @@ if __name__ == "__main__":
         print("没有新游戏")
     else:
         print(f"发现 {new_roms_count} 个新游戏")
+
+    exist_roms_count = len(exist_rom_file_name_to_crc32_to_dict)
+    if exist_roms_count > 0:
+        for rom_file_name, rom_crc32 in exist_rom_file_name_to_crc32_to_dict.items():
+            print(f"【提示】ROM 文件已经存在：{rom_file_name} rom_crc32={rom_crc32}")
