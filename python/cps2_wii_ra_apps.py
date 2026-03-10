@@ -3,8 +3,11 @@
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
-from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_app import WiiRA_App
+from wii_ra_app_configs import WiiRA_AppConfigs
+from wii_ra_configs import WiiRA_Configs
+from wii_ra_ss_app import WiiRA_SS_App
+from wii_ra_ss_app_configs import WiiRA_SS_AppConfigs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -23,9 +26,8 @@ def add_game_app_configs(rom_file_title: str, app_name=None):
     elif app_name == game.name:
         print(f"【提示】{rom_file_title} App 无需指定 app_name")
 
-    rom_file_path = Path("games").joinpath(
-        WiiFlow_Configs.plugin_name().lower(),
-        f"{rom_file_title}{WiiFlow_Configs.rom_file_extension()}",
+    rom_file_path = WiiRA_Configs.roms_directory().joinpath(
+        f"{rom.file_title}{WiiFlow_Configs.rom_file_extension()}",
     )
 
     app_configs = WiiRA_AppConfigs(
@@ -38,6 +40,17 @@ def add_game_app_configs(rom_file_title: str, app_name=None):
 
 if __name__ == "__main__":
     Init_Global_Configs()
+
+    ss_app_configs = WiiRA_SS_AppConfigs(
+        app_name="RA-SS CPS-2",
+        folder_name="ra-cps2",
+    )
+    ss_app_configs.long_description = (
+        "- Mod By RunningSnakes.\n"
+        "- Emulator for CPS-2 games based on RA-SS Hexaeco.\n"
+        "- Based on a snapshot of the FB Alpha codebase from 2012.\n"
+        "- Compatible with FB Alpha v0.2.97.29 ROM sets."
+    )
 
     rom_file_title_list = [
         "1944",
@@ -91,8 +104,7 @@ if __name__ == "__main__":
     rom_file_path_list = []
     for game in sorted(game_list, key=lambda x: x.name):
         rom = WiiFlow_RomsDB.query_rom(game_id=game.id)
-        rom_file_path = Path("games").joinpath(
-            WiiFlow_Configs.plugin_name().lower(),
+        rom_file_path = WiiRA_Configs.roms_directory().joinpath(
             f"{rom.file_title}{WiiFlow_Configs.rom_file_extension()}",
         )
         rom_file_path_list.append(rom_file_path)
@@ -171,11 +183,15 @@ if __name__ == "__main__":
         try:
             number = int(user_input)
             if number == 1:
+                ss_app_configs.device = WiiRA_AppConfigs.DEVICE_USB
+                WiiRA_SS_App(ss_app_configs).export_all()
                 for app_configs in app_configs_list:
                     app_configs.device = WiiRA_AppConfigs.DEVICE_USB
                     usb_app = WiiRA_App(app_configs)
                     usb_app.export_all()
             elif number == 2:
+                ss_app_configs.device = WiiRA_AppConfigs.DEVICE_SD
+                WiiRA_SS_App(ss_app_configs).export_all()
                 for app_configs in app_configs_list:
                     app_configs.device = WiiRA_AppConfigs.DEVICE_SD
                     sd_app = WiiRA_App(app_configs)

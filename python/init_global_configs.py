@@ -5,6 +5,8 @@ from pathlib import Path
 from roms_xml import RomsXML
 from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_configs import WiiRA_Configs
+from wii_ra_ss_app_configs import WiiRA_SS_AppConfigs
+from wii_ra_ss_configs import WiiRA_SS_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_plugins_data import WiiFlow_PluginsData
 
@@ -34,6 +36,12 @@ class Init_Global_Configs:
         WiiRA_Configs._db_name = Path("Capcom - CP System II.lpl")
         WiiRA_Configs._release_date = "2025-11-20 10:41"
         WiiRA_Configs._version = "1.22.2"
+        WiiRA_Configs._roms_directory = Path("games").joinpath("fba", "cps2")
+
+        # WiiRA_SS_Configs
+        WiiRA_SS_Configs._core_file_name = Path("Arcade CPS2.dol")
+        WiiRA_SS_Configs._data_folder_name = "C2MOD"
+        WiiRA_SS_Configs._release_date = "2022-05-08 07:07"
 
         # WiiFlow_Configs
         WiiFlow_Configs._plugin_name = "CPS2"
