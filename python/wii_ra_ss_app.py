@@ -121,7 +121,7 @@ class WiiRA_SS_App:
         )
         system_directory = WiiRA_SS_Configs.system_directory()
         if system_directory is None:
-            system_directory = f"{data_dir}/system"
+            system_directory = f"private/{WiiRA_SS_Configs.data_folder_name()}/system"
         rgui_browser_directory = str(WiiRA_Configs.roms_directory()).replace("\\", "/")
 
         list_ret = [
@@ -132,7 +132,7 @@ class WiiRA_SS_App:
             'libretro_path = ""',
             f'libretro_directory = "{app_dir}"',
             f'screenshot_directory = "{data_dir}/screenshots"',
-            f'system_directory = "{system_directory}"',
+            f'system_directory = "{self.configs.device}:/{system_directory}"',
             f'extraction_directory = "{data_dir}/system/temp"',
             f'savefile_directory = "{data_dir}/savefiles"',
             f'savestate_directory = "{data_dir}/savestates"',
