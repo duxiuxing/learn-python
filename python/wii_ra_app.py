@@ -134,9 +134,6 @@ class WiiRA_App:
     def configs_list(self):
         app_dir = f"{self.configs.device}:/apps/{self.configs.folder_name}-{self.configs.device}"
         retroarch_dir = f"{self.configs.device}:/retroarch"
-        ra_ss_data_dir = (
-            f"{self.configs.device}:/private/{WiiRA_SS_Configs.data_folder_name()}"
-        )
 
         list_ret = [
             # 界面比例、分辨率和配色
@@ -202,7 +199,6 @@ class WiiRA_App:
             f'libretro_info_path = "{app_dir}/info"',
             f'log_dir = "{retroarch_dir}/logs"',
             f'osk_overlay_directory = "{app_dir}/overlays/keyboards"',
-            f'overlay_directory = "{ra_ss_data_dir}/overlays"',
             f'savefile_directory = "{retroarch_dir}/savefiles"',
             f'savestate_directory = "{retroarch_dir}/savestates"',
             f'system_directory = "{retroarch_dir}/system"',
@@ -223,6 +219,14 @@ class WiiRA_App:
             list_ret.append('content_show_playlists = "false"')
             list_ret.append('playlist_entry_remove_enable = "2"')
             list_ret.append('quick_menu_show_add_to_favorites = "false"')
+
+        if WiiRA_SS_Configs.data_folder_name() is None:
+            list_ret.append(f'overlay_directory = "{app_dir}/overlays"')
+        else:
+            ra_ss_data_dir = (
+                f"{self.configs.device}:/private/{WiiRA_SS_Configs.data_folder_name()}"
+            )
+            list_ret.append(f'overlay_directory = "{ra_ss_data_dir}/overlays"')
 
         return list_ret
 
