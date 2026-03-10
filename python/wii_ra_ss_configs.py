@@ -36,3 +36,9 @@ class WiiRA_SS_Configs:
     @staticmethod
     def release_date() -> str:
         return WiiRA_SS_Configs._release_date
+
+    _system_directory = None
+
+    @staticmethod
+    def system_directory() -> str:
+        return WiiRA_SS_Configs._system_directory
