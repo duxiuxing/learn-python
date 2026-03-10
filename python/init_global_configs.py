@@ -5,6 +5,8 @@ from pathlib import Path
 from roms_xml import RomsXML
 from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_configs import WiiRA_Configs
+from wii_ra_ss_app_configs import WiiRA_SS_AppConfigs
+from wii_ra_ss_configs import WiiRA_SS_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_plugins_data import WiiFlow_PluginsData
 
@@ -12,11 +14,14 @@ from wiiflow_plugins_data import WiiFlow_PluginsData
 class Init_Global_Configs:
     def __init__(self):
         # LocalConfigs
-        LocalConfigs._repository_directory = Path("C:\\workspace\\github\\duxiuxing\\r-sam-cps1")
+        LocalConfigs._repository_directory = Path(
+            "C:\\workspace\\github\\duxiuxing\\r-sam-cps1"
+        )
         dir0 = "C:\\Users\\duxiu\\AppData\\Roaming\\Dolphin Emulator\\Load\\WiiSDSync"
         dir1 = "D:\\workspace\\github\\R-Sam-1980\\cps1"
         dir2 = "X:\\"
         LocalConfigs._export_to_directory = Path(dir1)
+        LocalConfigs._import_from_directory = Path(dir2)
 
         LocalConfigs._retroarch_directory = Path("X:\\RetroArch-Win64")
         LocalConfigs._seven_zip_exe_path = Path("C:\\Program Files\\7-Zip\\7z.exe")
@@ -31,6 +36,15 @@ class Init_Global_Configs:
         WiiRA_Configs._db_name = Path("Capcom - CP System I.lpl")
         WiiRA_Configs._release_date = "2025-11-20 10:41"
         WiiRA_Configs._version = "1.22.2"
+        WiiRA_Configs._roms_directory = Path("games").joinpath("fba", "cps1")
+
+        # WiiRA_SS_AppConfigs
+        WiiRA_SS_AppConfigs._default_short_description = "Capcom Play System 1 Emulator"
+
+        # WiiRA_SS_Configs
+        WiiRA_SS_Configs._core_file_name = Path("Arcade CPS1.dol")
+        WiiRA_SS_Configs._data_folder_name = "C1MOD"
+        WiiRA_SS_Configs._release_date = "2022-05-08 07:06"
 
         # WiiFlow_Configs
         WiiFlow_Configs._plugin_name = "CPS1"
