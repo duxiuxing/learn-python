@@ -5,6 +5,7 @@ from pathlib import Path
 from roms_xml import RomsXML
 from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_configs import WiiRA_Configs
+from wii_ra_ss_configs import WiiRA_SS_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_plugins_data import WiiFlow_PluginsData
 
@@ -19,6 +20,7 @@ class Init_Global_Configs:
         dir1 = "C:\\workspace\\github\\R-Sam-1980\\neogeo"
         dir2 = "X:\\"
         LocalConfigs._export_to_directory = Path(dir1)
+        LocalConfigs._import_from_directory = Path(dir2)
 
         LocalConfigs._retroarch_directory = Path("X:\\RetroArch-Win64")
         LocalConfigs._seven_zip_exe_path = Path("C:\\Program Files\\7-Zip\\7z.exe")
@@ -33,6 +35,12 @@ class Init_Global_Configs:
         WiiRA_Configs._db_name = Path("SNK - Neo Geo.lpl")
         WiiRA_Configs._release_date = "2025-11-20 10:41"
         WiiRA_Configs._version = "1.22.2"
+        WiiRA_Configs._roms_directory = Path("games").joinpath("fba", "neogeo")
+
+        # WiiRA_SS_Configs
+        WiiRA_SS_Configs._core_file_name = Path("Arcade NEO VM.dol")
+        WiiRA_SS_Configs._data_folder_name = "NGMOD"
+        WiiRA_SS_Configs._release_date = "2023-04-15 09:44"
 
         # WiiFlow_Configs
         WiiFlow_Configs._plugin_name = "NEOGEO"
