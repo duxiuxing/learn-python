@@ -54,7 +54,7 @@ class ResourceFileHelper:
         Returns:
             Path: 媒体文件的路径
         """
-        game = GamesDB.get_game_by_id(rom.game_id)
+        game = GamesDB.query_game(game_id=rom.game_id)
         repository_dir = LocalConfigs.repository_directory()
 
         media_file_parent_dir = None
@@ -68,7 +68,7 @@ class ResourceFileHelper:
         else:
             media_file_parent_dir = repository_dir.joinpath(f"media\\{folder_name}")
 
-        return media_file_parent_dir.joinpath(f"{rom.file_name.stem}{file_extension}")
+        return media_file_parent_dir.joinpath(f"{game.en_title}{file_extension}")
 
     @staticmethod
     def compute_game_media_file_path(
