@@ -1,5 +1,6 @@
 # -- coding: UTF-8 --
 
+from pathlib import Path
 from rom import Rom
 
 
@@ -40,7 +41,7 @@ class RomsDB:
 
         if rom_file_name is not None:
             for rom in roms_db._crc32_to_rom.values():
-                if rom.file_name == rom_file_name:
+                if rom.file_name == Path(rom_file_name):
                     return rom
 
         return None
