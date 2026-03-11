@@ -57,7 +57,7 @@ if __name__ == "__main__":
             rom_crc32=rom_crc32, rom_file_title=Path(rom_file_name).stem
         )
         if wiiflow_rom is None:
-            print(f"【提示】未知的 ROM 文件：{rom_file_name} rom_crc32={rom_crc32}")
+            print(f"【提示】未知的 ROM 文件：{rom_file_name} crc32={rom_crc32}")
             continue
 
         wiiflow_game = WiiFlow_GamesDB.query_game(game_id=wiiflow_rom.game_id)
@@ -79,7 +79,7 @@ if __name__ == "__main__":
             "    </Game>"
         )
 
-        print(f"导入 ROM 文件：{rom_file_name} rom_crc32={rom_crc32}")
+        print(f"导入 ROM 文件：{rom_file_name} crc32={rom_crc32}")
         game = GamesDB.query_game(game_id=wiiflow_game.id)
         if game is None:
             game = Game(
@@ -121,11 +121,12 @@ if __name__ == "__main__":
             new_roms_count = new_roms_count + 1
 
     if new_roms_count == 0:
-        print("没有新游戏")
+        print("无新游戏导入")
     else:
-        print(f"发现 {new_roms_count} 个新游戏")
+        print(f"已导入 {new_roms_count} 个新游戏")
 
     exist_roms_count = len(exist_rom_file_name_to_crc32_to_dict)
     if exist_roms_count > 0:
+        print(f"【提示】下列 ROM 文件已经存在，无需导入（共 {exist_roms_count} 个）：")
         for rom_file_name, rom_crc32 in exist_rom_file_name_to_crc32_to_dict.items():
-            print(f"【提示】ROM 文件已经存在：{rom_file_name} rom_crc32={rom_crc32}")
+            print(f"\t{rom_file_name} crc32={rom_crc32}")
