@@ -16,30 +16,6 @@ from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
 
 
-class RomExporter:
-    def run(self):
-        if not Helper.verify_exist_directory_ex(self.configs.dst_roms_directory):
-            print(f"【错误】无效的目标文件夹 {self.configs.dst_roms_directory}")
-            return False
-
-        for item in self.configs.rom_export_info_list():
-            src_path = item.src_path
-            dst_path = item.dst_path
-            if Helper.verify_exist_directory_ex(os.path.dirname(dst_path)):
-                if self.configs.export_fake_rom:
-                    if not os.path.exists(dst_path):
-                        open(dst_path, "w").close()
-                else:
-                    Helper.copy_file_if_not_exist(src_path, dst_path)
-
-        if self.configs.export_fake_rom:
-            print(f"导出空的 ROM 文件到 {self.configs.dst_roms_directory}")
-        else:
-            print(f"导出 ROM 文件到 {self.configs.dst_roms_directory}")
-
-        return True
-
-
 if __name__ == "__main__":
     Init_Global_Configs()
 
