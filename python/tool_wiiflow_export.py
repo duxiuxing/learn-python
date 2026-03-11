@@ -137,7 +137,7 @@ def f3_4_export_wfc_covers(delete_dst_file_first: bool):
 
     cover_file_count = 0
     for cover_file_name in os.listdir(dst_dir):
-        if not fnmatch.fnmatch(cover_file_name, "*.png"):
+        if not fnmatch.fnmatch(cover_file_name, "*.wfc"):
             continue
         cover_file_count = cover_file_count + 1
 
