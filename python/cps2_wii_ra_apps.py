@@ -165,7 +165,7 @@ if __name__ == "__main__":
 
     while True:
         export_to_dir = LocalConfigs.export_to_directory()
-        print(f"\n即将输出 Wii App 到目标文件夹\n默认目标文件夹路径：{export_to_dir}")
+        print(f"\n即将导出 Wii App 到目标文件夹\n默认目标文件夹路径：{export_to_dir}")
         user_input = input("请确认目标文件夹路径，使用默认路径请直接按回车 > ")
         if len(user_input) > 0:
             export_to_dir = Path(user_input)
@@ -176,9 +176,7 @@ if __name__ == "__main__":
             print(f"【错误】无效的文件夹路径：{export_to_dir}")
             continue
 
-        print("\n1. 输出 USB App")
-        print("2. 输出 SD App")
-        print("其他输入表示退出")
+        print("\n1. 导出 USB App\n2. 导出 SD App\n其他输入表示退出")
         user_input = input("请输入操作的序号 > ")
         try:
             number = int(user_input)
