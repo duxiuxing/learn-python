@@ -162,23 +162,21 @@ if __name__ == "__main__":
 
         print("\n1. 导出 USB App\n2. 导出 SD App\n其他输入表示退出")
         user_input = input("请输入操作的序号 > ")
+        device = None
         try:
             number = int(user_input)
             if number == 1:
-                ss_app_configs.device = WiiRA_AppConfigs.DEVICE_USB
-                WiiRA_SS_App(ss_app_configs).export_all()
-                for app_configs in app_configs_list:
-                    app_configs.device = WiiRA_AppConfigs.DEVICE_USB
-                    usb_app = WiiRA_App(app_configs)
-                    usb_app.export_all()
+                device = WiiRA_AppConfigs.DEVICE_USB
             elif number == 2:
-                ss_app_configs.device = WiiRA_AppConfigs.DEVICE_SD
-                WiiRA_SS_App(ss_app_configs).export_all()
-                for app_configs in app_configs_list:
-                    app_configs.device = WiiRA_AppConfigs.DEVICE_SD
-                    sd_app = WiiRA_App(app_configs)
-                    sd_app.export_all()
+                device = WiiRA_AppConfigs.DEVICE_SD
             else:
                 break
+
+            ss_app_configs.device = device
+            WiiRA_SS_App(ss_app_configs).export_all()
+            for app_configs in app_configs_list:
+                app_configs.device = device
+                usb_app = WiiRA_App(app_configs)
+                usb_app.export_all()
         except ValueError:
             break
