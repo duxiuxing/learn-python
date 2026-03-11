@@ -53,11 +53,16 @@ if __name__ == "__main__":
             )
             ra_rom_list.append(ra_rom)
 
+    exist_rom_crc32_to_file_path_dict = {}
     new_roms_count = 0
     for ra_rom in ra_rom_list:
         if not fnmatch.fnmatch(
             ra_rom.file_path, f"*{WiiFlow_Configs.rom_file_extension()}"
-        ) or RomsDB.rom_exist(ra_rom.crc32):
+        ):
+            continue
+
+        if RomsDB.rom_exist(ra_rom.crc32):
+            exist_rom_crc32_to_file_path_dict[ra_rom.crc32] = ra_rom.file_path
             continue
 
         wiiflow_rom = WiiFlow_RomsDB.query_rom(
@@ -117,7 +122,9 @@ if __name__ == "__main__":
                 rom=rom, include_crc32=True
             )
             if dst_rom_file_path.exists() and dst_rom_file_path.is_file():
-                print("【错误】ROM 文件已经存在，但未在 .xml 文件中配置")
+                print(
+                    f"【错误】ROM 文件已经存在，但未在 .xml 文件中配置：{dst_rom_file_path}"
+                )
                 continue
 
         if Helper.verify_exist_directory_ex(dst_rom_file_path.parent):
@@ -126,6 +133,14 @@ if __name__ == "__main__":
             new_roms_count = new_roms_count + 1
 
     if new_roms_count == 0:
-        print("没有新游戏")
+        print("无新游戏导入")
     else:
-        print(f"发现 {new_roms_count} 个新游戏")
+        print(f"已导入 {new_roms_count} 个新游戏")
+
+    exist_roms_count = len(exist_rom_crc32_to_file_path_dict)
+    if exist_roms_count > 0:
+        print(
+            f"【提示】下列 .lpl 文件中 ROM 文件已经存在，无需导入（共 {exist_roms_count} 个）："
+        )
+        for rom_crc32, rom_file_path in exist_rom_crc32_to_file_path_dict.items():
+            print(f"\t{rom_file_path} crc32={rom_crc32}")
