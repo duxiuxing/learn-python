@@ -17,7 +17,7 @@ class Rom:
         self.game_id = game_id
         self.crc32 = crc32
         self.bytes = bytes
-        self.file_name = Path(file_name).name
+        self.file_name = Path(file_name)
         self.parent_rom = parent_rom
         self.en_title = en_title
         self.zhcn_title = zhcn_title
