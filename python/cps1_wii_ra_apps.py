@@ -60,7 +60,7 @@ if __name__ == "__main__":
         # "cawing",
         "dynwar",
         "ffight",
-        "forgottn",
+        # "forgottn",
         "ghouls",
         "knights",
         "msword",
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     add_game_app_configs(rom_file_title="dino")
     add_game_app_configs(rom_file_title="dynwar")
     add_game_app_configs(rom_file_title="ffight")
-    add_game_app_configs(rom_file_title="forgottn")
+    # add_game_app_configs(rom_file_title="forgottn")
     add_game_app_configs(rom_file_title="ghouls")
     add_game_app_configs(rom_file_title="knights")
     add_game_app_configs(rom_file_title="kod")
