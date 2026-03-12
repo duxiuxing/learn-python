@@ -44,6 +44,7 @@ class Init_Global_Configs:
 
         # WiiFlow_Configs
         WiiFlow_Configs._plugin_name = "CPS2"
+        WiiFlow_Configs._website = "https://github.com/R-Sam-1980/cps2"
 
         WiiFlow_PluginsData()
         RomsXML()
