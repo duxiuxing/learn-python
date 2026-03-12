@@ -107,12 +107,16 @@ class WiiRA_App:
                 )
 
             lower_plugin_name = WiiFlow_Configs.plugin_name().lower()
-            xml_file.write(
-                f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}\n"
-            )
-            xml_file.write(
-                f"Website: https://github.com/R-Sam-1980/{lower_plugin_name}</long_description>\n"
-            )
+            website = WiiFlow_Configs.website()
+            if website is None:
+                xml_file.write(
+                    f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}</long_description>\n"
+                )
+            else:
+                xml_file.write(
+                    f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}\n"
+                )
+                xml_file.write(f"Website: {website}</long_description>\n")
             xml_file.write("  <no_ios_reload/>\n")
             xml_file.write("  <ahb_access/>\n")
             if len(self.configs.rom_file_path_list) == 1:
