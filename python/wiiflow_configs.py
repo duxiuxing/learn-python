@@ -35,3 +35,9 @@ class WiiFlow_Configs:
             return False
         else:
             return True
+
+    _website = None
+
+    @staticmethod
+    def website():
+        return WiiFlow_Configs._website
