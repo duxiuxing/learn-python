@@ -263,6 +263,10 @@ def f7_8_export_snapshots_by_game_name(delete_dst_file_first: bool):
 
 
 def f9_export_plugin_files():
+    src_dir = LocalConfigs.repository_directory().joinpath("wii\\wiiflow\\plugins")
+    dst_dir = LocalConfigs.export_to_directory().joinpath("wiiflow\\plugins")
+    Helper.copy_directory(src_dir, dst_dir)
+
     plugin_name = WiiFlow_Configs.plugin_name()
     dst_dir = LocalConfigs.export_to_directory().joinpath(
         f"wiiflow\\plugins_data\\{plugin_name}"
