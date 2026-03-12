@@ -4,18 +4,20 @@ import fnmatch
 import os
 import re
 
+from game import Game
+from games_db import GamesDB
 from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
 from resource_file_helper import ResourceFileHelper
-from rom import Rom
-from roms_db import RomsDB
 from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
 from wiiflow_resource_file_helper import WiiFlow_ResourceFileHelper
+from wiiflow_rom import WiiFlow_Rom
+from wiiflow_roms_db import WiiFlow_RomsDB
 
 
 def f1_2_export_png_covers(delete_dst_file_first: bool):
@@ -173,19 +175,25 @@ def f5_6_export_snapshots_by_rom_file_title(delete_dst_file_first: bool):
         if not WiiFlow_Configs.is_rom_file_name(rom_file_name):
             continue
 
-        rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+        rom_file_title = Path(rom_file_name).stem
+        rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
         if rom is None:
+            print(f"【错误】未在 plugins_data 的 .ini 文件中配置：{rom_file_name}")
+            continue
+
+        game = GamesDB.query_game(game_id=rom.game_id)
+        if game is None:
             print(f"【提示】未知的 ROM 文件：{rom_file_name}")
             continue
 
         rom_file_count = rom_file_count + 1
-        src_file_path = ResourceFileHelper.compute_rom_media_file_path(
-            rom=rom, folder_name="snap", file_extension=".png"
+        src_file_path = ResourceFileHelper.compute_game_media_file_path(
+            game=game, folder_name="snap", file_extension=".png"
         )
         if not src_file_path.exists():
             print(f"【错误】无效的源文件 {src_file_path}")
             continue
-        dst_file_path = dst_dir.joinpath(f"{Path(rom_file_name).stem}.png")
+        dst_file_path = dst_dir.joinpath(f"{rom_file_title}.png")
         if delete_dst_file_first:
             if dst_file_path.exists() and dst_file_path.is_file():
                 dst_file_path.unlink()
@@ -227,14 +235,20 @@ def f7_8_export_snapshots_by_game_name(delete_dst_file_first: bool):
         if not WiiFlow_Configs.is_rom_file_name(rom_file_name):
             continue
 
-        rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+        rom_file_title = Path(rom_file_name).stem
+        rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
         if rom is None:
+            print(f"【错误】未在 plugins_data 的 .ini 文件中配置：{rom_file_name}")
+            continue
+
+        game = GamesDB.query_game(game_id=rom.game_id)
+        if game is None:
             print(f"【提示】未知的 ROM 文件：{rom_file_name}")
             continue
 
         rom_file_count = rom_file_count + 1
-        src_file_path = ResourceFileHelper.compute_rom_media_file_path(
-            rom=rom, folder_name="snap", file_extension=".png"
+        src_file_path = ResourceFileHelper.compute_game_media_file_path(
+            game=game, folder_name="snap", file_extension=".png"
         )
         if not src_file_path.exists():
             print(f"【错误】无效的源文件 {src_file_path}")
