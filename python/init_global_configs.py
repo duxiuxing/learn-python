@@ -44,6 +44,7 @@ class Init_Global_Configs:
 
         # WiiFlow_Configs
         WiiFlow_Configs._plugin_name = "NEOGEO"
+        WiiFlow_Configs._website = "https://github.com/R-Sam-1980/neogeo"
 
         WiiFlow_PluginsData()
         RomsXML()
