@@ -13,6 +13,8 @@ from rom import Rom
 from roms_db import RomsDB
 from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
+from wiiflow_game import WiiFlow_Game
+from wiiflow_games_db import WiiFlow_GamesDB
 from wiiflow_resource_file_helper import WiiFlow_ResourceFileHelper
 
 
@@ -144,7 +146,7 @@ def f3_4_export_wfc_covers(delete_dst_file_first: bool):
     print(f"导出完毕，ROM 文件数：{rom_file_count}，封面文件数：{cover_file_count}")
 
 
-def f5_6_export_snapshots(delete_dst_file_first: bool):
+def f5_6_export_snapshots_by_rom_file_title(delete_dst_file_first: bool):
     roms_dir = LocalConfigs.export_to_directory().joinpath(
         WiiRA_Configs.roms_directory()
     )
@@ -198,7 +200,73 @@ def f5_6_export_snapshots(delete_dst_file_first: bool):
     print(f"导出完毕，ROM 文件数：{rom_file_count}，截屏文件数：{snap_file_count}")
 
 
-def f7_export_plugin_files():
+def f7_8_export_snapshots_by_game_name(delete_dst_file_first: bool):
+    roms_dir = LocalConfigs.export_to_directory().joinpath(
+        WiiRA_Configs.roms_directory()
+    )
+    if not roms_dir.exists():
+        print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
+        return
+
+    plugin_name = WiiFlow_Configs.plugin_name()
+    dst_dir = LocalConfigs.export_to_directory().joinpath(
+        f"wiiflow\\snapshots\\{plugin_name}"
+    )
+    if not Helper.verify_exist_directory_ex(dst_dir):
+        print(f"【错误】无效的目标文件夹 {dst_dir}")
+        return
+
+    print(
+        f"\nROM 文件夹：{roms_dir}\n"
+        "程序会根据 ROM 文件夹里的文件，把对应的截屏文件导出到目标文件夹\n"
+        f"目标文件夹：{dst_dir}"
+    )
+
+    rom_file_count = 0
+    for rom_file_name in os.listdir(roms_dir):
+        if not WiiFlow_Configs.is_rom_file_name(rom_file_name):
+            continue
+
+        rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+        if rom is None:
+            print(f"【提示】未知的 ROM 文件：{rom_file_name}")
+            continue
+
+        rom_file_count = rom_file_count + 1
+        src_file_path = ResourceFileHelper.compute_rom_media_file_path(
+            rom=rom, folder_name="snap", file_extension=".png"
+        )
+        if not src_file_path.exists():
+            print(f"【错误】无效的源文件 {src_file_path}")
+            continue
+
+        game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
+        if game is None:
+            print(
+                f"【错误】未在 plugins_data 的 .xml 文件中配置：{rom_file_name} id={rom.game_id}"
+            )
+            continue
+
+        dst_file_path = dst_dir.joinpath(f"{game.name}.png")
+        if delete_dst_file_first:
+            if dst_file_path.exists() and dst_file_path.is_file():
+                dst_file_path.unlink()
+        Helper.copy_file_if_not_exist(src_file_path, dst_file_path)
+
+    snap_file_count = 0
+    for snap_file_name in os.listdir(dst_dir):
+        if not fnmatch.fnmatch(snap_file_name, "*.png"):
+            continue
+        snap_file_count = snap_file_count + 1
+
+    print(f"导出完毕，ROM 文件数：{rom_file_count}，截屏文件数：{snap_file_count}")
+
+
+def f9_export_plugin_files():
+    src_dir = LocalConfigs.repository_directory().joinpath("wii\\wiiflow\\plugins")
+    dst_dir = LocalConfigs.export_to_directory().joinpath("wiiflow\\plugins")
+    Helper.copy_directory(src_dir, dst_dir)
+
     plugin_name = WiiFlow_Configs.plugin_name()
     dst_dir = LocalConfigs.export_to_directory().joinpath(
         f"wiiflow\\plugins_data\\{plugin_name}"
@@ -242,9 +310,11 @@ if __name__ == "__main__":
             "2. 仅导出“缺失”的 .png 格式的封面文件\n"
             "3. 导出“所有”的 .wfc 格式的封面文件\n"
             "4. 仅导出“缺失”的 .wfc 格式的封面文件\n"
-            "5. 导出“所有”的截屏文件\n"
-            "6. 仅导出“缺失”的截屏文件\n"
-            "7. 导出插件文件\n"
+            "5. 导出“所有”的截屏文件（以 ROM 文件命名）\n"
+            "6. 仅导出“缺失”的截屏文件（以 ROM 文件命名）\n"
+            "7. 导出“所有”的截屏文件（以游戏命名）\n"
+            "8. 仅导出“缺失”的截屏文件（以游戏命名）\n"
+            "9. 导出插件文件\n"
             "其他输入表示重新设置文件夹路径"
         )
         user_input = input("请输入操作的序号 > ")
@@ -259,10 +329,14 @@ if __name__ == "__main__":
             elif number == 4:
                 f3_4_export_wfc_covers(False)
             elif number == 5:
-                f5_6_export_snapshots(True)
+                f5_6_export_snapshots_by_rom_file_title(True)
             elif number == 6:
-                f5_6_export_snapshots(False)
+                f5_6_export_snapshots_by_rom_file_title(False)
             elif number == 7:
-                f7_export_plugin_files()
+                f7_8_export_snapshots_by_game_name(True)
+            elif number == 8:
+                f7_8_export_snapshots_by_game_name(False)
+            elif number == 9:
+                f9_export_plugin_files()
         except ValueError:
             continue
