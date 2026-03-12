@@ -29,6 +29,7 @@ class Init_Global_Configs:
         WiiRA_AppConfigs._default_short_description = "Arcade Emulator"
 
         # WiiRA_Configs
+        WiiRA_Configs._db_name = Path("FBNeo - Arcade Games.lpl")
         WiiRA_Configs._roms_directory = Path("games\\fbneo")
 
         # WiiRA_SS_Configs
