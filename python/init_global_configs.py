@@ -24,6 +24,9 @@ class Init_Global_Configs:
 
         LocalConfigs._retroarch_directory = Path("X:\\RetroArch-Win64")
         LocalConfigs._seven_zip_exe_path = Path("C:\\Program Files\\7-Zip\\7z.exe")
+        LocalConfigs._wfc_conv_exe_path = Path(
+            "C:\\Program Files\\WFC_conv\\Windows\\wfc_conv.exe"
+        )
 
         # WiiRA_AppConfigs
         WiiRA_AppConfigs._default_short_description = "Capcom Play System 2 Emulator"

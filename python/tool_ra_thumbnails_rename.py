@@ -48,6 +48,7 @@ class RA_ThumbnailsRename:
                 old_file_path = png_folder_path.joinpath(f"{rom_file_title}.png")
                 new_file_path = png_folder_path.joinpath(f"{game.en_title}.png")
                 if old_file_path.exists() and old_file_path.is_file():
+                    print(f"{rom_file_title}.png -> {game.en_title}.png")
                     os.rename(old_file_path, new_file_path)
                 elif not new_file_path.exists():
                     print(f"【错误】无效的源文件 {old_file_path}")
@@ -74,6 +75,7 @@ class RA_ThumbnailsRename:
                 old_file_path = png_folder_path.joinpath(f"{game.en_title}.png")
                 new_file_path = png_folder_path.joinpath(f"{rom_file_title}.png")
                 if old_file_path.exists() and old_file_path.is_file():
+                    print(f"{game.en_title}.png -> {rom_file_title}.png")
                     os.rename(old_file_path, new_file_path)
                 elif not new_file_path.exists():
                     print(f"【错误】无效的源文件 {old_file_path}")
@@ -95,6 +97,7 @@ class RA_ThumbnailsRename:
                 old_file_path = png_folder_path.joinpath(f"{rom_file_title}.png")
                 new_file_path = folder_path.joinpath(f"{label}.png")
                 if old_file_path.exists() and old_file_path.is_file():
+                    print(f"{rom_file_title}.png -> {label}.png")
                     os.rename(old_file_path, new_file_path)
                 elif not new_file_path.exists():
                     print(f"【错误】无效的源文件 {old_file_path}")
@@ -116,6 +119,7 @@ class RA_ThumbnailsRename:
                 old_file_path = png_folder_path.joinpath(f"{label}.png")
                 new_file_path = png_folder_path.joinpath(f"{rom_file_title}.png")
                 if old_file_path.exists() and old_file_path.is_file():
+                    print(f"{label}.png -> {rom_file_title}.png")
                     os.rename(old_file_path, new_file_path)
                 elif not new_file_path.exists():
                     print(f"【错误】无效的源文件 {old_file_path}")
@@ -165,11 +169,11 @@ if __name__ == "__main__":
             if number == 1:
                 png_folder_path = thumbnails_dir.joinpath("Named_Boxarts")
             elif number == 2:
-                png_folder_path = thumbnails_dir.joinpath("Named_Boxarts")
+                png_folder_path = thumbnails_dir.joinpath("Named_Logos")
             elif number == 3:
-                png_folder_path = thumbnails_dir.joinpath("Named_Boxarts")
+                png_folder_path = thumbnails_dir.joinpath("Named_Snaps")
             elif number == 4:
-                png_folder_path = thumbnails_dir.joinpath("Named_Boxarts")
+                png_folder_path = thumbnails_dir.joinpath("Named_Titles")
             else:
                 continue
         except ValueError:
