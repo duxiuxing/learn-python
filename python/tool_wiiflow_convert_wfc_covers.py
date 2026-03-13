@@ -14,9 +14,7 @@ if __name__ == "__main__":
 
     # 调用 wfc_conv.exe 生成 WiiFlow 专用的 Cache 文件（.png 格式转 .wfc 格式）
     # .wfc 格式的文件都存放在 wiiflow\\cache 文件夹里
-    wfc_conv_exe_path = LocalConfigs.repository_directory().joinpath(
-        "pc-tool\\WFC_conv\\Windows\\wfc_conv.exe",
-    )
+    wfc_conv_exe_path = LocalConfigs.wfc_conv_exe_path()
 
     if not wfc_conv_exe_path.exists() or not wfc_conv_exe_path.is_file():
         print(f"【错误】无效的文件 {wfc_conv_exe_path}")
