@@ -38,3 +38,10 @@ class LocalConfigs:
     def seven_zip_exe_path() -> Path:
         # 本机 7z.exe 的路径
         return LocalConfigs._seven_zip_exe_path
+
+    _wfc_conv_exe_path = None
+
+    @staticmethod
+    def wfc_conv_exe_path() -> Path:
+        # 本机 wfc_conv.exe 的路径
+        return LocalConfigs._wfc_conv_exe_path
