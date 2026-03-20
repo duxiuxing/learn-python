@@ -210,6 +210,9 @@ class WiiRA_App:
             # 刷新率一律填 60
             'crt_video_refresh_rate = "60.000000"',
             'video_refresh_rate = "60.000000"',
+            # 提高性能
+            'content_runtime_log = "false"',
+            'savestate_file_compression = "false"',
         ]
 
         if len(self.configs.rom_file_path_list) > 10:
