@@ -67,9 +67,9 @@ if __name__ == "__main__":
         rom_file_path_list=rom_file_path_list,
     )
     app_configs.long_description = (
-        "- Emulator for CPS-3 games based on RetroArch.\n"
-        "- Based on a snapshot of the FB Alpha codebase from 2012.\n"
-        "- Compatible with FB Alpha v0.2.97.29 ROM sets."
+        "- Emulator for CPS-3 games based on RetroArch\n"
+        "- Based on a snapshot of the FB Alpha codebase from 2012\n"
+        "- Compatible with FB Alpha v0.2.97.29 ROM sets"
     )
     app_configs_list.append(app_configs)
 
