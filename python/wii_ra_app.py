@@ -117,8 +117,8 @@ class WiiRA_App:
                     f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}\n"
                 )
                 xml_file.write(f"Website: {website}</long_description>\n")
-            xml_file.write("  <no_ios_reload/>\n")
-            xml_file.write("  <ahb_access/>\n")
+            xml_file.write("  <no_ios_reload />\n")
+            xml_file.write("  <ahb_access />\n")
             if len(self.configs.rom_file_path_list) == 1:
                 rom_file_parent = str(
                     self.configs.rom_file_path_list[0].parent
