@@ -117,8 +117,8 @@ class WiiRA_App:
                     f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}\n"
                 )
                 xml_file.write(f"Website: {website}</long_description>\n")
-            xml_file.write("  <no_ios_reload/>\n")
-            xml_file.write("  <ahb_access/>\n")
+            xml_file.write("  <no_ios_reload />\n")
+            xml_file.write("  <ahb_access />\n")
             if len(self.configs.rom_file_path_list) == 1:
                 rom_file_parent = str(
                     self.configs.rom_file_path_list[0].parent
@@ -210,6 +210,9 @@ class WiiRA_App:
             # 刷新率一律填 60
             'crt_video_refresh_rate = "60.000000"',
             'video_refresh_rate = "60.000000"',
+            # 提高性能
+            'content_runtime_log = "false"',
+            'savestate_file_compression = "false"',
         ]
 
         if len(self.configs.rom_file_path_list) > 10:
