@@ -46,10 +46,10 @@ if __name__ == "__main__":
         folder_name="ra-cps2",
     )
     ss_app_configs.long_description = (
-        "- Mod By RunningSnakes.\n"
-        "- Emulator for CPS-2 games based on RA-SS Hexaeco.\n"
-        "- Based on a snapshot of the FB Alpha codebase from 2012.\n"
-        "- Compatible with FB Alpha v0.2.97.29 ROM sets."
+        "- Mod By RunningSnakes\n"
+        "- Emulator for CPS-2 games based on RA-SS Hexaeco\n"
+        "- Based on a snapshot of the FB Alpha codebase from 2012\n"
+        "- Compatible with FB Alpha v0.2.97.29 ROM sets"
     )
 
     rom_file_title_list = [
@@ -115,9 +115,9 @@ if __name__ == "__main__":
         rom_file_path_list=rom_file_path_list,
     )
     app_configs.long_description = (
-        "- Emulator for CPS-2 games based on RetroArch.\n"
-        "- Based on a snapshot of the FB Alpha codebase from 2012.\n"
-        "- Compatible with FB Alpha v0.2.97.29 ROM sets."
+        "- Emulator for CPS-2 games based on RetroArch\n"
+        "- Based on a snapshot of the FB Alpha codebase from 2012\n"
+        "- Compatible with FB Alpha v0.2.97.29 ROM sets"
     )
     app_configs_list.append(app_configs)
 
