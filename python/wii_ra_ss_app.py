@@ -8,7 +8,7 @@ from pathlib import Path
 from PIL import Image
 from resource_file_helper import ResourceFileHelper
 from wii_ra_configs import WiiRA_Configs
-from wii_ra_ss_app_configs import WiiRA_SS_AppConfigs
+from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_ss_configs import WiiRA_SS_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
@@ -18,12 +18,12 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 
 
 class WiiRA_SS_App:
-    def __init__(self, configs: WiiRA_SS_AppConfigs):
+    def __init__(self, configs: WiiRA_AppConfigs):
         self.configs = configs
 
     def app_directory(self):
         return LocalConfigs.export_to_directory().joinpath(
-            "apps", f"{self.configs.folder_name}-{self.configs.device}"
+            "apps", f"{self.configs.device}-{self.configs.folder_name}-ss"
         )
 
     def data_directory(self):
@@ -115,6 +115,22 @@ class WiiRA_SS_App:
                 xml_file.write(f"Website: {website}</long_description>\n")
             xml_file.write("  <no_ios_reload/>\n")
             xml_file.write("  <ahb_access/>\n")
+            if len(self.configs.rom_file_path_list) == 1:
+                rom_file_parent = str(
+                    self.configs.rom_file_path_list[0].parent
+                ).replace("\\", "/")
+                xml_file.write("  <arguments>\n")
+                xml_file.write(
+                    f"    <arg>{self.configs.device}:/{rom_file_parent}</arg>\n"
+                )
+                xml_file.write(
+                    f"    <arg>{self.configs.rom_file_path_list[0].name}</arg>\n"
+                )
+                xml_file.write(
+                    f"    <arg>{self.configs.device}:/private/{WiiRA_SS_Configs.data_folder_name()}/{self.configs.rom_file_path_list[0].stem}.cfg</arg>\n"
+                )
+                xml_file.write("  </arguments>\n")
+
             xml_file.write("</app>\n")
             xml_file.close()
 
@@ -134,7 +150,8 @@ class WiiRA_SS_App:
             'video_vres = "29"',
             # 目录相关的设置
             'libretro_path = ""',
-            f'libretro_directory = "{app_dir}"',
+            # f'libretro_directory = "{app_dir}"',
+            f'libretro_directory = ""',
             f'screenshot_directory = "{data_dir}/screenshots"',
             f'system_directory = "{self.configs.device}:/{system_directory}"',
             f'extraction_directory = "{data_dir}/system/temp"',
@@ -167,8 +184,12 @@ class WiiRA_SS_App:
 
         return dict_ret
 
-    def export_main_cfg(self):
+    def export_retroarch_cfg(self):
         dst_cfg_file_path = self.data_directory().joinpath("main.cfg")
+        if len(self.configs.rom_file_path_list) == 1:
+            dst_cfg_file_path = self.data_directory().joinpath(
+                f"{self.configs.rom_file_path_list[0].stem}.cfg"
+            )
         if dst_cfg_file_path.exists() and dst_cfg_file_path.is_file():
             dst_cfg_file_path.unlink()
 
@@ -203,4 +224,4 @@ class WiiRA_SS_App:
         self.export_core_files()
         self.export_icon_png()
         self.export_meta_xml()
-        self.export_main_cfg()
+        self.export_retroarch_cfg()
