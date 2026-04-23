@@ -15,7 +15,7 @@ from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
 
-app_configs_list = []
+game_app_configs_list = []
 
 
 def add_game_app_configs(rom_file_title: str, app_name=None):
@@ -35,23 +35,13 @@ def add_game_app_configs(rom_file_title: str, app_name=None):
         folder_name=rom_file_title,
         rom_file_path_list=[rom_file_path],
     )
-    app_configs_list.append(app_configs)
+    game_app_configs_list.append(app_configs)
 
 
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    ss_app_configs = WiiRA_SS_AppConfigs(
-        app_name="RA-SS CPS-1",
-        folder_name="ra-cps1",
-    )
-    ss_app_configs.long_description = (
-        "- Mod By RunningSnakes\n"
-        "- Emulator for CPS-1 games based on RA-SS Hexaeco\n"
-        "- Based on a snapshot of the FB Alpha codebase from 2012\n"
-        "- Compatible with FB Alpha v0.2.97.29 ROM sets"
-    )
-
+    # 基于 retroarch-wii 核心的 App
     rom_file_title_list = [
         "1941",
         "cworld2j",
@@ -101,17 +91,29 @@ if __name__ == "__main__":
         )
         rom_file_path_list.append(rom_file_path)
 
-    app_configs = WiiRA_AppConfigs(
+    ra_app_configs = WiiRA_AppConfigs(
         app_name="Capcom - CP System I",
         folder_name="cps1",
         rom_file_path_list=rom_file_path_list,
     )
-    app_configs.long_description = (
+    ra_app_configs.long_description = (
         "- Emulator for CPS-1 games based on RetroArch\n"
         "- Based on a snapshot of the FB Alpha codebase from 2012\n"
         "- Compatible with FB Alpha v0.2.97.29 ROM sets"
     )
-    app_configs_list.append(app_configs)
+
+    # 基于 RA-HEXAECO 核心的 App
+    ra_ss_app_configs = WiiRA_AppConfigs(
+        app_name="RA-SS CPS-1",
+        folder_name="cps1",
+        rom_file_path_list=rom_file_path_list,
+    )
+    ra_ss_app_configs.long_description = (
+        "- Mod By RunningSnakes\n"
+        "- Emulator for CPS-1 games based on RA-SS Hexaeco\n"
+        "- Based on a snapshot of the FB Alpha codebase from 2012\n"
+        "- Compatible with FB Alpha v0.2.97.29 ROM sets"
+    )
 
     add_game_app_configs(rom_file_title="1941")
     add_game_app_configs(rom_file_title="3wonders")
@@ -160,23 +162,54 @@ if __name__ == "__main__":
             print(f"【错误】无效的文件夹路径：{export_to_dir}")
             continue
 
-        print("\n1. 导出 USB App\n2. 导出 SD App\n其他输入表示退出")
+        print(
+            "\n1. 导出 USB App (retroarch-wii 核心)\n"
+            "2. 导出 SD App (retroarch-wii 核心)\n"
+            "3. 导出 USB App (RA-HEXAECO 核心)\n"
+            "4. 导出 SD App (RA-HEXAECO 核心)\n"
+            "其他输入表示退出"
+        )
         user_input = input("请输入操作的序号 > ")
         device = None
         try:
             number = int(user_input)
             if number == 1:
                 device = WiiRA_AppConfigs.DEVICE_USB
+
+                ra_app_configs.device = device
+                WiiRA_App(ra_app_configs).export_all()
+                for app_configs in game_app_configs_list:
+                    app_configs.device = device
+                    game_app = WiiRA_App(app_configs)
+                    game_app.export_all()
             elif number == 2:
                 device = WiiRA_AppConfigs.DEVICE_SD
+
+                ra_app_configs.device = device
+                WiiRA_App(ra_app_configs).export_all()
+                for app_configs in game_app_configs_list:
+                    app_configs.device = device
+                    game_app = WiiRA_App(app_configs)
+                    game_app.export_all()
+            elif number == 3:
+                device = WiiRA_AppConfigs.DEVICE_USB
+
+                ra_ss_app_configs.device = device
+                WiiRA_SS_App(ra_ss_app_configs).export_all()
+                for app_configs in game_app_configs_list:
+                    app_configs.device = device
+                    game_app = WiiRA_SS_App(app_configs)
+                    game_app.export_all()
+            elif number == 4:
+                device = WiiRA_AppConfigs.DEVICE_SD
+
+                ra_ss_app_configs.device = device
+                WiiRA_SS_App(ra_ss_app_configs).export_all()
+                for app_configs in game_app_configs_list:
+                    app_configs.device = device
+                    game_app = WiiRA_SS_App(app_configs)
+                    game_app.export_all()
             else:
                 break
-
-            ss_app_configs.device = device
-            WiiRA_SS_App(ss_app_configs).export_all()
-            for app_configs in app_configs_list:
-                app_configs.device = device
-                usb_app = WiiRA_App(app_configs)
-                usb_app.export_all()
         except ValueError:
             break
