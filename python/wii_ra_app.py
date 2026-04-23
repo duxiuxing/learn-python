@@ -23,7 +23,7 @@ class WiiRA_App:
 
     def app_directory(self):
         return LocalConfigs.export_to_directory().joinpath(
-            "apps", f"{self.configs.folder_name}-{self.configs.device}"
+            "apps", f"{self.configs.device}-{self.configs.folder_name}"
         )
 
     def export_core_files(self):
