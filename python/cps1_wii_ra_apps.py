@@ -7,7 +7,6 @@ from wii_ra_app import WiiRA_App
 from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_configs import WiiRA_Configs
 from wii_ra_ss_app import WiiRA_SS_App
-from wii_ra_ss_app_configs import WiiRA_SS_AppConfigs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
