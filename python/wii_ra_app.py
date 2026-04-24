@@ -181,6 +181,8 @@ class WiiRA_App:
             'content_show_netplay = "false"',
             'menu_show_load_content = "false"',
             'menu_show_load_core = "false"',
+            'menu_show_configurations = "false"',
+            'menu_show_information = "false"',
             # 精简 PLAYLISTS 界面
             'content_show_add_entry = "0"',
             'content_show_explore = "false"',
@@ -226,20 +228,30 @@ class WiiRA_App:
             'savestate_file_compression = "false"',
         ]
 
-        if len(self.configs.rom_file_path_list) > 10:
-            list_ret.append('content_show_history = "true"')
-            list_ret.append('content_show_playlists = "true"')
-            list_ret.append('playlist_entry_remove_enable = "1"')
-            list_ret.append('quick_menu_show_add_to_favorites = "true"')
-            # 开始界面：5=Playlists
-            list_ret.append('menu_startup_page = "5"')
-        else:
+        if len(self.configs.rom_file_path_list) == 1:
+            list_ret.append('content_show_favorites = "false"')
             list_ret.append('content_show_history = "false"')
             list_ret.append('content_show_playlists = "false"')
+            list_ret.append('menu_show_restart_retroarch = "false"')
             list_ret.append('playlist_entry_remove_enable = "2"')
             list_ret.append('quick_menu_show_add_to_favorites = "false"')
-            # 开始界面：2=Favorites
-            list_ret.append('menu_startup_page = "2"')
+            list_ret.append('quit_on_close_content = "2"')
+        elif len(self.configs.rom_file_path_list) > 10:
+            list_ret.append('content_show_favorites = "true"')
+            list_ret.append('content_show_history = "true"')
+            list_ret.append('content_show_playlists = "true"')
+            list_ret.append('menu_show_restart_retroarch = "true"')
+            list_ret.append('playlist_entry_remove_enable = "1"')
+            list_ret.append('quick_menu_show_add_to_favorites = "true"')
+            list_ret.append('quit_on_close_content = "0"')
+        else:
+            list_ret.append('content_show_favorites = "true"')
+            list_ret.append('content_show_history = "false"')
+            list_ret.append('content_show_playlists = "false"')
+            list_ret.append('menu_show_restart_retroarch = "true"')
+            list_ret.append('playlist_entry_remove_enable = "2"')
+            list_ret.append('quick_menu_show_add_to_favorites = "false"')
+            list_ret.append('quit_on_close_content = "0"')
 
         if WiiRA_SS_Configs.data_folder_name() is None:
             list_ret.append(f'overlay_directory = "{app_dir}/overlays"')
