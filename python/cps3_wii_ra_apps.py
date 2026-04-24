@@ -13,7 +13,7 @@ from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
 
-app_configs_list = []
+game_app_configs_list = []
 
 
 def add_game_app_configs(rom_file_title: str, app_name=None):
@@ -33,7 +33,7 @@ def add_game_app_configs(rom_file_title: str, app_name=None):
         folder_name=rom_file_title,
         rom_file_path_list=[rom_file_path],
     )
-    app_configs_list.append(app_configs)
+    game_app_configs_list.append(app_configs)
 
 
 if __name__ == "__main__":
@@ -71,7 +71,7 @@ if __name__ == "__main__":
         "- Based on a snapshot of the FB Alpha codebase from 2012\n"
         "- Compatible with FB Alpha v0.2.97.29 ROM sets"
     )
-    app_configs_list.append(app_configs)
+    game_app_configs_list.append(app_configs)
 
     add_game_app_configs(rom_file_title="jojoba", app_name="JoJo's Venture 2")
     add_game_app_configs(rom_file_title="jojo")
@@ -105,9 +105,9 @@ if __name__ == "__main__":
             else:
                 break
 
-            for app_configs in app_configs_list:
+            for app_configs in game_app_configs_list:
                 app_configs.device = device
-                usb_app = WiiRA_App(app_configs)
-                usb_app.export_all()
+                ra_app = WiiRA_App(app_configs)
+                ra_app.export_all()
         except ValueError:
             break
