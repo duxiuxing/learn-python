@@ -154,9 +154,11 @@ class WiiRA_SS_App:
             # 分辨率：21=640x448 29=640x480 31=640x456
             'video_vres = "31"',
             # 目录相关的设置
-            'libretro_path = ""',
-            'libretro_directory = ""',
+            'libretro_path = "."',
+            'libretro_directory = "."',
             f'screenshot_directory = "{data_dir}/screenshots"',
+            'video_filter = "."',
+            'audio_dsp_plugin = "."',
             f'system_directory = "{self.configs.device}:/{system_directory}"',
             f'extraction_directory = "{data_dir}/system/temp"',
             f'savefile_directory = "{data_dir}/savefiles"',
@@ -195,7 +197,7 @@ class WiiRA_SS_App:
 
         return dict_ret
 
-    def export_retroarch_cfg(self):
+    def export_cfg_file(self):
         dst_cfg_file_path = self.data_directory().joinpath("main.cfg")
         if len(self.configs.rom_file_path_list) == 1:
             dst_cfg_file_path = self.data_directory().joinpath(
@@ -237,4 +239,4 @@ class WiiRA_SS_App:
         self.export_core_files()
         self.export_icon_png()
         self.export_meta_xml()
-        self.export_retroarch_cfg()
+        self.export_cfg_file()
