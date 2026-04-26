@@ -182,6 +182,7 @@ class WiiRA_SS_App:
             'input_menu_toggle_axis = "+3"',
             # 界面相关的设置
             'menu_solid = "true"',
+            'menu_fullscreen = "true"',
             'hide_core = "true"',
             'hide_curr_state = "false"',
             'clock_posx = "240"',
