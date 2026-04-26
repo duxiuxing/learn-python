@@ -36,9 +36,9 @@ class Init_Global_Configs:
         WiiRA_Configs._core_file_name = Path("fbalpha2012_cps1_libretro_wii.dol")
         WiiRA_Configs._core_info_file_name = Path("fbalpha2012_cps1_libretro.info")
         WiiRA_Configs._db_name = Path("Capcom - CP System I.lpl")
-        WiiRA_Configs._release_date = "2025-11-20 10:41"
+        WiiRA_Configs._release_date = "2025-11-20"
         WiiRA_Configs._version = "1.22.2"
-        WiiRA_Configs._roms_directory = Path("arcade").joinpath("fba", "cps1")
+        WiiRA_Configs._roms_relative_directory = Path("arcade\\fba\\cps1")
 
         # WiiRA_SS_Configs
         WiiRA_SS_Configs._core_file_name = Path("Arcade CPS1.dol")

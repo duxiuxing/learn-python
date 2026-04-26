@@ -25,14 +25,14 @@ def add_game_app_configs(rom_file_title: str, app_name=None):
     elif app_name == game.name:
         print(f"【提示】{rom_file_title} App 无需指定 app_name")
 
-    rom_file_path = WiiRA_Configs.roms_directory().joinpath(
+    rom_file_relative_path = WiiRA_Configs.roms_relative_directory().joinpath(
         f"{rom.file_title}{WiiFlow_Configs.rom_file_extension()}",
     )
 
     app_configs = WiiRA_AppConfigs(
         app_name=app_name,
         folder_name=rom_file_title,
-        rom_file_path_list=[rom_file_path],
+        rom_file_relative_path_list=[rom_file_relative_path],
     )
     game_app_configs_list.append(app_configs)
 
@@ -82,18 +82,18 @@ if __name__ == "__main__":
         game_id = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title).game_id
         game_list.append(WiiFlow_GamesDB.query_game(game_id=game_id))
 
-    rom_file_path_list = []
+    rom_file_relative_path_list = []
     for game in sorted(game_list, key=lambda x: x.name):
         rom = WiiFlow_RomsDB.query_rom(game_id=game.id)
-        rom_file_path = WiiRA_Configs.roms_directory().joinpath(
+        rom_file_relative_path = WiiRA_Configs.roms_relative_directory().joinpath(
             f"{rom.file_title}{WiiFlow_Configs.rom_file_extension()}",
         )
-        rom_file_path_list.append(rom_file_path)
+        rom_file_relative_path_list.append(rom_file_relative_path)
 
     ra_app_configs = WiiRA_AppConfigs(
         app_name="Capcom - CP System I",
         folder_name="cps1",
-        rom_file_path_list=rom_file_path_list,
+        rom_file_relative_path_list=rom_file_relative_path_list,
     )
     ra_app_configs.long_description = (
         "- Emulator for CPS-1 games based on RetroArch\n"
@@ -105,7 +105,7 @@ if __name__ == "__main__":
     ra_ss_app_configs = WiiRA_AppConfigs(
         app_name="RA-SS CPS-1",
         folder_name="cps1",
-        rom_file_path_list=rom_file_path_list,
+        rom_file_relative_path_list=rom_file_relative_path_list,
     )
     ra_ss_app_configs.long_description = (
         "- Mod By RunningSnakes\n"
