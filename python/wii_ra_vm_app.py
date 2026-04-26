@@ -47,7 +47,7 @@ class WiiRA_VM_App:
             game, "logo", ".png"
         )
         if not src_icon_png_path.exists():
-            rom_file_title = Path(self.configs.rom_file_path_list[0]).stem
+            rom_file_title = self.configs.rom_file_relative_path_list[0].stem
             rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
             game = GamesDB.query_game(game_id=rom.game_id)
             src_icon_png_path = ResourceFileHelper.compute_game_media_file_path(
@@ -84,7 +84,7 @@ class WiiRA_VM_App:
                 f"  <short_description>{self.configs.short_description()}</short_description>\n"
             )
             if self.configs.long_description is None:
-                rom_file_title = Path(self.configs.rom_file_path_list[0]).stem
+                rom_file_title = self.configs.rom_file_relative_path_list[0].stem
                 rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
                 game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
 
@@ -113,16 +113,16 @@ class WiiRA_VM_App:
             )
             xml_file.write("  <no_ios_reload/>\n")
             xml_file.write("  <ahb_access/>\n")
-            if len(self.configs.rom_file_path_list) == 1:
+            if len(self.configs.rom_file_relative_path_list) == 1:
                 rom_file_parent = str(
-                    self.configs.rom_file_path_list[0].parent
+                    self.configs.rom_file_relative_path_list[0].parent
                 ).replace("\\", "/")
                 xml_file.write("  <arguments>\n")
                 xml_file.write(
                     f"    <arg>{self.configs.device}:/{rom_file_parent}</arg>\n"
                 )
                 xml_file.write(
-                    f"    <arg>{self.configs.rom_file_path_list[0].name}</arg>\n"
+                    f"    <arg>{self.configs.rom_file_relative_path_list[0].name}</arg>\n"
                 )
                 xml_file.write("  </arguments>\n")
 
@@ -268,7 +268,7 @@ class WiiRA_VM_App:
             lpl_file.write(head)
 
             first_rom = True
-            for rom_file_path in self.configs.rom_file_path_list:
+            for rom_file_path in self.configs.rom_file_relative_path_list:
                 if first_rom:
                     first_rom = False
                     lpl_file.write("    {\n")

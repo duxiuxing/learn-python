@@ -40,7 +40,7 @@ def f1_2_export_png_covers(delete_dst_file_first: bool):
 
     # 再处理其他封面文件
     roms_dir = LocalConfigs.export_to_directory().joinpath(
-        WiiRA_Configs.roms_directory()
+        WiiRA_Configs.roms_relative_directory()
     )
     if not roms_dir.exists():
         print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
@@ -104,7 +104,7 @@ def f3_4_export_wfc_covers(delete_dst_file_first: bool):
 
     # 再处理其他封面文件
     roms_dir = LocalConfigs.export_to_directory().joinpath(
-        WiiRA_Configs.roms_directory()
+        WiiRA_Configs.roms_relative_directory()
     )
     if not roms_dir.exists():
         print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
@@ -150,7 +150,7 @@ def f3_4_export_wfc_covers(delete_dst_file_first: bool):
 
 def f5_6_export_snapshots_by_rom_file_title(delete_dst_file_first: bool):
     roms_dir = LocalConfigs.export_to_directory().joinpath(
-        WiiRA_Configs.roms_directory()
+        WiiRA_Configs.roms_relative_directory()
     )
     if not roms_dir.exists():
         print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
@@ -210,7 +210,7 @@ def f5_6_export_snapshots_by_rom_file_title(delete_dst_file_first: bool):
 
 def f7_8_export_snapshots_by_game_name(delete_dst_file_first: bool):
     roms_dir = LocalConfigs.export_to_directory().joinpath(
-        WiiRA_Configs.roms_directory()
+        WiiRA_Configs.roms_relative_directory()
     )
     if not roms_dir.exists():
         print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
