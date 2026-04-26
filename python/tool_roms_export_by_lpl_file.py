@@ -61,7 +61,7 @@ if __name__ == "__main__":
             continue
 
         dst_roms_dir = LocalConfigs.export_to_directory().joinpath(
-            WiiRA_Configs.roms_directory()
+            WiiRA_Configs.roms_relative_directory()
         )
         if not Helper.verify_exist_directory_ex(dst_roms_dir):
             print(f"【错误】无效的文件夹路径：{dst_roms_dir}")
