@@ -52,8 +52,8 @@ class WiiRA_Configs:
     def version() -> str:
         return WiiRA_Configs._version
 
-    _roms_directory = None
+    _roms_relative_directory = None
 
     @staticmethod
-    def roms_directory() -> Path:
-        return WiiRA_Configs._roms_directory
+    def roms_relative_directory() -> Path:
+        return WiiRA_Configs._roms_relative_directory

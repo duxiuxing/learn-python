@@ -46,7 +46,7 @@ class WiiRA_SS_App:
             game, "logo", ".png"
         )
         if not src_icon_png_path.exists():
-            rom_file_title = Path(self.configs.rom_file_path_list[0]).stem
+            rom_file_title = self.configs.rom_file_relative_path_list[0].stem
             rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
             game = GamesDB.query_game(game_id=rom.game_id)
             src_icon_png_path = ResourceFileHelper.compute_game_media_file_path(
@@ -85,7 +85,7 @@ class WiiRA_SS_App:
                 f"  <short_description>{self.configs.short_description()}</short_description>\n"
             )
             if self.configs.long_description is None:
-                rom_file_title = Path(self.configs.rom_file_path_list[0]).stem
+                rom_file_title = self.configs.rom_file_relative_path_list[0].stem
                 rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
                 game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
 
@@ -119,19 +119,19 @@ class WiiRA_SS_App:
                 xml_file.write(f"Website: {website}</long_description>\n")
             xml_file.write("  <no_ios_reload/>\n")
             xml_file.write("  <ahb_access/>\n")
-            if len(self.configs.rom_file_path_list) == 1:
+            if len(self.configs.rom_file_relative_path_list) == 1:
                 rom_file_parent = str(
-                    self.configs.rom_file_path_list[0].parent
+                    self.configs.rom_file_relative_path_list[0].parent
                 ).replace("\\", "/")
                 xml_file.write("  <arguments>\n")
                 xml_file.write(
                     f"    <arg>{self.configs.device}:/{rom_file_parent}</arg>\n"
                 )
                 xml_file.write(
-                    f"    <arg>{self.configs.rom_file_path_list[0].name}</arg>\n"
+                    f"    <arg>{self.configs.rom_file_relative_path_list[0].name}</arg>\n"
                 )
                 xml_file.write(
-                    f"    <arg>{self.configs.device}:/private/{WiiRA_SS_Configs.data_folder_name()}/{self.configs.rom_file_path_list[0].stem}.cfg</arg>\n"
+                    f"    <arg>{self.configs.device}:/private/{WiiRA_SS_Configs.data_folder_name()}/{self.configs.rom_file_relative_path_list[0].stem}.cfg</arg>\n"
                 )
                 xml_file.write("  </arguments>\n")
 
@@ -146,7 +146,9 @@ class WiiRA_SS_App:
         system_directory = WiiRA_SS_Configs.system_directory()
         if system_directory is None:
             system_directory = f"private/{WiiRA_SS_Configs.data_folder_name()}/system"
-        rgui_browser_directory = str(WiiRA_Configs.roms_directory()).replace("\\", "/")
+        rgui_browser_directory = str(WiiRA_Configs.roms_relative_directory()).replace(
+            "\\", "/"
+        )
 
         list_ret = [
             # 宽高比：0=4:3 1=16:9 21=Core provided
@@ -154,9 +156,11 @@ class WiiRA_SS_App:
             # 分辨率：21=640x448 29=640x480 31=640x456
             'video_vres = "31"',
             # 目录相关的设置
-            'libretro_path = ""',
-            'libretro_directory = ""',
+            'libretro_path = "."',
+            'libretro_directory = "."',
             f'screenshot_directory = "{data_dir}/screenshots"',
+            'video_filter = "."',
+            'audio_dsp_plugin = "."',
             f'system_directory = "{self.configs.device}:/{system_directory}"',
             f'extraction_directory = "{data_dir}/system/temp"',
             f'savefile_directory = "{data_dir}/savefiles"',
@@ -195,11 +199,11 @@ class WiiRA_SS_App:
 
         return dict_ret
 
-    def export_retroarch_cfg(self):
+    def export_cfg_file(self):
         dst_cfg_file_path = self.data_directory().joinpath("main.cfg")
-        if len(self.configs.rom_file_path_list) == 1:
+        if len(self.configs.rom_file_relative_path_list) == 1:
             dst_cfg_file_path = self.data_directory().joinpath(
-                f"{self.configs.rom_file_path_list[0].stem}.cfg"
+                f"{self.configs.rom_file_relative_path_list[0].stem}.cfg"
             )
         if dst_cfg_file_path.exists() and dst_cfg_file_path.is_file():
             dst_cfg_file_path.unlink()
@@ -237,4 +241,4 @@ class WiiRA_SS_App:
         self.export_core_files()
         self.export_icon_png()
         self.export_meta_xml()
-        self.export_retroarch_cfg()
+        self.export_cfg_file()
