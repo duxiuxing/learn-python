@@ -162,10 +162,10 @@ if __name__ == "__main__":
             continue
 
         print(
-            "\n1. 导出 USB App (retroarch-wii 核心)\n"
-            "2. 导出 SD App (retroarch-wii 核心)\n"
-            "3. 导出 USB App (RA-HEXAECO 核心)\n"
-            "4. 导出 SD App (RA-HEXAECO 核心)\n"
+            "\n1. 导出 wii-sd App (retroarch-wii 核心)\n"
+            "2. 导出 wii-sd-ss App (RA-HEXAECO 核心)\n"
+            "3. 导出 wii-usb App (retroarch-wii 核心)\n"
+            "4. 导出 wii-usb-ss App (RA-HEXAECO 核心)\n"
             "其他输入表示退出"
         )
         user_input = input("请输入操作的序号 > ")
@@ -173,7 +173,7 @@ if __name__ == "__main__":
         try:
             number = int(user_input)
             if number == 1:
-                device = WiiRA_AppConfigs.DEVICE_USB
+                device = WiiRA_AppConfigs.DEVICE_SD
 
                 ra_app_configs.device = device
                 WiiRA_App(ra_app_configs).export_all()
@@ -184,23 +184,23 @@ if __name__ == "__main__":
             elif number == 2:
                 device = WiiRA_AppConfigs.DEVICE_SD
 
-                ra_app_configs.device = device
-                WiiRA_App(ra_app_configs).export_all()
-                for app_configs in game_app_configs_list:
-                    app_configs.device = device
-                    game_app = WiiRA_App(app_configs)
-                    game_app.export_all()
-            elif number == 3:
-                device = WiiRA_AppConfigs.DEVICE_USB
-
                 ra_ss_app_configs.device = device
                 WiiRA_SS_App(ra_ss_app_configs).export_all()
                 for app_configs in game_app_configs_list:
                     app_configs.device = device
                     game_app = WiiRA_SS_App(app_configs)
                     game_app.export_all()
+            elif number == 3:
+                device = WiiRA_AppConfigs.DEVICE_USB
+
+                ra_app_configs.device = device
+                WiiRA_App(ra_app_configs).export_all()
+                for app_configs in game_app_configs_list:
+                    app_configs.device = device
+                    game_app = WiiRA_App(app_configs)
+                    game_app.export_all()
             elif number == 4:
-                device = WiiRA_AppConfigs.DEVICE_SD
+                device = WiiRA_AppConfigs.DEVICE_USB
 
                 ra_ss_app_configs.device = device
                 WiiRA_SS_App(ra_ss_app_configs).export_all()
