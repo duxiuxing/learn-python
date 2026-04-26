@@ -34,9 +34,9 @@ class Init_Global_Configs:
         WiiRA_Configs._core_file_name = Path("fbalpha2012_cps3_libretro_wii.dol")
         WiiRA_Configs._core_info_file_name = Path("fbalpha2012_cps3_libretro.info")
         WiiRA_Configs._db_name = Path("Capcom - CP System III.lpl")
-        WiiRA_Configs._release_date = "2025-11-20 10:41"
+        WiiRA_Configs._release_date = "2025-11-20"
         WiiRA_Configs._version = "1.22.2"
-        WiiRA_Configs._roms_directory = Path("arcade").joinpath("fba", "cps3")
+        WiiRA_Configs._roms_relative_directory = Path("arcade\\fba\\cps3")
 
         # WiiFlow_Configs
         WiiFlow_Configs._plugin_name = "CPS3"
