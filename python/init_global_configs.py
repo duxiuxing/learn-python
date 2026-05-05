@@ -36,14 +36,15 @@ class Init_Global_Configs:
         WiiRA_Configs._core_file_name = Path("fbalpha2012_cps2_libretro_wii.dol")
         WiiRA_Configs._core_info_file_name = Path("fbalpha2012_cps2_libretro.info")
         WiiRA_Configs._db_name = Path("Capcom - CP System II.lpl")
-        WiiRA_Configs._release_date = "2025-11-20"
+        WiiRA_Configs._release_date = "20251120"
         WiiRA_Configs._version = "1.22.2"
         WiiRA_Configs._roms_relative_directory = Path("arcade\\fba\\cps2")
 
         # WiiRA_SS_Configs
         WiiRA_SS_Configs._core_file_name = Path("Arcade CPS2.dol")
         WiiRA_SS_Configs._data_folder_name = "C2MOD"
-        WiiRA_SS_Configs._release_date = "2022-05-08 07:07"
+        # .dol 的修改时间
+        WiiRA_SS_Configs._release_date = "202205080707"
 
         # WiiFlow_Configs
         WiiFlow_Configs._plugin_name = "CPS2"
