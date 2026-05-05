@@ -117,7 +117,6 @@ class WiiRA_SS_App:
                     f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}\n"
                 )
                 xml_file.write(f"Website: {website}</long_description>\n")
-            xml_file.write("  <no_ios_reload/>\n")
             xml_file.write("  <ahb_access/>\n")
             if len(self.configs.rom_file_relative_path_list) == 1:
                 rom_file_parent = str(
@@ -182,6 +181,7 @@ class WiiRA_SS_App:
             'input_menu_toggle_axis = "+3"',
             # 界面相关的设置
             'menu_solid = "true"',
+            'menu_fullscreen = "true"',
             'hide_core = "true"',
             'hide_curr_state = "false"',
             'clock_posx = "240"',
