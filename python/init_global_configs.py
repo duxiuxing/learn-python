@@ -36,14 +36,15 @@ class Init_Global_Configs:
         WiiRA_Configs._core_file_name = Path("fbalpha2012_cps1_libretro_wii.dol")
         WiiRA_Configs._core_info_file_name = Path("fbalpha2012_cps1_libretro.info")
         WiiRA_Configs._db_name = Path("Capcom - CP System I.lpl")
-        WiiRA_Configs._release_date = "2025-11-20"
+        WiiRA_Configs._release_date = "20251120"
         WiiRA_Configs._version = "1.22.2"
         WiiRA_Configs._roms_relative_directory = Path("arcade\\fba\\cps1")
 
         # WiiRA_SS_Configs
         WiiRA_SS_Configs._core_file_name = Path("Arcade CPS1.dol")
         WiiRA_SS_Configs._data_folder_name = "C1MOD"
-        WiiRA_SS_Configs._release_date = "2022-05-08 07:06"
+        # .dol 的修改时间
+        WiiRA_SS_Configs._release_date = "202205080706"
 
         # WiiFlow_Configs
         WiiFlow_Configs._plugin_name = "CPS1"
