@@ -2,6 +2,7 @@
 
 from local_configs import LocalConfigs
 from pathlib import Path
+from ra_configs import RA_Configs
 from roms_xml import RomsXML
 from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_configs import WiiRA_Configs
@@ -27,6 +28,10 @@ class Init_Global_Configs:
         LocalConfigs._wfc_conv_exe_path = Path(
             "C:\\Program Files\\WFC_conv\\Windows\\wfc_conv.exe"
         )
+
+        # RA_Config
+        RA_Configs._db_name = Path("Capcom - CP System I.lpl")
+        RA_Configs._roms_relative_directory = Path("arcade\\cps1")
 
         # WiiRA_AppConfigs
         WiiRA_AppConfigs._default_short_description = "Capcom Play System 1 Emulator"
