@@ -47,7 +47,7 @@ if __name__ == "__main__":
         try:
             number = int(user_input)
             if number == 1:
-                configs.rom_path_prefix = "/storage/emulated/0/games/cps3/"
+                configs.rom_path_prefix = "/storage/emulated/0/arcade/cps3/"
                 configs.use_zhcn_title_as_label = True
                 configs.png_file_match_rom_file = True
 
