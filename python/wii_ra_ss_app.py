@@ -138,7 +138,6 @@ class WiiRA_SS_App:
             xml_file.close()
 
     def configs_list(self):
-        app_dir = f"{self.configs.device}:/apps/{self.configs.folder_name}-{self.configs.device}"
         data_dir = (
             f"{self.configs.device}:/private/{WiiRA_SS_Configs.data_folder_name()}"
         )
@@ -151,6 +150,7 @@ class WiiRA_SS_App:
 
         list_ret = [
             # 宽高比：0=4:3 1=16:9 21=Core provided
+            'aspect_ratio_index = "0"',
             'aspect_ratio_index_wide = "0"',
             # 分辨率：21=640x448 29=640x480 31=640x456
             'video_vres = "31"',
