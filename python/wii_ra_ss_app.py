@@ -167,7 +167,7 @@ class WiiRA_SS_App:
             f'video_filter_dir = "{data_dir}/videofilters"',
             f'audio_filter_dir = "{data_dir}/audiofilters"',
             f'rgui_browser_directory = "{self.configs.device}:/{rgui_browser_directory}"',
-            f'overlay_directory = "{data_dir}/overlays/{WiiFlow_Configs.plugin_name().lower()}"',
+            f'overlay_directory = "{data_dir}/overlays"',
             f'input_overlay = "{data_dir}/overlays/..."',
             # 菜单快捷组合键：L+R+Z+Start
             'input_menu_combos = "1"',
