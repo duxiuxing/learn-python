@@ -2,6 +2,7 @@
 
 import json
 import os
+import time
 
 from game import Game
 from games_db import GamesDB
@@ -16,6 +17,25 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 
 
 class RA_ThumbnailsRename:
+    @staticmethod
+    def rename_file(old_file_path: Path, new_file_name):
+        old_file_name = old_file_path.name
+        if old_file_name.casefold() == new_file_name.casefold():
+            temp_file_name = f"temp-{new_file_name}"
+            old_file_path = RA_ThumbnailsRename.rename_file(
+                old_file_path, temp_file_name
+            )
+            time.sleep(2)
+            return RA_ThumbnailsRename.rename_file(old_file_path, new_file_name)
+        else:
+            new_file_path = old_file_path.parent.joinpath(new_file_name)
+            if old_file_path.exists() and old_file_path.is_file():
+                os.rename(old_file_path, new_file_path)
+                return new_file_path
+            else:
+                print(f"【错误】无效的源文件 {old_file_path}")
+                return None
+
     @staticmethod
     def default_lpl_file_path():
         return LocalConfigs.retroarch_directory().joinpath(
@@ -45,13 +65,9 @@ class RA_ThumbnailsRename:
                     rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
                 game = GamesDB.query_game(game_id=rom.game_id)
 
+                print(f"{rom_file_title}.png -> {game.en_title}.png")
                 old_file_path = png_folder_path.joinpath(f"{rom_file_title}.png")
-                new_file_path = png_folder_path.joinpath(f"{game.en_title}.png")
-                if old_file_path.exists() and old_file_path.is_file():
-                    print(f"{rom_file_title}.png -> {game.en_title}.png")
-                    os.rename(old_file_path, new_file_path)
-                elif not new_file_path.exists():
-                    print(f"【错误】无效的源文件 {old_file_path}")
+                RA_ThumbnailsRename.rename_file(old_file_path, f"{game.en_title}.png")
 
     @staticmethod
     def f4_game_en_title_to_rom_file_title(lpl_file_path: Path, png_folder_path: Path):
@@ -72,13 +88,9 @@ class RA_ThumbnailsRename:
                     )
                 game = GamesDB.query_game(game_id=rom.game_id)
 
+                print(f"{game.en_title}.png -> {rom_file_title}.png")
                 old_file_path = png_folder_path.joinpath(f"{game.en_title}.png")
-                new_file_path = png_folder_path.joinpath(f"{rom_file_title}.png")
-                if old_file_path.exists() and old_file_path.is_file():
-                    print(f"{game.en_title}.png -> {rom_file_title}.png")
-                    os.rename(old_file_path, new_file_path)
-                elif not new_file_path.exists():
-                    print(f"【错误】无效的源文件 {old_file_path}")
+                RA_ThumbnailsRename.rename_file(old_file_path, f"{rom_file_title}.png")
 
     @staticmethod
     def f2_rom_file_title_to_label(lpl_file_path: Path, png_folder_path: Path):
@@ -94,13 +106,9 @@ class RA_ThumbnailsRename:
                 original_label = item["label"]
                 label = original_label.replace(":", "_").replace("/", "_")
 
+                print(f"{rom_file_title}.png -> {label}.png")
                 old_file_path = png_folder_path.joinpath(f"{rom_file_title}.png")
-                new_file_path = folder_path.joinpath(f"{label}.png")
-                if old_file_path.exists() and old_file_path.is_file():
-                    print(f"{rom_file_title}.png -> {label}.png")
-                    os.rename(old_file_path, new_file_path)
-                elif not new_file_path.exists():
-                    print(f"【错误】无效的源文件 {old_file_path}")
+                RA_ThumbnailsRename.rename_file(old_file_path, f"{label}.png")
 
     @staticmethod
     def f1_label_to_rom_file_title(lpl_file_path: Path, png_folder_path: Path):
@@ -116,13 +124,9 @@ class RA_ThumbnailsRename:
                 original_label = item["label"]
                 label = original_label.replace(":", "_").replace("/", "_")
 
+                print(f"{label}.png -> {rom_file_title}.png")
                 old_file_path = png_folder_path.joinpath(f"{label}.png")
-                new_file_path = png_folder_path.joinpath(f"{rom_file_title}.png")
-                if old_file_path.exists() and old_file_path.is_file():
-                    print(f"{label}.png -> {rom_file_title}.png")
-                    os.rename(old_file_path, new_file_path)
-                elif not new_file_path.exists():
-                    print(f"【错误】无效的源文件 {old_file_path}")
+                RA_ThumbnailsRename.rename_file(old_file_path, f"{rom_file_title}.png")
 
     @staticmethod
     def f5_label_to_game_en_title(lpl_file_path: Path, png_folder_path: Path):
