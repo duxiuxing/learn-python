@@ -7,18 +7,19 @@ from ra_playlist import LiteRom
 from ra_playlist import RA_Playlist
 from ra_playlist_config import RA_PlaylistConfig
 
+cps3_lite_rom_list = [
+    LiteRom("redearth.zip"),
+    LiteRom("jojon.zip"),
+    LiteRom("jojobaner1.zip"),
+    LiteRom("sfiiin.zip"),
+    LiteRom("sfiii2.zip"),
+    LiteRom("sfiii3.zip"),
+]
+
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    lite_rom_list = [
-        LiteRom("redearth.zip"),
-        LiteRom("jojon.zip"),
-        LiteRom("jojobaner1.zip"),
-        LiteRom("sfiiin.zip"),
-        LiteRom("sfiii2.zip"),
-        LiteRom("sfiii3.zip"),
-    ]
-    configs = RA_PlaylistConfig(lite_rom_list)
+    configs = RA_PlaylistConfig(cps3_lite_rom_list)
 
     while True:
         export_to_dir = LocalConfigs.export_to_directory()
