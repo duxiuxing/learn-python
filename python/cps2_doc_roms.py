@@ -57,7 +57,7 @@ if __name__ == "__main__":
             parent_rom_msg = " "
             if rom.parent_rom is not None:
                 parent_rom_msg = f" {rom.parent_rom.file_name} "
-            bug_msg = " "
+            bug_msg = ""
             if str(lite_rom.file_name) in rom_file_name_to_bug_dict.keys():
                 bug_msg = f" {rom_file_name_to_bug_dict[str(lite_rom.file_name)]} "
             doc.write(
@@ -65,10 +65,10 @@ if __name__ == "__main__":
             )
 
         doc.write(
-            "\n建议优先使用 Arcade (FinalBurn Neo) 核心加载游戏。\n"
-            "\n我拥有游戏手柄和街机摇杆两种设备，为了避免来回修改按键映射的麻烦，我的做法是：\n"
-            "- 使用手柄的时候切换到 Arcade (FinalBurn Neo) 核心，采用手柄的按键映射方案；\n"
-            "- 使用街机摇杆的时候切换到 Arcade (FB Alpha 2012 CPS-2) 核心，采用街机摇杆的按键映射方案。\n"
+            "\n**建议优先使用 Arcade (FinalBurn Neo) 核心加载游戏。**\n"
+            "\n游戏手柄和街机摇杆的玩家，可以参考下面的做法，避免更换控制器时来回修改按键映射的麻烦：\n"
+            "- 使用游戏手柄的时候，选择 Arcade (FinalBurn Neo) 核心，采用游戏手柄的按键映射方案；\n"
+            "- 使用街机摇杆的时候，选择 Arcade (FB Alpha 2012) 核心，采用街机摇杆的按键映射方案。\n"
         )
 
         doc.close()
