@@ -17,7 +17,7 @@ if __name__ == "__main__":
     Init_Global_Configs()
 
     doc_path = LocalConfigs.export_to_directory().joinpath(
-        f"CPS1 Roms.md",
+        f"CPS1 Roms (Wii).md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
         print(f"【错误】无效的目标文件 {doc_path}")
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
         rom_file_name_to_bug_dict = {
             "cawing.zip": "第一关从云层下降到海面不久，后方出<br>现的敌机会呈现黑色，游戏随后卡死",
-            "forgottn.zip": "开始键无效",
+            "forgottn.zip": "部分按键无效",
         }
         index = 0
         for rom_file_name, bug in rom_file_name_to_bug_dict.items():
