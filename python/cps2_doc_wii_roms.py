@@ -17,7 +17,7 @@ if __name__ == "__main__":
     Init_Global_Configs()
 
     doc_path = LocalConfigs.export_to_directory().joinpath(
-        f"CPS2 Roms.md",
+        f"CPS2 Roms (Wii).md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
         print(f"【错误】无效的目标文件 {doc_path}")
