@@ -47,7 +47,6 @@ if __name__ == "__main__":
             "forgottnu.zip": "FB Alpha 的两个核心不可玩：<br>部分按键无效",
         }
 
-        roms_dir = LocalConfigs.export_to_directory().joinpath("arcade\\cps1")
         index = 0
         for lite_rom in sorted(cps1_lite_rom_list, key=lambda x: x.file_name):
             rom = RomsDB.query_rom(
