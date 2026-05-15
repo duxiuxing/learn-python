@@ -45,6 +45,7 @@ if __name__ == "__main__":
         rom_file_name_to_bug_dict = {
             "cawing.zip": "FB Alpha 的两个核心不可玩：<br>第一关从云层下降到海面不久，<br>后方出现的敌机会呈现黑色，<br>游戏随后卡死",
             "forgottnu.zip": "FB Alpha 的两个核心不可玩：<br>部分按键无效",
+            "sfzch.zip": "降配妥协之作<br>CPS2上的才是正式版",
         }
 
         index = 0

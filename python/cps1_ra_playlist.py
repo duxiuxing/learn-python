@@ -52,7 +52,7 @@ cps1_lite_rom_list = [
     LiteRom("mtwins.zip"),
     # S - 失落的世界
     LiteRom("forgottnu.zip"),
-    # S - 少年街霸1
+    # S - 少年街霸1 (CPS1版)
     LiteRom("sfzch.zip"),
     # S - 摔角霸王1
     LiteRom("slammast.zip"),
@@ -66,7 +66,7 @@ cps1_lite_rom_list = [
     LiteRom("willowj.zip"),
     # W - 威虎战机 雷暴行动
     LiteRom("varth.zip"),
-    # W - 问答信长之野望2 全国版
+    # W - 问答 信长之野望2
     LiteRom("qtono2j.zip"),
     # Y - 圆桌骑士
     LiteRom("knights.zip"),
