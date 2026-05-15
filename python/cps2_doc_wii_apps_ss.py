@@ -56,7 +56,7 @@ if __name__ == "__main__":
             app_list.append(app)
 
     doc_path = LocalConfigs.export_to_directory().joinpath(
-        "CPS1 Apps (RA-SS Hexaeco).md",
+        "CPS2 Apps (RA-SS Hexaeco).md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
         print(f"【错误】无效的目标文件 {doc_path}")

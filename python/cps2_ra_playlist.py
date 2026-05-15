@@ -8,7 +8,7 @@ from ra_playlist import RA_Playlist
 from ra_playlist_config import RA_PlaylistConfig
 
 cps2_lite_rom_list = [
-    # # - 1944 循环的征服者
+    # # - 1944 征服世界
     LiteRom("1944d.zip"),
     # # - 19XX 命运否决战
     LiteRom("19xxd.zip"),
@@ -16,7 +16,7 @@ cps2_lite_rom_list = [
     LiteRom("mpang.zip"),
     # C - 超级口袋战士
     LiteRom("sgemf.zip"),
-    # C - 超级街头霸王2 加强版
+    # C - 超级街头霸王2 加速版
     LiteRom("ssf2t.zip"),
     # C - 超级街头霸王2 周年纪念版
     LiteRom("hsf2.zip"),
@@ -44,12 +44,12 @@ cps2_lite_rom_list = [
     LiteRom("ddtod.zip"),
     # L - 龙与地下城2 暗黑秘影
     LiteRom("ddsom.zip"),
-    # M - 漫威对卡普空 超级英雄的碰撞
+    # M - 漫威对卡普空 超级英雄乱斗
     LiteRom("mvscud.zip"),
-    # M - 漫威对街霸
-    LiteRom("mshvsf.zip"),
     # M - 漫威超级英雄
     LiteRom("msh.zip"),
+    # M - 漫威超级英雄对街头霸王
+    LiteRom("mshvsf.zip"),
     # N - 能源之岚
     LiteRom("progear.zip"),
     # Q - 千兆之翼
@@ -70,16 +70,16 @@ cps2_lite_rom_list = [
     LiteRom("qndream.zip"),
     # X - X战警 磁场原子人
     LiteRom("xmcota.zip"),
-    # X - X战警对街霸
+    # X - X战警对街头霸王
     LiteRom("xmvsf.zip"),
-    # X - 吸血鬼救世主1 吸血鬼之王
-    LiteRom("vsav.zip"),
-    # X - 吸血鬼救世主2 吸血鬼之王
-    LiteRom("vsav2.zip"),
     # X - 吸血鬼猎人1 恶魔的复仇
     LiteRom("nwarr.zip"),
     # X - 吸血鬼猎人2 恶魔的复仇
     LiteRom("vhunt2.zip"),
+    # X - 恶魔救世主1 吸血鬼之王
+    LiteRom("vsav.zip"),
+    # X - 恶魔救世主2 吸血鬼之王
+    LiteRom("vsav2.zip"),
     # Y - 异形对铁血战士
     LiteRom("avsp.zip", "4BFE3F71"),
     # Y - 益智麻将牌 长江
