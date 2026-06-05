@@ -6,6 +6,7 @@ from helper import Helper
 from local_configs import LocalConfigs
 from pathlib import Path
 from PIL import Image
+from ra_configs import RA_Configs
 from resource_file_helper import ResourceFileHelper
 from wii_ra_app_configs import WiiRA_AppConfigs
 from wii_ra_configs import WiiRA_Configs
@@ -306,7 +307,7 @@ class WiiRA_App:
         )
         if len(self.configs.rom_file_relative_path_list) > 10:
             lpl_file_path = LocalConfigs.export_to_directory().joinpath(
-                f"apps\\{self.app_folder_name()}\\playlists\\{WiiRA_Configs.lpl_file_name()}",
+                f"apps\\{self.app_folder_name()}\\playlists\\{RA_Configs.lpl_file_name()}",
             )
         if not Helper.verify_exist_directory_ex(lpl_file_path.parent):
             print(f"【错误】无效的目标文件 {lpl_file_path}")
@@ -349,7 +350,7 @@ class WiiRA_App:
                 lpl_file.write(f'      "core_path": "{core_path}",\n')
                 lpl_file.write(f'      "core_name": "{WiiRA_Configs.core_name()}",\n')
                 lpl_file.write(f'      "crc32": "{rom.crc32}|crc",\n')
-                lpl_file.write(f'      "db_name": "{WiiRA_Configs.lpl_file_name()}"\n')
+                lpl_file.write(f'      "db_name": "{RA_Configs.lpl_file_name()}"\n')
                 lpl_file.write("    }")
 
             lpl_file.write("\n  ]\n}\n")

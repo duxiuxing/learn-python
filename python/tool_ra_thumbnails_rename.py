@@ -9,9 +9,9 @@ from games_db import GamesDB
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
+from ra_configs import RA_Configs
 from rom import Rom
 from roms_db import RomsDB
-from wii_ra_configs import WiiRA_Configs
 from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
@@ -39,13 +39,13 @@ class RA_ThumbnailsRename:
     @staticmethod
     def default_lpl_file_path():
         return LocalConfigs.retroarch_directory().joinpath(
-            "playlists", WiiRA_Configs.lpl_file_name()
+            "playlists", RA_Configs.lpl_file_name()
         )
 
     @staticmethod
     def default_thumbnails_directory():
         return LocalConfigs.retroarch_directory().joinpath(
-            "thumbnails", WiiRA_Configs.lpl_file_name().stem
+            "thumbnails", RA_Configs.lpl_file_name().stem
         )
 
     @staticmethod

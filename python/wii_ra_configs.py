@@ -34,12 +34,6 @@ class WiiRA_Configs:
     def core_info_file_name() -> Path:
         return WiiRA_Configs._core_info_file_name
 
-    _lpl_file_name = None
-
-    @staticmethod
-    def lpl_file_name() -> Path:
-        return WiiRA_Configs._lpl_file_name
-
     _release_date = None
 
     @staticmethod
