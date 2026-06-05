@@ -2,14 +2,13 @@
 
 import os
 
-from cps1_ra_playlist import cps1_lite_rom_list
+from cps1_ra_playlist import cps1_rom_file_name_list
 from game import Game
 from games_db import GamesDB
 from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
-from ra_playlist_config import LiteRom
 from rom import Rom
 from roms_db import RomsDB
 
@@ -49,10 +48,8 @@ if __name__ == "__main__":
         }
 
         index = 0
-        for lite_rom in sorted(cps1_lite_rom_list, key=lambda x: x.file_name):
-            rom = RomsDB.query_rom(
-                rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
-            )
+        for rom_file_name in sorted(cps1_rom_file_name_list):
+            rom = RomsDB.query_rom(rom_file_name=rom_file_name)
             game = GamesDB.query_game(game_id=rom.game_id)
 
             index = index + 1
@@ -60,10 +57,10 @@ if __name__ == "__main__":
             if rom.parent_rom is not None:
                 parent_rom_msg = f" {rom.parent_rom.file_name} "
             bug_msg = " "
-            if str(lite_rom.file_name) in rom_file_name_to_bug_dict.keys():
-                bug_msg = f" {rom_file_name_to_bug_dict[str(lite_rom.file_name)]} "
+            if str(rom_file_name) in rom_file_name_to_bug_dict.keys():
+                bug_msg = f" {rom_file_name_to_bug_dict[str(rom_file_name)]} "
             doc.write(
-                f"{index} | {lite_rom.file_name} | {rom.crc32} |{parent_rom_msg}| {game.zhcn_title} |{bug_msg}\n"
+                f"{index} | {rom_file_name} | {rom.crc32} |{parent_rom_msg}| {game.zhcn_title} |{bug_msg}\n"
             )
 
         doc.write(

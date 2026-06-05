@@ -40,7 +40,6 @@ class Init_Global_Configs:
         WiiRA_Configs._core_name = "Arcade (FB Alpha 2012 CPS-1)"
         WiiRA_Configs._core_file_name = Path("fbalpha2012_cps1_libretro_wii.dol")
         WiiRA_Configs._core_info_file_name = Path("fbalpha2012_cps1_libretro.info")
-        WiiRA_Configs._lpl_file_name = Path("Capcom - CP System I.lpl")
         WiiRA_Configs._release_date = "20251120"
         WiiRA_Configs._version = "1.22.2"
         WiiRA_Configs._roms_relative_directory = Path("arcade\\fba\\cps1")
@@ -77,7 +76,6 @@ if __name__ == "__main__":
     print(f"\tcore_name = {WiiRA_Configs.core_name()}")
     print(f"\tcore_file_name = {WiiRA_Configs.core_file_name()}")
     print(f"\tcore_info_file_name = {WiiRA_Configs.core_info_file_name()}")
-    print(f"\tdb_name = {WiiRA_Configs.lpl_file_name()}")
     print(f"\trelease_date = {WiiRA_Configs.release_date()}")
     print(f"\tversion = {WiiRA_Configs.version()}")
 
