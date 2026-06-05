@@ -4,11 +4,11 @@ from pathlib import Path
 
 
 class RA_Configs:
-    _db_name = None
+    _lpl_file_name = None
 
     @staticmethod
-    def db_name() -> Path:
-        return RA_Configs._db_name
+    def lpl_file_name() -> Path:
+        return RA_Configs._lpl_file_name
 
     _roms_relative_directory = None
 

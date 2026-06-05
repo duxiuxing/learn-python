@@ -306,7 +306,7 @@ class WiiRA_App:
         )
         if len(self.configs.rom_file_relative_path_list) > 10:
             lpl_file_path = LocalConfigs.export_to_directory().joinpath(
-                f"apps\\{self.app_folder_name()}\\playlists\\{WiiRA_Configs.db_name()}",
+                f"apps\\{self.app_folder_name()}\\playlists\\{WiiRA_Configs.lpl_file_name()}",
             )
         if not Helper.verify_exist_directory_ex(lpl_file_path.parent):
             print(f"【错误】无效的目标文件 {lpl_file_path}")
@@ -349,7 +349,7 @@ class WiiRA_App:
                 lpl_file.write(f'      "core_path": "{core_path}",\n')
                 lpl_file.write(f'      "core_name": "{WiiRA_Configs.core_name()}",\n')
                 lpl_file.write(f'      "crc32": "{rom.crc32}|crc",\n')
-                lpl_file.write(f'      "db_name": "{WiiRA_Configs.db_name()}"\n')
+                lpl_file.write(f'      "db_name": "{WiiRA_Configs.lpl_file_name()}"\n')
                 lpl_file.write("    }")
 
             lpl_file.write("\n  ]\n}\n")

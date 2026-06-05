@@ -22,7 +22,7 @@ if __name__ == "__main__":
     lpl_file_path = None
     while True:
         lpl_file_path = LocalConfigs.retroarch_directory().joinpath(
-            "playlists", WiiRA_Configs.db_name()
+            "playlists", WiiRA_Configs.lpl_file_name()
         )
         print("\n即将根据 .lpl 文件导出 ROM 文件")
         print(f"默认 .lpl 文件路径：{lpl_file_path}")

@@ -43,7 +43,7 @@ class RA_Playlist:
 
     def export_lpl_file(self):
         lpl_file_path = LocalConfigs.export_to_directory().joinpath(
-            f"playlists\\{RA_Configs.db_name()}",
+            f"playlists\\{RA_Configs.lpl_file_name()}",
         )
         if not Helper.verify_exist_directory_ex(lpl_file_path.parent):
             print(f"【错误】无效的目标文件 {lpl_file_path}")
@@ -87,7 +87,7 @@ class RA_Playlist:
                 lpl_file.write('      "core_path": "DETECT",\n')
                 lpl_file.write('      "core_name": "DETECT",\n')
                 lpl_file.write(f'      "crc32": "{rom.crc32}|crc",\n')
-                lpl_file.write(f'      "db_name": "{RA_Configs.db_name()}"\n')
+                lpl_file.write(f'      "db_name": "{RA_Configs.lpl_file_name()}"\n')
                 lpl_file.write("    }")
 
             lpl_file.write("\n  ]\n}\n")
@@ -98,7 +98,7 @@ class RA_Playlist:
             return
 
         dst_dir = LocalConfigs.export_to_directory().joinpath(
-            f"thumbnails\\{RA_Configs.db_name().stem}\\{dst_folder_name}",
+            f"thumbnails\\{RA_Configs.lpl_file_name().stem}\\{dst_folder_name}",
         )
         for rom in self.configs.rom_list:
             src_file_path = ResourceFileHelper.compute_rom_media_file_path(
