@@ -8,6 +8,7 @@ from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
+from ra_configs import RA_Configs
 from ra_rom import RA_Rom
 from resource_file_helper import ResourceFileHelper
 from rom import Rom
@@ -22,7 +23,7 @@ if __name__ == "__main__":
     lpl_file_path = None
     while True:
         lpl_file_path = LocalConfigs.retroarch_directory().joinpath(
-            "playlists", WiiRA_Configs.lpl_file_name()
+            "playlists", RA_Configs.lpl_file_name()
         )
         print("\n即将根据 .lpl 文件导出 ROM 文件")
         print(f"默认 .lpl 文件路径：{lpl_file_path}")
