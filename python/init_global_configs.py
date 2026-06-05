@@ -4,9 +4,9 @@ from local_configs import LocalConfigs
 from pathlib import Path
 from ra_configs import RA_Configs
 from roms_xml import RomsXML
-from wii_ra_app_configs import WiiRA_AppConfigs
+from wii_app_configs import Wii_AppConfigs
 from wii_ra_configs import WiiRA_Configs
-from wii_ra_ss_configs import WiiRA_SS_Configs
+from wii_ss_configs import WiiSS_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_plugins_data import WiiFlow_PluginsData
 
@@ -34,7 +34,7 @@ class Init_Global_Configs:
         RA_Configs._roms_relative_directory = Path("arcade\\cps1")
 
         # WiiRA_AppConfigs
-        WiiRA_AppConfigs._default_short_description = "Capcom Play System 1 Emulator"
+        Wii_AppConfigs._default_short_description = "Capcom Play System 1 Emulator"
 
         # WiiRA_Configs
         WiiRA_Configs._core_name = "Arcade (FB Alpha 2012 CPS-1)"
@@ -45,10 +45,10 @@ class Init_Global_Configs:
         WiiRA_Configs._roms_relative_directory = Path("arcade\\fba\\cps1")
 
         # WiiRA_SS_Configs
-        WiiRA_SS_Configs._core_file_name = Path("Arcade CPS1.dol")
-        WiiRA_SS_Configs._data_folder_name = "C1MOD"
+        WiiSS_Configs._core_file_name = Path("Arcade CPS1.dol")
+        WiiSS_Configs._data_folder_name = "C1MOD"
         # .dol 的修改时间
-        WiiRA_SS_Configs._release_date = "202205080706"
+        WiiSS_Configs._release_date = "202205080706"
 
         # WiiFlow_Configs
         WiiFlow_Configs._plugin_name = "CPS1"
@@ -69,7 +69,7 @@ if __name__ == "__main__":
 
     print("WiiRA_AppConfigs:")
     print(
-        f"\tdefault_short_description = {WiiRA_AppConfigs._default_short_description}"
+        f"\tdefault_short_description = {Wii_AppConfigs._default_short_description}"
     )
 
     print("WiiRA_Configs:")

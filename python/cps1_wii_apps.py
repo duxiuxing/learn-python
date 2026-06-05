@@ -4,9 +4,9 @@ from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
 from wii_ra_app import WiiRA_App
-from wii_ra_app_configs import WiiRA_AppConfigs
+from wii_app_configs import Wii_AppConfigs
 from wii_ra_configs import WiiRA_Configs
-from wii_ra_ss_app import WiiRA_SS_App
+from wii_ss_app import WiiSS_App
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -28,7 +28,7 @@ def add_game_app_configs(rom_file_title: str, app_name=None):
         f"{rom.file_title}{WiiFlow_Configs.rom_file_extension()}",
     )
 
-    app_configs = WiiRA_AppConfigs(
+    app_configs = Wii_AppConfigs(
         app_name=app_name,
         folder_name=rom_file_title,
         rom_file_relative_path_list=[rom_file_relative_path],
@@ -89,7 +89,7 @@ if __name__ == "__main__":
         )
         rom_file_relative_path_list.append(rom_file_relative_path)
 
-    ra_app_configs = WiiRA_AppConfigs(
+    ra_app_configs = Wii_AppConfigs(
         app_name="Capcom - CP System I",
         folder_name="cps1",
         rom_file_relative_path_list=rom_file_relative_path_list,
@@ -101,7 +101,7 @@ if __name__ == "__main__":
     )
 
     # 基于 RA-HEXAECO 核心的 App
-    ra_ss_app_configs = WiiRA_AppConfigs(
+    ra_ss_app_configs = Wii_AppConfigs(
         app_name="RA-SS CPS-1",
         folder_name="cps1",
         rom_file_relative_path_list=rom_file_relative_path_list,
@@ -171,7 +171,7 @@ if __name__ == "__main__":
         try:
             number = int(user_input)
             if number == 1:
-                device = WiiRA_AppConfigs.DEVICE_SD
+                device = Wii_AppConfigs.DEVICE_SD
 
                 ra_app_configs.device = device
                 WiiRA_App(ra_app_configs).export_all()
@@ -180,22 +180,22 @@ if __name__ == "__main__":
                     game_app = WiiRA_App(app_configs)
                     game_app.export_all()
             elif number == 2:
-                device = WiiRA_AppConfigs.DEVICE_SD
+                device = Wii_AppConfigs.DEVICE_SD
 
                 ra_ss_app_configs.device = device
-                WiiRA_SS_App(ra_ss_app_configs).export_all()
+                WiiSS_App(ra_ss_app_configs).export_all()
                 for app_configs in game_app_configs_list:
                     app_configs.device = device
-                    game_app = WiiRA_SS_App(app_configs)
+                    game_app = WiiSS_App(app_configs)
                     game_app.export_all()
             elif number == 3:
-                device = WiiRA_AppConfigs.DEVICE_USB
+                device = Wii_AppConfigs.DEVICE_USB
 
                 ra_ss_app_configs.device = device
-                WiiRA_SS_App(ra_ss_app_configs).export_all()
+                WiiSS_App(ra_ss_app_configs).export_all()
                 for app_configs in game_app_configs_list:
                     app_configs.device = device
-                    game_app = WiiRA_SS_App(app_configs)
+                    game_app = WiiSS_App(app_configs)
                     game_app.export_all()
             else:
                 break

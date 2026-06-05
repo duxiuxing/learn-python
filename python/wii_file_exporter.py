@@ -9,7 +9,7 @@ from local_configs import LocalConfigs
 from PIL import Image
 from ra_configs import RA_Configs
 from rom_export_configs import RomExportConfigs
-from wii_ra_app_configs import WiiRA_AppConfigs
+from wii_app_configs import Wii_AppConfigs
 from wii_ra_app_exporter import WiiRA_AppExporter
 from wii_ra_ss_app_exporter import WiiRA_SS_AppExporter
 
@@ -48,7 +48,7 @@ class WiiFileExporter:
         app_exporter = WiiRA_AppExporter()
         app_exporter.rom_export_configs = self._rom_export_configs
 
-        app_configs = WiiRA_AppConfigs()
+        app_configs = Wii_AppConfigs()
         app_configs.name = app_elem.get("name")
         app_configs.folder = app_elem.get("folder")
         if "rom_title" in app_elem.attrib:
@@ -79,7 +79,7 @@ class WiiFileExporter:
         app_exporter = WiiRA_SS_AppExporter()
         app_exporter.rom_export_configs = self._rom_export_configs
 
-        app_configs = WiiRA_AppConfigs()
+        app_configs = Wii_AppConfigs()
         app_configs.name = app_elem.get("name")
         app_configs.folder = app_elem.get("folder")
         if "rom_title" in app_elem.attrib:
