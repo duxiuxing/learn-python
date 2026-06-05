@@ -12,6 +12,8 @@ from pathlib import Path
 from rom import Rom
 from roms_db import RomsDB
 
+# https://github.com/R-Sam-1980/cps1 的 roms 分支
+# 生成文档 CPS1 Roms.md
 if __name__ == "__main__":
     Init_Global_Configs()
 

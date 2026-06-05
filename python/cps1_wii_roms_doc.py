@@ -13,6 +13,8 @@ from wiiflow_games_db import WiiFlow_GamesDB
 from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
+# https://github.com/R-Sam-1980/cps1 的 wii-roms 分支
+# 生成文档 CPS1 Roms (Wii).md
 if __name__ == "__main__":
     Init_Global_Configs()
 

@@ -18,7 +18,7 @@ from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
 
-class WiiApp:
+class WiiAppInfo:
     def __init__(self, folder_name):
         self.folder_name = folder_name
         self.name = None
@@ -26,6 +26,8 @@ class WiiApp:
         self.game_zhcn_title = None
 
 
+# https://github.com/R-Sam-1980/cps1 的 wii-ra-apps-sd 分支
+# 生成文档 CPS1 Apps (RetroArch).md
 if __name__ == "__main__":
     Init_Global_Configs()
 
@@ -36,7 +38,7 @@ if __name__ == "__main__":
         if not meta_xml_path.exists() or not meta_xml_path.is_file():
             continue
 
-        app = WiiApp(app_folder_name)
+        app = WiiAppInfo(app_folder_name)
         tree = ET.parse(meta_xml_path)
         root_elem = tree.getroot()
         for elem in root_elem:
@@ -56,7 +58,7 @@ if __name__ == "__main__":
             app_list.append(app)
 
     doc_path = LocalConfigs.export_to_directory().joinpath(
-        "CPS1 Apps (RA-SS Hexaeco).md",
+        "CPS1 Apps (RetroArch).md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
         print(f"【错误】无效的目标文件 {doc_path}")
@@ -67,8 +69,8 @@ if __name__ == "__main__":
     with open(doc_path, "w", encoding="utf-8") as doc:
         doc.write(
             "# CPS1 街机游戏 App 列表\n\n"
-            "1G1R1App 是 1 Game 1 ROM 1 App 的缩写，意思是一个游戏只选取一个版本的 ROM 文件，同时还有一个独立的 App 专门负责加载这个游戏的 ROM 文件。\n\n"
-            "以下是基于 RA-SS Hexaeco 的 Arcade CPS1.dol 核心制作的，CPS1 街机游戏 App 列表：\n\n"
+            "1G1R1App 是 one Game one ROM one App 的缩写，意思是一个游戏只选取一个版本的 ROM 文件，同时还有一个独立的 App 专门负责加载这个游戏的 ROM 文件。\n\n"
+            "以下是基于 Wii 版 RetroArch 的 fbalpha2012_cps1_libretro_wii.dol 核心制作的，CPS1 街机游戏 App 列表：\n\n"
             "## 按 App 名称排序\n\n"
             "序号 | App 名称 | App 图标 | 游戏中文名 | ROM 文件\n"
             "--- | --- | --- | --- | ---\n"

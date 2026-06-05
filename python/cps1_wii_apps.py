@@ -13,7 +13,6 @@ from wiiflow_games_db import WiiFlow_GamesDB
 from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
-
 game_app_configs_list = []
 
 
@@ -162,10 +161,9 @@ if __name__ == "__main__":
             continue
 
         print(
-            "\n1. 导出 wii-sd App (retroarch-wii 核心)\n"
-            "2. 导出 wii-sd-ss App (RA-HEXAECO 核心)\n"
-            "3. 导出 wii-usb App (retroarch-wii 核心)\n"
-            "4. 导出 wii-usb-ss App (RA-HEXAECO 核心)\n"
+            "\n1. 导出 App (retroarch-wii 核心) 到 wii-ra-apps-sd\n"
+            "2. 导出 App (RA-HEXAECO 核心) 到 wii-ss-apps-sd\n"
+            "3. 导出 App (RA-HEXAECO 核心) 到 wii-ss-apps-usb\n"
             "其他输入表示退出"
         )
         user_input = input("请输入操作的序号 > ")
@@ -191,15 +189,6 @@ if __name__ == "__main__":
                     game_app = WiiRA_SS_App(app_configs)
                     game_app.export_all()
             elif number == 3:
-                device = WiiRA_AppConfigs.DEVICE_USB
-
-                ra_app_configs.device = device
-                WiiRA_App(ra_app_configs).export_all()
-                for app_configs in game_app_configs_list:
-                    app_configs.device = device
-                    game_app = WiiRA_App(app_configs)
-                    game_app.export_all()
-            elif number == 4:
                 device = WiiRA_AppConfigs.DEVICE_USB
 
                 ra_ss_app_configs.device = device
