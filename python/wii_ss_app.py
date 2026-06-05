@@ -7,9 +7,9 @@ from local_configs import LocalConfigs
 from pathlib import Path
 from PIL import Image
 from resource_file_helper import ResourceFileHelper
+from wii_app_configs import Wii_AppConfigs
 from wii_ra_configs import WiiRA_Configs
-from wii_ra_app_configs import WiiRA_AppConfigs
-from wii_ra_ss_configs import WiiRA_SS_Configs
+from wii_ss_configs import WiiSS_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -17,8 +17,8 @@ from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
 
-class WiiRA_SS_App:
-    def __init__(self, configs: WiiRA_AppConfigs):
+class WiiSS_App:
+    def __init__(self, configs: Wii_AppConfigs):
         self.configs = configs
 
     def app_folder_name(self):
@@ -26,14 +26,14 @@ class WiiRA_SS_App:
 
     def data_directory(self):
         return LocalConfigs.export_to_directory().joinpath(
-            "private", WiiRA_SS_Configs.data_folder_name()
+            "private", WiiSS_Configs.data_folder_name()
         )
 
     def export_core_files(self):
         src_file_path = LocalConfigs.repository_directory().joinpath(
             "wii\\apps",
-            WiiRA_SS_Configs.core_folder_name(),
-            WiiRA_SS_Configs.core_file_name(),
+            WiiSS_Configs.core_folder_name(),
+            WiiSS_Configs.core_file_name(),
         )
         dst_file_path = LocalConfigs.export_to_directory().joinpath(
             f"apps\\{self.app_folder_name()}\\boot.dol"
@@ -79,7 +79,7 @@ class WiiRA_SS_App:
             xml_file.write("  <author>SuperrSonic &amp; R-Sam</author>\n")
             xml_file.write(f"  <version>{self.configs.device}</version>\n")
             xml_file.write(
-                f"  <release_date>{WiiRA_SS_Configs.release_date()}</release_date>\n"
+                f"  <release_date>{WiiSS_Configs.release_date()}</release_date>\n"
             )
             xml_file.write(
                 f"  <short_description>{self.configs.short_description()}</short_description>\n"
@@ -130,7 +130,7 @@ class WiiRA_SS_App:
                     f"    <arg>{self.configs.rom_file_relative_path_list[0].name}</arg>\n"
                 )
                 xml_file.write(
-                    f"    <arg>{self.configs.device}:/private/{WiiRA_SS_Configs.data_folder_name()}/{self.configs.rom_file_relative_path_list[0].stem}.cfg</arg>\n"
+                    f"    <arg>{self.configs.device}:/private/{WiiSS_Configs.data_folder_name()}/{self.configs.rom_file_relative_path_list[0].stem}.cfg</arg>\n"
                 )
                 xml_file.write("  </arguments>\n")
 
@@ -139,11 +139,11 @@ class WiiRA_SS_App:
 
     def configs_list(self):
         data_dir = (
-            f"{self.configs.device}:/private/{WiiRA_SS_Configs.data_folder_name()}"
+            f"{self.configs.device}:/private/{WiiSS_Configs.data_folder_name()}"
         )
-        system_directory = WiiRA_SS_Configs.system_directory()
+        system_directory = WiiSS_Configs.system_directory()
         if system_directory is None:
-            system_directory = f"private/{WiiRA_SS_Configs.data_folder_name()}/system"
+            system_directory = f"private/{WiiSS_Configs.data_folder_name()}/system"
         rgui_browser_directory = str(WiiRA_Configs.roms_relative_directory()).replace(
             "\\", "/"
         )
@@ -211,8 +211,8 @@ class WiiRA_SS_App:
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
             configs_dict = self.configs_dict()
             src_cfg_file_path = LocalConfigs.repository_directory().joinpath(
-                f"wii\\apps\\{WiiRA_SS_Configs.core_folder_name()}",
-                WiiRA_SS_Configs.core_cfg_template_file_name(),
+                f"wii\\apps\\{WiiSS_Configs.core_folder_name()}",
+                WiiSS_Configs.core_cfg_template_file_name(),
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
                 line = src_file.readline()

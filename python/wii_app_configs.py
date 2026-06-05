@@ -1,7 +1,7 @@
 # -- coding: UTF-8 --
 
 
-class WiiRA_AppConfigs:
+class Wii_AppConfigs:
     DEVICE_SD = "sd"
     DEVICE_USB = "usb"
 
@@ -17,4 +17,4 @@ class WiiRA_AppConfigs:
         self.long_description = None
 
     def short_description(self) -> str:
-        return WiiRA_AppConfigs._default_short_description
+        return Wii_AppConfigs._default_short_description
