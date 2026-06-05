@@ -244,7 +244,7 @@ class WiiRA_VM_App:
             dst_file.close()
 
     def export_playlist(self):
-        lpl_file_path = self.directory().joinpath("playlists", WiiRA_Configs.db_name())
+        lpl_file_path = self.directory().joinpath("playlists", WiiRA_Configs.lpl_file_name())
         if not Helper.verify_exist_directory_ex(
             self.directory().joinpath("playlists\\builtin")
         ):
@@ -286,7 +286,7 @@ class WiiRA_VM_App:
                 lpl_file.write(f'      "core_path": "{core_path}",\n')
                 lpl_file.write(f'      "core_name": "{WiiRA_Configs.core_name()}",\n')
                 lpl_file.write(f'      "crc32": "{rom.crc32}|crc",\n')
-                lpl_file.write(f'      "db_name": "{WiiRA_Configs.db_name()}"\n')
+                lpl_file.write(f'      "db_name": "{WiiRA_Configs.lpl_file_name()}"\n')
                 lpl_file.write("    }")
 
             lpl_file.write("\n  ]\n}\n")

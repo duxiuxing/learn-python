@@ -34,11 +34,11 @@ class WiiRA_Configs:
     def core_info_file_name() -> Path:
         return WiiRA_Configs._core_info_file_name
 
-    _db_name = None
+    _lpl_file_name = None
 
     @staticmethod
-    def db_name() -> Path:
-        return WiiRA_Configs._db_name
+    def lpl_file_name() -> Path:
+        return WiiRA_Configs._lpl_file_name
 
     _release_date = None
 
