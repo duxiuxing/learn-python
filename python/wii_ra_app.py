@@ -8,7 +8,7 @@ from pathlib import Path
 from PIL import Image
 from ra_configs import RA_Configs
 from resource_file_helper import ResourceFileHelper
-from wii_ra_app_configs import WiiRA_AppConfigs
+from wii_app_configs import Wii_AppConfigs
 from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
@@ -18,7 +18,7 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 
 
 class WiiRA_App:
-    def __init__(self, configs: WiiRA_AppConfigs):
+    def __init__(self, configs: Wii_AppConfigs):
         self.configs = configs
 
     def app_folder_name(self):
