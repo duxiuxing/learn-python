@@ -8,6 +8,7 @@ from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
+from ra_configs import RA_Configs
 from ra_rom import RA_Rom
 from resource_file_helper import ResourceFileHelper
 from rom import Rom
@@ -21,8 +22,8 @@ if __name__ == "__main__":
 
     lpl_file_path = None
     while True:
-        lpl_file_path = LocalConfigs.retroarch_directory().joinpath(
-            "playlists", WiiRA_Configs.db_name()
+        lpl_file_path = LocalConfigs.retroarch_directory.joinpath(
+            f"playlists\\{RA_Configs.lpl_file_name()}"
         )
         print("\n即将根据 .lpl 文件导出 ROM 文件")
         print(f"默认 .lpl 文件路径：{lpl_file_path}")
@@ -48,20 +49,20 @@ if __name__ == "__main__":
             ra_rom_list.append(ra_rom)
 
     while True:
-        export_to_dir = LocalConfigs.export_to_directory()
+        export_to_dir = LocalConfigs.export_to_directory
         print(f"\n即将导出 ROM 文件到目标文件夹\n默认目标文件夹路径：{export_to_dir}")
         user_input = input("请确认目标文件夹路径，使用默认路径请直接按回车 > ")
         if len(user_input) > 0:
             export_to_dir = Path(user_input)
 
         if export_to_dir.exists() and export_to_dir.is_dir():
-            LocalConfigs._export_to_directory = export_to_dir
+            LocalConfigs.export_to_directory = export_to_dir
         else:
             print(f"【错误】无效的文件夹路径：{export_to_dir}")
             continue
 
-        dst_roms_dir = LocalConfigs.export_to_directory().joinpath(
-            WiiRA_Configs.roms_relative_directory()
+        dst_roms_dir = LocalConfigs.export_to_directory.joinpath(
+            WiiRA_Configs.rom_relative_folder_win_path()
         )
         if not Helper.verify_exist_directory_ex(dst_roms_dir):
             print(f"【错误】无效的文件夹路径：{dst_roms_dir}")

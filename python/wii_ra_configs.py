@@ -1,59 +1,41 @@
 # -- coding: UTF-8 --
 
+from local_configs import LocalConfigs
 from pathlib import Path
 
 
 class WiiRA_Configs:
-    _core_cfg_file_name = Path("retroarch.cfg")
+    default_cfg_file_name = Path("retroarch.cfg")
+
+    core_file_name = None
+    core_info_file_name = None
+    core_name = None
+
+    # Wii 版 RetroArch 的 App 文件夹名称
+    app_folder_name = "retroarch-wii"
 
     @staticmethod
-    def core_cfg_file_name() -> Path:
-        return WiiRA_Configs._core_cfg_file_name
+    def src_app_directory() -> Path:
+        return LocalConfigs.repository_directory.joinpath(
+            f"wii\\apps\\{WiiRA_Configs.app_folder_name}"
+        )
 
-    _core_name = None
+    # Wii 版 RetroArch 的发布年月日，比如 "20251120"
+    release_date = None
 
-    @staticmethod
-    def core_name() -> str:
-        return WiiRA_Configs._core_name
+    # Wii 版 RetroArch 的版本号，比如 "1.22.2"
+    version = None
 
-    _core_file_name = None
-
-    @staticmethod
-    def core_file_name() -> Path:
-        return WiiRA_Configs._core_file_name
-
-    _core_folder_name = "retroarch-wii"
+    # ROM 文件所在文件夹的相对路径，比如 Path("arcade\\fba\\cps1")
+    rom_relative_folder_win_path = None
 
     @staticmethod
-    def core_folder_name() -> str:
-        return WiiRA_Configs._core_folder_name
-
-    _core_info_file_name = None
-
-    @staticmethod
-    def core_info_file_name() -> Path:
-        return WiiRA_Configs._core_info_file_name
-
-    _db_name = None
+    def rom_folder_wii_path(device) -> str:
+        path = str(WiiRA_Configs.rom_relative_folder_win_path).replace("\\", "/")
+        return f"{device}:/{path}"
 
     @staticmethod
-    def db_name() -> Path:
-        return WiiRA_Configs._db_name
+    def retroarch_folder_wii_path(device) -> str:
+        return f"{device}:/retroarch"
 
-    _release_date = None
-
-    @staticmethod
-    def release_date() -> str:
-        return WiiRA_Configs._release_date
-
-    _version = None
-
-    @staticmethod
-    def version() -> str:
-        return WiiRA_Configs._version
-
-    _roms_relative_directory = None
-
-    @staticmethod
-    def roms_relative_directory() -> Path:
-        return WiiRA_Configs._roms_relative_directory
+    settings_list = None
