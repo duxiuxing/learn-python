@@ -7,24 +7,12 @@ from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
-from wii_ra_app import WiiRA_App
-from wii_app_configs import Wii_AppConfigs
-from wii_ra_configs import WiiRA_Configs
-from wii_ss_app import WiiSS_App
+from wii_app_info import Wii_AppInfo
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
 from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
-
-
-class WiiAppInfo:
-    def __init__(self, folder_name):
-        self.folder_name = folder_name
-        self.name = None
-        self.rom_file_name = None
-        self.game_zhcn_title = None
-
 
 # https://github.com/R-Sam-1980/cps1 的 wii-ra-apps-sd 分支
 # 生成文档 CPS1 Apps (RetroArch).md
@@ -38,7 +26,7 @@ if __name__ == "__main__":
         if not meta_xml_path.exists() or not meta_xml_path.is_file():
             continue
 
-        app = WiiAppInfo(app_folder_name)
+        app = Wii_AppInfo(app_folder_name)
         tree = ET.parse(meta_xml_path)
         root_elem = tree.getroot()
         for elem in root_elem:

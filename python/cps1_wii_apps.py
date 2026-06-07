@@ -3,42 +3,15 @@
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
-from ra_configs import RA_Configs
-from ra_playlist_config import RA_PlaylistConfig
-from ra_playlist_item import RA_PlaylistItem
-from wii_ra_app import WiiRA_App
+from wii_app_configs import add_game_app_configs
+from wii_app_configs import game_app_configs_list
 from wii_app_configs import Wii_AppConfigs
-from wii_ra_configs import WiiRA_Configs
+from wii_ra_app import WiiRA_App
 from wii_ss_app import WiiSS_App
-from wiiflow_configs import WiiFlow_Configs
-from wiiflow_game import WiiFlow_Game
-from wiiflow_games_db import WiiFlow_GamesDB
-from wiiflow_rom import WiiFlow_Rom
-from wiiflow_roms_db import WiiFlow_RomsDB
-
-game_app_configs_list = []
-
-
-def add_game_app_configs(rom_file_title: str, app_name=None):
-    rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
-    game = WiiFlow_GamesDB.query_game(rom.game_id)
-    if app_name is None:
-        app_name = game.name
-    elif app_name == game.name:
-        print(f"【提示】{rom.file_title} App 无需指定 app_name")
-
-    app_configs = Wii_AppConfigs(
-        app_name=app_name,
-        base_app_folder_name=rom_file_title,
-        rom=rom,
-    )
-    game_app_configs_list.append(app_configs)
-
 
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    # 基于 retroarch-wii 核心的 App
     rom_file_title_list = [
         "1941",
         "cworld2j",
@@ -74,11 +47,6 @@ if __name__ == "__main__":
         "wof",
         "willow",
     ]
-
-    game_list = []
-    for rom_file_title in rom_file_title_list:
-        game_id = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title).game_id
-        game_list.append(WiiFlow_GamesDB.query_game(game_id=game_id))
 
     cps1_ra_app_configs = Wii_AppConfigs(
         app_name="Capcom - CP System I",
@@ -165,17 +133,7 @@ if __name__ == "__main__":
                 device = Wii_AppConfigs.DEVICE_SD
 
                 cps1_ra_app_configs.device = device
-                cps1_ra_app_configs.playlist_configs = RA_PlaylistConfig()
-                rom_folder_wii_path = WiiRA_Configs.rom_folder_wii_path(device)
-                for game in sorted(game_list, key=lambda x: x.name):
-                    rom = WiiFlow_RomsDB.query_rom(game_id=game.id)
-                    item = RA_PlaylistItem(
-                        path=f"{rom_folder_wii_path}/{rom.file_name()}",
-                        label=game.name,
-                        crc32=rom.crc32,
-                        db_name=RA_Configs.lpl_file_name(),
-                    )
-                    cps1_ra_app_configs.playlist_configs.item_list.append(item)
+                cps1_ra_app_configs.init_playlist_configs(rom_file_title_list)
                 WiiRA_App(cps1_ra_app_configs).export_all()
 
                 for game_app_configs in game_app_configs_list:

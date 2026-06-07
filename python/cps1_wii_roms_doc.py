@@ -19,7 +19,7 @@ if __name__ == "__main__":
     Init_Global_Configs()
 
     doc_path = LocalConfigs.export_to_directory.joinpath(
-        f"CPS1 Roms (Wii).md",
+        "CPS1 Roms (Wii).md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
         print(f"【错误】无效的目标文件 {doc_path}")
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         )
 
         roms_dir = LocalConfigs.export_to_directory.joinpath(
-            WiiRA_Configs.rom_relative_folder_win_path()
+            WiiRA_Configs.rom_relative_folder_win_path
         )
         index = 0
         for rom_file_name in os.listdir(roms_dir):

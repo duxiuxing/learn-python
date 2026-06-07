@@ -18,7 +18,7 @@ if __name__ == "__main__":
     Init_Global_Configs()
 
     doc_path = LocalConfigs.export_to_directory.joinpath(
-        f"CPS1 Roms.md",
+        "CPS1 Roms.md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
         print(f"【错误】无效的目标文件 {doc_path}")
@@ -35,7 +35,7 @@ if __name__ == "__main__":
             "- Arcade (FB Alpha 2012)\n"
             "- Arcade (FinalBurn Neo)\n"
             "- Arcade (MAME...) 系列核心\n\n"
-            "1G1R 是 1 Game 1 ROM 的缩写，意思是一个游戏只选取一个最佳版本的 ROM 文件。\n\n"
+            "1G1R 是 one Game one ROM 的缩写，意思是一个游戏只选取一个最佳版本的 ROM 文件。\n\n"
             "下面这份 CPS1 街机游戏列表，是根据 FBNeo - Arcade Games.rdb 数据库里 ROM 文件描述，按照 1G1R 的策略收集整理的，当一个游戏有多个版本的 ROM 文件时，筛选规则如下：\n"
             "1. 只支持 FinalBurn Neo，不支持 FB Alpha 2012 CPS-1 和 FB Alpha 2012 的 ROM 文件淘汰；\n"
             "2. 如果不止一个版本的 ROM 文件支持多核心，优先选择没有依赖的 ROM 文件。\n\n"
