@@ -1,28 +1,39 @@
 # -- coding: UTF-8 --
 
+from game import Game
+from games_db import GamesDB
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
-from ra_playlist import LiteRom
+from ra_configs import RA_Configs
 from ra_playlist import RA_Playlist
 from ra_playlist_config import RA_PlaylistConfig
+from ra_playlist_item import RA_PlaylistItem
+from rom import Rom
+from roms_db import RomsDB
 
-cps3_lite_rom_list = [
-    LiteRom("redearth.zip"),
-    LiteRom("jojon.zip"),
-    LiteRom("jojobaner1.zip"),
-    LiteRom("sfiiin.zip"),
-    LiteRom("sfiii2.zip"),
-    LiteRom("sfiii3.zip"),
+cps3_rom_file_name_list = [
+    # C - 赤色大地
+    "redearth.zip",
+    # J - JOJO的奇妙冒险1
+    "jojon.zip",
+    # J - JOJO的奇妙冒险2 未来遗产
+    "jojobaner1.zip",
+    # J - 街头霸王3.1 新纪元
+    "sfiiin.zip",
+    # J - 街头霸王3.2 巨型打击
+    "sfiii2.zip",
+    # J - 街头霸王3.3 未来战斗
+    "sfiii3.zip",
 ]
 
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    configs = RA_PlaylistConfig(cps3_lite_rom_list)
+    configs = RA_PlaylistConfig()
 
     while True:
-        export_to_dir = LocalConfigs.export_to_directory()
+        export_to_dir = LocalConfigs.export_to_directory
         print(
             f"\n即将导出列表和缩略图到目标文件夹\n默认目标文件夹路径：{export_to_dir}"
         )
@@ -31,7 +42,7 @@ if __name__ == "__main__":
             export_to_dir = Path(user_input)
 
         if export_to_dir.exists() and export_to_dir.is_dir():
-            LocalConfigs._export_to_directory = export_to_dir
+            LocalConfigs.export_to_directory = export_to_dir
         else:
             print(f"【错误】无效的文件夹路径：{export_to_dir}")
             continue
@@ -48,50 +59,95 @@ if __name__ == "__main__":
         try:
             number = int(user_input)
             if number == 1:
-                configs.rom_path_prefix = "/storage/emulated/0/arcade/cps3/"
-                configs.use_zhcn_title_as_label = True
-                configs.png_file_match_rom_file = True
+                # Android
+                for rom_file_name in cps3_rom_file_name_list:
+                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                    game = GamesDB.query_game(game_id=rom.game_id)
+                    item = RA_PlaylistItem(
+                        path=f"/storage/emulated/0/arcade/cps3/{rom_file_name}",
+                        label=game.zhcn_title,
+                        crc32=rom.crc32,
+                        db_name=RA_Configs.lpl_file_name(),
+                    )
+                    configs.item_list.append(item)
 
+                configs.png_file_match_rom_file = True
                 configs.boxarts_folder = "boxart-stuartc49"
                 configs.logos_folder = "logo"
                 configs.snaps_folder = "snap"
                 configs.titles_folder = "title"
                 break
             elif number == 2:
-                configs.rom_path_prefix = "~/Documents/RetroArch/arcade/cps3/"
-                configs.use_zhcn_title_as_label = True
-                configs.png_file_match_rom_file = True
+                # iPad
+                for rom_file_name in cps3_rom_file_name_list:
+                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                    game = GamesDB.query_game(game_id=rom.game_id)
+                    item = RA_PlaylistItem(
+                        path=f"~/Documents/RetroArch/arcade/cps3/{rom_file_name}",
+                        label=game.zhcn_title,
+                        crc32=rom.crc32,
+                        db_name=RA_Configs.lpl_file_name(),
+                    )
+                    configs.item_list.append(item)
 
+                configs.png_file_match_rom_file = True
                 configs.boxarts_folder = "boxart-stuartc49"
                 configs.logos_folder = "logo"
                 configs.snaps_folder = "snap"
                 configs.titles_folder = "title"
                 break
             elif number == 3:
-                configs.rom_path_prefix = "/dev_hdd0/game/RETROARCH/USRDIR/arcade/cps3/"
-                configs.use_zhcn_title_as_label = True
-                configs.png_file_match_rom_file = False
+                # PS3
+                for rom_file_name in cps3_rom_file_name_list:
+                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                    game = GamesDB.query_game(game_id=rom.game_id)
+                    item = RA_PlaylistItem(
+                        path=f"/dev_hdd0/game/RETROARCH/USRDIR/arcade/cps3/{rom_file_name}",
+                        label=game.zhcn_title,
+                        crc32=rom.crc32,
+                        db_name=RA_Configs.lpl_file_name(),
+                    )
+                    configs.item_list.append(item)
 
+                configs.png_file_match_rom_file = False
                 configs.boxarts_folder = "boxart-stuartc49"
                 configs.logos_folder = None
                 configs.snaps_folder = "snap"
                 configs.titles_folder = "title"
                 break
             elif number == 4:
-                configs.rom_path_prefix = "X:\\\\arcade\\\\cps3\\\\"
-                configs.use_zhcn_title_as_label = True
-                configs.png_file_match_rom_file = True
+                # Windows
+                for rom_file_name in cps3_rom_file_name_list:
+                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                    game = GamesDB.query_game(game_id=rom.game_id)
+                    item = RA_PlaylistItem(
+                        path=f"X:\\\\arcade\\\\cps3\\\\{rom_file_name}",
+                        label=game.zhcn_title,
+                        crc32=rom.crc32,
+                        db_name=RA_Configs.lpl_file_name(),
+                    )
+                    configs.item_list.append(item)
 
+                configs.png_file_match_rom_file = True
                 configs.boxarts_folder = "boxart-stuartc49"
                 configs.logos_folder = "logo"
                 configs.snaps_folder = "snap"
                 configs.titles_folder = "title"
                 break
             elif number == 5:
-                configs.rom_path_prefix = "E:\\\\arcade\\\\cps3\\\\"
-                configs.use_zhcn_title_as_label = True
-                configs.png_file_match_rom_file = True
+                # XBOX
+                for rom_file_name in cps3_rom_file_name_list:
+                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                    game = GamesDB.query_game(game_id=rom.game_id)
+                    item = RA_PlaylistItem(
+                        path=f"E:\\\\arcade\\\\cps3\\\\{rom_file_name}",
+                        label=game.zhcn_title,
+                        crc32=rom.crc32,
+                        db_name=RA_Configs.lpl_file_name(),
+                    )
+                    configs.item_list.append(item)
 
+                configs.png_file_match_rom_file = True
                 configs.boxarts_folder = "boxart-stuartc49"
                 configs.logos_folder = "logo"
                 configs.snaps_folder = "snap"

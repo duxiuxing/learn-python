@@ -13,11 +13,13 @@ from wiiflow_games_db import WiiFlow_GamesDB
 from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
+# https://github.com/R-Sam-1980/cps3 的 wii-roms 分支
+# 生成文档 CPS3 Roms (Wii).md
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    doc_path = LocalConfigs.export_to_directory().joinpath(
-        f"CPS3 Roms (Wii).md",
+    doc_path = LocalConfigs.export_to_directory.joinpath(
+        "CPS3 Roms (Wii).md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
         print(f"【错误】无效的目标文件 {doc_path}")
@@ -35,8 +37,8 @@ if __name__ == "__main__":
             "--- | --- | --- | --- | ---\n"
         )
 
-        roms_dir = LocalConfigs.export_to_directory().joinpath(
-            WiiRA_Configs.roms_relative_directory()
+        roms_dir = LocalConfigs.export_to_directory.joinpath(
+            WiiRA_Configs.roms_relative_directory
         )
         index = 0
         for rom_file_name in os.listdir(roms_dir):
