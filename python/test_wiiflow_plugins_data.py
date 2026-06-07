@@ -12,8 +12,8 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 
 
 def f1_generate_roms_xml():
-    plugin_name = WiiFlow_Configs.plugin_name()
-    roms_xml_path = LocalConfigs.repository_directory().joinpath(
+    plugin_name = WiiFlow_Configs.plugin_name
+    roms_xml_path = LocalConfigs.repository_directory.joinpath(
         f"wii\\wiiflow\\plugins_data\\{plugin_name}\\roms.xml"
     )
     if roms_xml_path.exists() and roms_xml_path.is_file():
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     Init_Global_Configs()
 
     while True:
-        print(f"\n1. 依据 {WiiFlow_Configs.plugin_name()}.xml 生成 roms.xml")
+        print(f"\n1. 依据 {WiiFlow_Configs.plugin_name}.xml 生成 roms.xml")
         print("2. 依据类型打印游戏列表")
         print("3. 依据 en_title 音序打印列表")
         print("4. 依据 en_title 音序打印 ROM 文件列表")

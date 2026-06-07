@@ -24,8 +24,8 @@ if __name__ == "__main__":
 
     src_dir = None
     while True:
-        src_dir = LocalConfigs.import_from_directory().joinpath(
-            f"games\\{WiiFlow_Configs.plugin_name().lower()}-import"
+        src_dir = LocalConfigs.import_from_directory.joinpath(
+            f"games\\{WiiFlow_Configs.plugin_name.lower()}-import"
         )
         print("\n即将导入源文件夹里的 ROM 文件")
         print(f"默认源文件夹路径：{src_dir}")

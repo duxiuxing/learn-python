@@ -34,7 +34,7 @@ class RA_Playlist:
         Helper.copy_file_to_directory(src_file_path, dst_dir)
 
     def export_rom_files(self):
-        dst_dir = LocalConfigs.export_to_directory().joinpath(
+        dst_dir = LocalConfigs.export_to_directory.joinpath(
             RA_Configs.roms_relative_directory()
         )
         for item in self.configs.item_list:
@@ -43,9 +43,7 @@ class RA_Playlist:
             RA_Playlist.export_rom_file(rom.parent_rom, dst_dir)
 
     def export_lpl_file(self):
-        lpl_file_path = LocalConfigs.export_to_directory().joinpath(
-            f"playlists\\{RA_Configs.lpl_file_name()}",
-        )
+        lpl_file_path = self.configs.get_lpl_file_path()
         if not Helper.verify_exist_directory_ex(lpl_file_path.parent):
             print(f"【错误】无效的目标文件 {lpl_file_path}")
             return
@@ -53,19 +51,7 @@ class RA_Playlist:
             lpl_file_path.unlink()
 
         with open(lpl_file_path, "w", encoding="utf-8") as lpl_file:
-            head = (
-                "{\n"
-                '  "version": "1.5",\n'
-                '  "default_core_path": "DETECT",\n'
-                '  "default_core_name": "DETECT",\n'
-                '  "label_display_mode": 0,\n'
-                '  "right_thumbnail_mode": 4,\n'
-                '  "left_thumbnail_mode": 2,\n'
-                '  "thumbnail_match_mode": 0,\n'
-                '  "sort_mode": 1,\n'
-                '  "items": [\n'
-            )
-            lpl_file.write(head)
+            lpl_file.write(self.configs.get_head())
 
             first_item = True
             for item in self.configs.item_list:
@@ -90,7 +76,7 @@ class RA_Playlist:
         if src_folder_name is None:
             return
 
-        dst_dir = LocalConfigs.export_to_directory().joinpath(
+        dst_dir = LocalConfigs.export_to_directory.joinpath(
             f"thumbnails\\{RA_Configs.lpl_file_name().stem}\\{dst_folder_name}",
         )
         for item in self.configs.item_list:

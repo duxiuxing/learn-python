@@ -1,44 +1,32 @@
 # -- coding: UTF-8 --
 
+from local_configs import LocalConfigs
 from pathlib import Path
 
 
 class WiiSS_Configs:
-    _core_cfg_template_file_name = None
+    template_cfg_file_name = None
 
     @staticmethod
     def core_cfg_template_file_name() -> Path:
-        if WiiSS_Configs._core_cfg_template_file_name is None:
-            return f"{WiiSS_Configs.core_file_name().stem}.cfg"
+        if WiiSS_Configs.template_cfg_file_name is None:
+            return f"{WiiSS_Configs.core_file_name.stem}.cfg"
         else:
-            return WiiSS_Configs._core_cfg_template_file_name
+            return WiiSS_Configs.template_cfg_file_name
 
-    _core_file_name = None
+    core_file_name = None
 
-    @staticmethod
-    def core_file_name() -> Path:
-        return WiiSS_Configs._core_file_name
-
-    _core_folder_name = "RA-HEXAECO"
+    # App 文件夹名称
+    app_folder_name = "RA-HEXAECO"
 
     @staticmethod
-    def core_folder_name() -> str:
-        return WiiSS_Configs._core_folder_name
+    def src_app_directory() -> Path:
+        return LocalConfigs.repository_directory.joinpath(
+            f"wii\\apps\\{WiiSS_Configs.app_folder_name}"
+        )
 
-    _data_folder_name = None
+    # private 文件夹里的数据文件夹名称
+    data_folder_name = None
 
-    @staticmethod
-    def data_folder_name() -> str:
-        return WiiSS_Configs._data_folder_name
-
-    _release_date = None
-
-    @staticmethod
-    def release_date() -> str:
-        return WiiSS_Configs._release_date
-
-    _system_directory = None
-
-    @staticmethod
-    def system_directory() -> str:
-        return WiiSS_Configs._system_directory
+    # .dol 的发布年月日
+    release_date = None

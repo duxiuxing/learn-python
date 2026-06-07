@@ -45,7 +45,7 @@ class RomsXML:
                 game.rom_list.append(rom)
 
     def __init__(self):
-        repository_dir = LocalConfigs.repository_directory()
+        repository_dir = LocalConfigs.repository_directory
         if Helper.files_in_letter_folder():
             for letter in "#ABCDEFGHIJKLMNOPQRSTUVWXYZ":
                 xml_file_path = repository_dir.joinpath(f"roms\\{letter}\\{letter}.xml")

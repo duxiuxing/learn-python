@@ -21,15 +21,16 @@ class WiiRA_VM_App:
     def __init__(self, configs: Wii_AppConfigs):
         self.configs = configs
 
+    def folder_name(self):
+        return f"{self.configs.device}-{self.configs.base_app_folder_name}"
+
     def directory(self):
-        return LocalConfigs.export_to_directory().joinpath(
-            "apps", f"{self.configs.folder_name}-{self.configs.device}"
+        return LocalConfigs.export_to_directory.joinpath(
+            "apps", f"{self.configs._base_folder_name}-{self.configs.device}"
         )
 
     def export_core_files(self):
-        src_app_dir = LocalConfigs.repository_directory().joinpath(
-            "wii\\apps", WiiRA_Configs.core_folder_name()
-        )
+        src_app_dir = WiiRA_Configs.src_app_directory()
         dst_app_dir = self.directory()
 
         src_dir = src_app_dir.joinpath("info")
@@ -76,10 +77,10 @@ class WiiRA_VM_App:
             xml_file.write(f"  <name>{app_name}</name>\n")
             xml_file.write("  <author>MundoWiiHACK &amp; R-Sam</author>\n")
             xml_file.write(
-                f"  <version>{WiiRA_Configs.version()}.{self.configs.device}</version>\n"
+                f"  <version>{WiiRA_Configs.version}.{self.configs.device}</version>\n"
             )
             xml_file.write(
-                f"  <release_date>{WiiRA_Configs.release_date()}</release_date>\n"
+                f"  <release_date>{WiiRA_Configs.release_date}</release_date>\n"
             )
             xml_file.write(
                 f"  <short_description>{self.configs.short_description()}</short_description>\n"
@@ -105,7 +106,7 @@ class WiiRA_VM_App:
                     f"  <long_description>{self.configs.long_description}\n\n"
                 )
 
-            lower_plugin_name = WiiFlow_Configs.plugin_name().lower()
+            lower_plugin_name = WiiFlow_Configs.plugin_name.lower()
             xml_file.write(
                 f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}\n"
             )
@@ -131,7 +132,7 @@ class WiiRA_VM_App:
             xml_file.close()
 
     def configs_list(self):
-        app_dir = f"{self.configs.device}:/apps/{self.configs.folder_name}-{self.configs.device}"
+        app_dir = f"{self.configs.device}:/apps/{self.configs._base_folder_name}-{self.configs.device}"
         retroarch_dir = f"{self.configs.device}:/retroarch"
 
         list_ret = [
@@ -218,8 +219,8 @@ class WiiRA_VM_App:
         return dict_ret
 
     def export_retroarch_vm_cfg(self):
-        dst_cfg_file_path = LocalConfigs.export_to_directory().joinpath(
-            "retroarch", WiiRA_Configs.core_cfg_file_name()
+        dst_cfg_file_path = LocalConfigs.export_to_directory.joinpath(
+            "retroarch", WiiRA_Configs.default_cfg_file_name
         )
         if not Helper.verify_exist_directory_ex(dst_cfg_file_path.parent):
             print(f"【错误】无效的目标文件 {dst_cfg_file_path}")
@@ -229,9 +230,8 @@ class WiiRA_VM_App:
 
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
             configs_dict = self.configs_dict()
-            src_cfg_file_path = LocalConfigs.repository_directory().joinpath(
-                f"wii\\apps\\{WiiRA_Configs.core_folder_name()}",
-                WiiRA_Configs.core_cfg_file_name(),
+            src_cfg_file_path = WiiRA_Configs.src_app_directory().joinpath(
+                WiiRA_Configs.default_cfg_file_name,
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
                 line = src_file.readline()
@@ -255,7 +255,7 @@ class WiiRA_VM_App:
             lpl_file_path.unlink()
 
         with open(lpl_file_path, "w", encoding="utf-8") as lpl_file:
-            core_path = f"{self.configs.device}:/apps/{self.configs.folder_name}-{self.configs.device}/{WiiRA_Configs.core_file_name()}"
+            core_path = f"{self.configs.device}:/apps/{self.configs._base_folder_name}-{self.configs.device}/{WiiRA_Configs.core_file_name()}"
             head = (
                 "{\n"
                 '  "version": "1.2",\n'

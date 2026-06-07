@@ -22,33 +22,48 @@ class WiiSS_App:
         self.configs = configs
 
     def app_folder_name(self):
-        return f"{self.configs.device}-{self.configs.folder_name}-ss"
+        return f"{self.configs.device}-{self.configs.base_app_folder_name}-ss"
 
-    def data_directory(self):
-        return LocalConfigs.export_to_directory().joinpath(
-            "private", WiiSS_Configs.data_folder_name()
+    def app_folder_win_path(self) -> Path:
+        return LocalConfigs.export_to_directory.joinpath(
+            f"apps\\{self.app_folder_name()}"
         )
 
+    def app_folder_wii_path(self) -> str:
+        return f"{self.configs.device}:/apps/{self.app_folder_name()}"
+
+    def boot_dol_win_path(self) -> Path:
+        return self.app_folder_win_path().joinpath("boot.dol")
+
+    def icon_png_win_path(self) -> Path:
+        return self.app_folder_win_path().joinpath("icon.png")
+
+    def meta_xml_win_path(self) -> Path:
+        return self.app_folder_win_path().joinpath("meta.xml")
+
+    def data_folder_win_path(self) -> Path:
+        return LocalConfigs.export_to_directory.joinpath(
+            f"private\\{WiiSS_Configs.data_folder_name}"
+        )
+
+    def data_folder_wii_path(self) -> str:
+        return f"{self.configs.device}:/private/{WiiSS_Configs.data_folder_name}"
+
+    # 拷贝 boot.dol
     def export_core_files(self):
-        src_file_path = LocalConfigs.repository_directory().joinpath(
-            "wii\\apps",
-            WiiSS_Configs.core_folder_name(),
-            WiiSS_Configs.core_file_name(),
+        src_core_file_path = WiiSS_Configs.src_app_directory().joinpath(
+            WiiSS_Configs.core_file_name,
         )
-        dst_file_path = LocalConfigs.export_to_directory().joinpath(
-            f"apps\\{self.app_folder_name()}\\boot.dol"
-        )
-        Helper.copy_file_if_not_exist(src_file_path, dst_file_path)
+        Helper.copy_file_if_not_exist(src_core_file_path, self.boot_dol_win_path())
 
+    # logo 转 icon
     def export_icon_png(self):
         game = Game(id=None, en_title=self.configs.app_name, zhcn_title=None)
         src_icon_png_path = ResourceFileHelper.compute_game_media_file_path(
             game, "logo", ".png"
         )
         if not src_icon_png_path.exists():
-            rom_file_title = self.configs.rom_file_relative_path_list[0].stem
-            rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
-            game = GamesDB.query_game(game_id=rom.game_id)
+            game = GamesDB.query_game(game_id=self.configs.rom.game_id)
             src_icon_png_path = ResourceFileHelper.compute_game_media_file_path(
                 game, "logo", ".png"
             )
@@ -56,18 +71,14 @@ class WiiSS_App:
                 print(f"【错误】无效的源文件 {src_icon_png_path}")
                 return
 
-        dst_icon_png_path = LocalConfigs.export_to_directory().joinpath(
-            f"apps\\{self.app_folder_name()}\\icon.png"
-        )
+        dst_icon_png_path = self.icon_png_win_path()
         if dst_icon_png_path.exists() and dst_icon_png_path.is_file():
             dst_icon_png_path.unlink()
 
         Image.open(src_icon_png_path).resize((128, 48)).save(dst_icon_png_path)
 
     def export_meta_xml(self):
-        meta_xml_path = LocalConfigs.export_to_directory().joinpath(
-            f"apps\\{self.app_folder_name()}\\meta.xml"
-        )
+        meta_xml_path = self.meta_xml_win_path()
         if meta_xml_path.exists() and meta_xml_path.is_file():
             meta_xml_path.unlink()
 
@@ -79,35 +90,15 @@ class WiiSS_App:
             xml_file.write("  <author>SuperrSonic &amp; R-Sam</author>\n")
             xml_file.write(f"  <version>{self.configs.device}</version>\n")
             xml_file.write(
-                f"  <release_date>{WiiSS_Configs.release_date()}</release_date>\n"
+                f"  <release_date>{WiiSS_Configs.release_date}</release_date>\n"
             )
             xml_file.write(
                 f"  <short_description>{self.configs.short_description()}</short_description>\n"
             )
-            if self.configs.long_description is None:
-                rom_file_title = self.configs.rom_file_relative_path_list[0].stem
-                rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
-                game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
+            xml_file.write(f"  <long_description>{self.configs.long_description}\n\n")
 
-                game_name = game.name.replace("&", "&amp;")
-                xml_file.write(f"  <long_description>{game_name}\n\n")
-
-                if game.developer == game.publisher:
-                    xml_file.write(f"- Developer &amp; Publisher: {game.developer}\n")
-                else:
-                    xml_file.write(f"- Developer: {game.developer}\n")
-                    xml_file.write(f"- Publisher: {game.publisher}\n")
-
-                xml_file.write(f"- Genre: {game.en_genre}\n")
-                xml_file.write(f"- Release Date: {game.date}\n")
-                xml_file.write(f"- Max Players: {game.players}\n\n")
-            else:
-                xml_file.write(
-                    f"  <long_description>{self.configs.long_description}\n\n"
-                )
-
-            lower_plugin_name = WiiFlow_Configs.plugin_name().lower()
-            website = WiiFlow_Configs.website()
+            lower_plugin_name = WiiFlow_Configs.plugin_name.lower()
+            website = WiiFlow_Configs.website
             if website is None:
                 xml_file.write(
                     f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}</long_description>\n"
@@ -118,35 +109,24 @@ class WiiSS_App:
                 )
                 xml_file.write(f"Website: {website}</long_description>\n")
             xml_file.write("  <ahb_access/>\n")
-            if len(self.configs.rom_file_relative_path_list) == 1:
-                rom_file_parent = str(
-                    self.configs.rom_file_relative_path_list[0].parent
-                ).replace("\\", "/")
+
+            if self.configs.rom is not None:
                 xml_file.write("  <arguments>\n")
                 xml_file.write(
-                    f"    <arg>{self.configs.device}:/{rom_file_parent}</arg>\n"
+                    f"    <arg>{WiiRA_Configs.rom_folder_wii_path(self.configs.device)}</arg>\n"
                 )
+                rom_file_name = self.configs.rom.file_name().replace("&", "&amp;")
+                xml_file.write(f"    <arg>{rom_file_name}</arg>\n")
                 xml_file.write(
-                    f"    <arg>{self.configs.rom_file_relative_path_list[0].name}</arg>\n"
-                )
-                xml_file.write(
-                    f"    <arg>{self.configs.device}:/private/{WiiSS_Configs.data_folder_name()}/{self.configs.rom_file_relative_path_list[0].stem}.cfg</arg>\n"
+                    f"    <arg>{self.data_folder_wii_path()}/{self.configs.rom.file_title}.cfg</arg>\n"
                 )
                 xml_file.write("  </arguments>\n")
 
             xml_file.write("</app>\n")
             xml_file.close()
 
-    def configs_list(self):
-        data_dir = (
-            f"{self.configs.device}:/private/{WiiSS_Configs.data_folder_name()}"
-        )
-        system_directory = WiiSS_Configs.system_directory()
-        if system_directory is None:
-            system_directory = f"private/{WiiSS_Configs.data_folder_name()}/system"
-        rgui_browser_directory = str(WiiRA_Configs.roms_relative_directory()).replace(
-            "\\", "/"
-        )
+    def settings_list(self):
+        data_dir = self.data_folder_wii_path()
 
         list_ret = [
             # 宽高比：0=4:3 1=16:9 21=Core provided
@@ -160,13 +140,13 @@ class WiiSS_App:
             f'screenshot_directory = "{data_dir}/screenshots"',
             'video_filter = "."',
             'audio_dsp_plugin = "."',
-            f'system_directory = "{self.configs.device}:/{system_directory}"',
+            f'system_directory = "{data_dir}/system"',
             f'extraction_directory = "{data_dir}/system/temp"',
             f'savefile_directory = "{data_dir}/savefiles"',
             f'savestate_directory = "{data_dir}/savestates"',
             f'video_filter_dir = "{data_dir}/videofilters"',
             f'audio_filter_dir = "{data_dir}/audiofilters"',
-            f'rgui_browser_directory = "{self.configs.device}:/{rgui_browser_directory}"',
+            f'rgui_browser_directory = "{WiiRA_Configs.rom_folder_wii_path(self.configs.device)}"',
             f'overlay_directory = "{data_dir}/overlays"',
             f'input_overlay = "{data_dir}/overlays/..."',
             # 菜单快捷组合键：L+R+Z+Start
@@ -193,7 +173,7 @@ class WiiSS_App:
 
     def configs_dict(self):
         dict_ret = {}
-        for line in self.configs_list():
+        for line in self.settings_list():
             key = line[: line.find("=")]
             dict_ret[key] = line
 
@@ -210,8 +190,7 @@ class WiiSS_App:
 
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
             configs_dict = self.configs_dict()
-            src_cfg_file_path = LocalConfigs.repository_directory().joinpath(
-                f"wii\\apps\\{WiiSS_Configs.core_folder_name()}",
+            src_cfg_file_path = WiiSS_Configs.src_app_directory().joinpath(
                 WiiSS_Configs.core_cfg_template_file_name(),
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
@@ -226,7 +205,7 @@ class WiiSS_App:
             dst_file.close()
 
     def export_all(self):
-        app_dir = LocalConfigs.export_to_directory().joinpath(
+        app_dir = LocalConfigs.export_to_directory.joinpath(
             f"apps\\{self.app_folder_name()}"
         )
         if not Helper.verify_exist_directory_ex(app_dir):

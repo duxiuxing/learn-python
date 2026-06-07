@@ -27,8 +27,8 @@ if __name__ == "__main__":
 
     lpl_file_path = None
     while True:
-        lpl_file_path = LocalConfigs.retroarch_directory().joinpath(
-            "playlists", RA_Configs.lpl_file_name()
+        lpl_file_path = LocalConfigs.retroarch_directory.joinpath(
+            f"playlists\\{RA_Configs.lpl_file_name()}"
         )
         print("\n即将根据 .lpl 文件导入 ROM 文件")
         print(f"默认 .lpl 文件路径：{lpl_file_path}")

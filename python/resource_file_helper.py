@@ -23,7 +23,7 @@ class ResourceFileHelper:
             Path: rom 文件的路径
         """
         game = GamesDB.query_game(game_id=rom.game_id)
-        repository_dir = LocalConfigs.repository_directory()
+        repository_dir = LocalConfigs.repository_directory
 
         rom_file_parent_dir = None
         if Helper.files_in_letter_folder():
@@ -55,7 +55,7 @@ class ResourceFileHelper:
             Path: 媒体文件的路径
         """
         game = GamesDB.query_game(game_id=rom.game_id)
-        repository_dir = LocalConfigs.repository_directory()
+        repository_dir = LocalConfigs.repository_directory
 
         media_file_parent_dir = None
         if Helper.files_in_letter_folder():
@@ -85,7 +85,7 @@ class ResourceFileHelper:
         Returns:
             Path: 媒体文件的路径
         """
-        repository_dir = LocalConfigs.repository_directory()
+        repository_dir = LocalConfigs.repository_directory
 
         media_file_parent_dir = None
         if Helper.files_in_letter_folder():
