@@ -48,13 +48,11 @@ class Wii_MakeChannelIcon:
         return logo.height - 1
 
     def load_logo(self):
-        logo_path = os.path.join(
-            LocalConfigs.repository_directory(),
+        logo_path = LocalConfigs.repository_directory.joinpath(
             f"wii\\wad\\{self._game_info.rom_title}\\res\\logo.png",
         )
-        if not os.path.exists(logo_path):
-            logo_path = os.path.join(
-                LocalConfigs.repository_directory(),
+        if not logo_path.exists() or not logo_path.is_file():
+            logo_path = LocalConfigs.repository_directory.joinpath(
                 f"image\\logo\\{self._game_info.name}.png",
             )
         logo = Image.open(logo_path)
@@ -76,8 +74,7 @@ class Wii_MakeChannelIcon:
         return logo.crop((left, top, right + 1, bottom + 1))
 
     def run(self):
-        image_path = os.path.join(
-            LocalConfigs.repository_directory(),
+        image_path = LocalConfigs.repository_directory.joinpath(
             f"wii\\wad\\{self._game_info.rom_title}\\res\\IconImage-bg.png",
         )
         icon_image = Image.open(image_path)
@@ -92,8 +89,7 @@ class Wii_MakeChannelIcon:
         new_logo = logo.resize((new_width, new_height))
         icon_image.paste(new_logo, (left, top), mask=new_logo)
 
-        image_path = os.path.join(
-            LocalConfigs.repository_directory(),
+        image_path = LocalConfigs.repository_directory.joinpath(
             f"wii\\wad\\{self._game_info.rom_title}\\res\\IconImage.png",
         )
         icon_image.save(image_path)

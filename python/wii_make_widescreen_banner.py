@@ -40,15 +40,13 @@ class Wii_MakeWidescreenBanner:
         )
 
     def make_main_screen_bg(self):
-        main_screen_bg_path = os.path.join(
-            LocalConfigs.repository_directory(),
+        main_screen_bg_path = LocalConfigs.repository_directory.joinpath(
             f"wii\\wad\\{self.game_info.rom_title}\\res\\widescreen\\MenuScreen-bg.png",
         )
         if os.path.exists(main_screen_bg_path):
             return Image.open(main_screen_bg_path)
         else:
-            marquee_path = os.path.join(
-                LocalConfigs.repository_directory(),
+            marquee_path = LocalConfigs.repository_directory.joinpath(
                 f"image\\marquee\\{self.game_info.name}.jpg",
             )
             image = Image.open(marquee_path).resize(
@@ -63,13 +61,11 @@ class Wii_MakeWidescreenBanner:
         main_screen_bg_changed = False
 
         if self.banner_info.game_logo_size != (0, 0):
-            game_logo_path = os.path.join(
-                LocalConfigs.repository_directory(),
+            game_logo_path = LocalConfigs.repository_directory.joinpath(
                 f"wii\\wad\\{self.game_info.rom_title}\\res\\widescreen\\logo.png",
             )
-            if not os.path.exists(game_logo_path):
-                game_logo_path = os.path.join(
-                    LocalConfigs.repository_directory(),
+            if not game_logo_path.exists() or not game_logo_path.is_file():
+                game_logo_path = LocalConfigs.repository_directory.joinpath(
                     f"image\\logo\\{self.game_info.name}.png",
                 )
             game_logo = Image.open(game_logo_path).resize(
@@ -81,8 +77,8 @@ class Wii_MakeWidescreenBanner:
             main_screen_bg_changed = True
 
         if self.banner_info.capcom_logo_left_top != (0, 0):
-            capcom_logo_path = os.path.join(
-                LocalConfigs.repository_directory(), "image\\logo\\capcom.png"
+            capcom_logo_path = LocalConfigs.repository_directory.joinpath(
+                "image\\logo\\capcom.png"
             )
             capcom_logo = Image.open(capcom_logo_path).resize(
                 (W_BannerInfo.CAPCOM_LOGO_WIDTH, W_BannerInfo.CAPCOM_LOGO_HEIGHT)
@@ -93,15 +89,13 @@ class Wii_MakeWidescreenBanner:
             main_screen_bg_changed = True
 
         if main_screen_bg_changed:
-            main_screen_path = os.path.join(
-                LocalConfigs.repository_directory(),
+            main_screen_path = LocalConfigs.repository_directory.joinpath(
                 f"wii\\wad\\{self.game_info.rom_title}\\res\\widescreen\\MenuScreen.png",
             )
             main_screen_bg.save(main_screen_path)
 
         main_screen_bg.resize((590, 332)).save(
-            os.path.join(
-                LocalConfigs.repository_directory(),
+            LocalConfigs.repository_directory.joinpath(
                 f"wii\\wad\\{self.game_info.rom_title}\\res\\widescreen\\MenuScreen1.png",
             ),
         )

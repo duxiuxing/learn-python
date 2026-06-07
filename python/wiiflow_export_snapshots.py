@@ -23,10 +23,9 @@ class WiiFlow_ExportSnapshots:
 
         r_sam_roms = RomsXML.instance()
         wiiflow_plugins_data = WiiFlowPluginsData.instance()
-        plugin_name = WiiFlow_Configs.plugin_name()
+        plugin_name = WiiFlow_Configs.plugin_name
 
-        dst_dir_path = os.path.join(
-            LocalConfigs.export_to_directory(),
+        dst_dir_path = LocalConfigs.export_to_directory.joinpath(
             f"wiiflow\\snapshots\\{plugin_name}",
         )
         if not Helper.verify_exist_directory_ex(dst_dir_path):

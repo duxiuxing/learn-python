@@ -20,10 +20,10 @@ class WiiFlow_ExportWfcCovers:
             return
 
         wiiflow_plugins_data = WiiFlowPluginsData.instance()
-        plugin_name = WiiFlow_Configs.plugin_name()
+        plugin_name = WiiFlow_Configs.plugin_name
 
-        dst_dir_path = os.path.join(
-            LocalConfigs.export_to_directory(), f"wiiflow\\cache\\{plugin_name}"
+        dst_dir_path = LocalConfigs.export_to_directory.joinpath(
+            f"wiiflow\\cache\\{plugin_name}"
         )
         if not Helper.verify_exist_directory_ex(dst_dir_path):
             print(f"【错误】无效的目标文件夹 {dst_dir_path}")

@@ -32,7 +32,7 @@ if __name__ == "__main__":
     Init_Global_Configs()
 
     app_list = []
-    apps_dir = LocalConfigs.export_to_directory().joinpath("apps")
+    apps_dir = LocalConfigs.export_to_directory.joinpath("apps")
     for app_folder_name in os.listdir(apps_dir):
         meta_xml_path = apps_dir.joinpath(f"{app_folder_name}\\meta.xml")
         if not meta_xml_path.exists() or not meta_xml_path.is_file():
@@ -57,7 +57,7 @@ if __name__ == "__main__":
         if app.rom_file_name is not None:
             app_list.append(app)
 
-    doc_path = LocalConfigs.export_to_directory().joinpath(
+    doc_path = LocalConfigs.export_to_directory.joinpath(
         "CPS1 Apps (RA-SS Hexaeco).md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):

@@ -18,7 +18,7 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    doc_path = LocalConfigs.export_to_directory().joinpath(
+    doc_path = LocalConfigs.export_to_directory.joinpath(
         f"CPS1 Roms (Wii).md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
@@ -37,8 +37,8 @@ if __name__ == "__main__":
             "--- | --- | --- | --- | ---\n"
         )
 
-        roms_dir = LocalConfigs.export_to_directory().joinpath(
-            WiiRA_Configs.roms_relative_directory()
+        roms_dir = LocalConfigs.export_to_directory.joinpath(
+            WiiRA_Configs.rom_relative_folder_win_path()
         )
         index = 0
         for rom_file_name in os.listdir(roms_dir):

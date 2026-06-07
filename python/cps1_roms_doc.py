@@ -17,7 +17,7 @@ from roms_db import RomsDB
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    doc_path = LocalConfigs.export_to_directory().joinpath(
+    doc_path = LocalConfigs.export_to_directory.joinpath(
         f"CPS1 Roms.md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):

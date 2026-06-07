@@ -87,7 +87,7 @@ if __name__ == "__main__":
     configs = RA_PlaylistConfig()
 
     while True:
-        export_to_dir = LocalConfigs.export_to_directory()
+        export_to_dir = LocalConfigs.export_to_directory
         print(
             f"\n即将导出列表和缩略图到目标文件夹\n默认目标文件夹路径：{export_to_dir}"
         )
@@ -96,7 +96,7 @@ if __name__ == "__main__":
             export_to_dir = Path(user_input)
 
         if export_to_dir.exists() and export_to_dir.is_dir():
-            LocalConfigs._export_to_directory = export_to_dir
+            LocalConfigs.export_to_directory = export_to_dir
         else:
             print(f"【错误】无效的文件夹路径：{export_to_dir}")
             continue

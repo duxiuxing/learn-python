@@ -40,15 +40,13 @@ class Wii_MakeStandardBanner:
         )
 
     def make_main_screen_bg(self):
-        main_screen_bg_path = os.path.join(
-            LocalConfigs.repository_directory(),
+        main_screen_bg_path = LocalConfigs.repository_directory.joinpath(
             f"wii\\wad\\{self.game_info.rom_title}\\res\\standard\\MenuScreen1-bg.png",
         )
-        if os.path.exists(main_screen_bg_path):
+        if main_screen_bg_path.exists() and main_screen_bg_path.is_file():
             return Image.open(main_screen_bg_path)
         else:
-            wallpaper_path = os.path.join(
-                LocalConfigs.repository_directory(),
+            wallpaper_path = LocalConfigs.repository_directory.joinpath(
                 f"image\\wallpaper\\{self.game_info.name}.jpg",
             )
             image = Image.open(wallpaper_path).resize(
@@ -62,13 +60,11 @@ class Wii_MakeStandardBanner:
         main_screen_bg = self.make_main_screen_bg()
 
         if self.banner_info.game_logo_size != (0, 0):
-            game_logo_path = os.path.join(
-                LocalConfigs.repository_directory(),
+            game_logo_path = LocalConfigs.repository_directory.joinpath(
                 f"wii\\wad\\{self.game_info.rom_title}\\res\\standard\\logo.png",
             )
-            if not os.path.exists(game_logo_path):
-                game_logo_path = os.path.join(
-                    LocalConfigs.repository_directory(),
+            if not game_logo_path.exists() or not game_logo_path.is_file():
+                game_logo_path = LocalConfigs.repository_directory.joinpath(
                     f"image\\logo\\{self.game_info.name}.png",
                 )
             game_logo = Image.open(game_logo_path).resize(
@@ -79,8 +75,8 @@ class Wii_MakeStandardBanner:
             )
 
         if self.banner_info.capcom_logo_left_top != (0, 0):
-            capcom_logo_path = os.path.join(
-                LocalConfigs.repository_directory(), "image\\logo\\capcom.png"
+            capcom_logo_path = LocalConfigs.repository_directory.joinpath(
+                "image\\logo\\capcom.png"
             )
             capcom_logo = Image.open(capcom_logo_path).resize(
                 (S_BannerInfo.CAPCOM_LOGO_WIDTH, S_BannerInfo.CAPCOM_LOGO_HEIGHT)
@@ -89,8 +85,7 @@ class Wii_MakeStandardBanner:
                 capcom_logo, self.banner_info.capcom_logo_left_top, mask=capcom_logo
             )
 
-        main_screen_path = os.path.join(
-            LocalConfigs.repository_directory(),
+        main_screen_path = LocalConfigs.repository_directory.joinpath(
             f"wii\\wad\\{self.game_info.rom_title}\\res\\standard\\MenuScreen1.png",
         )
         main_screen_bg.save(main_screen_path)

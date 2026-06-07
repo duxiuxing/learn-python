@@ -9,7 +9,7 @@ from ra_rom import RA_Rom
 class RA_ResourceFileHelper:
     @staticmethod
     def playlist_png_directory():
-        return LocalConfigs.retroarch_directory().joinpath(
+        return LocalConfigs.retroarch_directory.joinpath(
             "assets\\xmb\\monochrome\\png"
         )
 
@@ -20,6 +20,6 @@ class RA_ResourceFileHelper:
         file_title = ra_rom.label
         file_title = file_title.replace(":", "_")
 
-        return LocalConfigs.retroarch_directory().joinpath(
+        return LocalConfigs.retroarch_directory.joinpath(
             f"thumbnails\\{ra_rom.playlist_name.stem}\\{folder_name}\\{file_title}{file_extension}"
         )

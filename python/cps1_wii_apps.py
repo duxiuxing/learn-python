@@ -3,6 +3,9 @@
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
+from ra_configs import RA_Configs
+from ra_playlist_config import RA_PlaylistConfig
+from ra_playlist_item import RA_PlaylistItem
 from wii_ra_app import WiiRA_App
 from wii_app_configs import Wii_AppConfigs
 from wii_ra_configs import WiiRA_Configs
@@ -22,16 +25,12 @@ def add_game_app_configs(rom_file_title: str, app_name=None):
     if app_name is None:
         app_name = game.name
     elif app_name == game.name:
-        print(f"【提示】{rom_file_title} App 无需指定 app_name")
-
-    rom_file_relative_path = WiiRA_Configs.roms_relative_directory().joinpath(
-        f"{rom.file_title}{WiiFlow_Configs.rom_file_extension()}",
-    )
+        print(f"【提示】{rom.file_title} App 无需指定 app_name")
 
     app_configs = Wii_AppConfigs(
         app_name=app_name,
-        folder_name=rom_file_title,
-        rom_file_relative_path_list=[rom_file_relative_path],
+        base_app_folder_name=rom_file_title,
+        rom=rom,
     )
     game_app_configs_list.append(app_configs)
 
@@ -81,32 +80,24 @@ if __name__ == "__main__":
         game_id = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title).game_id
         game_list.append(WiiFlow_GamesDB.query_game(game_id=game_id))
 
-    rom_file_relative_path_list = []
-    for game in sorted(game_list, key=lambda x: x.name):
-        rom = WiiFlow_RomsDB.query_rom(game_id=game.id)
-        rom_file_relative_path = WiiRA_Configs.roms_relative_directory().joinpath(
-            f"{rom.file_title}{WiiFlow_Configs.rom_file_extension()}",
-        )
-        rom_file_relative_path_list.append(rom_file_relative_path)
-
-    ra_app_configs = Wii_AppConfigs(
+    cps1_ra_app_configs = Wii_AppConfigs(
         app_name="Capcom - CP System I",
-        folder_name="cps1",
-        rom_file_relative_path_list=rom_file_relative_path_list,
+        base_app_folder_name="cps1",
+        rom=None,
     )
-    ra_app_configs.long_description = (
+    cps1_ra_app_configs.long_description = (
         "- Emulator for CPS-1 games based on RetroArch\n"
         "- Based on a snapshot of the FB Alpha codebase from 2012\n"
         "- Compatible with FB Alpha v0.2.97.29 ROM sets"
     )
 
     # 基于 RA-HEXAECO 核心的 App
-    ra_ss_app_configs = Wii_AppConfigs(
+    cps1_ss_app_configs = Wii_AppConfigs(
         app_name="RA-SS CPS-1",
-        folder_name="cps1",
-        rom_file_relative_path_list=rom_file_relative_path_list,
+        base_app_folder_name="cps1",
+        rom=None,
     )
-    ra_ss_app_configs.long_description = (
+    cps1_ss_app_configs.long_description = (
         "- Mod By RunningSnakes\n"
         "- Emulator for CPS-1 games based on RA-SS Hexaeco\n"
         "- Based on a snapshot of the FB Alpha codebase from 2012\n"
@@ -148,14 +139,14 @@ if __name__ == "__main__":
     add_game_app_configs(rom_file_title="wof")
 
     while True:
-        export_to_dir = LocalConfigs.export_to_directory()
+        export_to_dir = LocalConfigs.export_to_directory
         print(f"\n即将导出 Wii App 到目标文件夹\n默认目标文件夹路径：{export_to_dir}")
         user_input = input("请确认目标文件夹路径，使用默认路径请直接按回车 > ")
         if len(user_input) > 0:
             export_to_dir = Path(user_input)
 
         if export_to_dir.exists() and export_to_dir.is_dir():
-            LocalConfigs._export_to_directory = export_to_dir
+            LocalConfigs.export_to_directory = export_to_dir
         else:
             print(f"【错误】无效的文件夹路径：{export_to_dir}")
             continue
@@ -173,29 +164,43 @@ if __name__ == "__main__":
             if number == 1:
                 device = Wii_AppConfigs.DEVICE_SD
 
-                ra_app_configs.device = device
-                WiiRA_App(ra_app_configs).export_all()
-                for app_configs in game_app_configs_list:
-                    app_configs.device = device
-                    game_app = WiiRA_App(app_configs)
+                cps1_ra_app_configs.device = device
+                cps1_ra_app_configs.playlist_configs = RA_PlaylistConfig()
+                rom_folder_wii_path = WiiRA_Configs.rom_folder_wii_path(device)
+                for game in sorted(game_list, key=lambda x: x.name):
+                    rom = WiiFlow_RomsDB.query_rom(game_id=game.id)
+                    item = RA_PlaylistItem(
+                        path=f"{rom_folder_wii_path}/{rom.file_name()}",
+                        label=game.name,
+                        crc32=rom.crc32,
+                        db_name=RA_Configs.lpl_file_name(),
+                    )
+                    cps1_ra_app_configs.playlist_configs.item_list.append(item)
+                WiiRA_App(cps1_ra_app_configs).export_all()
+
+                for game_app_configs in game_app_configs_list:
+                    game_app_configs.device = device
+                    game_app = WiiRA_App(game_app_configs)
                     game_app.export_all()
             elif number == 2:
                 device = Wii_AppConfigs.DEVICE_SD
 
-                ra_ss_app_configs.device = device
-                WiiSS_App(ra_ss_app_configs).export_all()
-                for app_configs in game_app_configs_list:
-                    app_configs.device = device
-                    game_app = WiiSS_App(app_configs)
+                cps1_ss_app_configs.device = device
+                WiiSS_App(cps1_ss_app_configs).export_all()
+
+                for game_app_configs in game_app_configs_list:
+                    game_app_configs.device = device
+                    game_app = WiiSS_App(game_app_configs)
                     game_app.export_all()
             elif number == 3:
                 device = Wii_AppConfigs.DEVICE_USB
 
-                ra_ss_app_configs.device = device
-                WiiSS_App(ra_ss_app_configs).export_all()
-                for app_configs in game_app_configs_list:
-                    app_configs.device = device
-                    game_app = WiiSS_App(app_configs)
+                cps1_ss_app_configs.device = device
+                WiiSS_App(cps1_ss_app_configs).export_all()
+
+                for game_app_configs in game_app_configs_list:
+                    game_app_configs.device = device
+                    game_app = WiiSS_App(game_app_configs)
                     game_app.export_all()
             else:
                 break

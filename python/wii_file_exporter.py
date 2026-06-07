@@ -25,8 +25,8 @@ class WiiFileExporter:
 
     @staticmethod
     def export_files_and_folders(app_elem):
-        src_root = LocalConfigs.repository_directory()
-        dst_root = LocalConfigs.export_to_directory()
+        src_root = LocalConfigs.repository_directory
+        dst_root = LocalConfigs.export_to_directory
 
         for elem in app_elem.findall("Folder"):
             src_path = os.path.join(src_root, elem.get("src"))
@@ -91,8 +91,7 @@ class WiiFileExporter:
         WiiFileExporter.export_files_and_folders(app_elem)
 
     def run(self):
-        xml_file_path = os.path.join(
-            LocalConfigs.repository_directory(),
+        xml_file_path = LocalConfigs.repository_directory.joinpath(
             "config\\wii-file-export.xml",
         )
 
