@@ -22,7 +22,7 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 
 def f1_2_export_png_covers(delete_dst_file_first: bool):
     # 先处理默认封面文件
-    dst_dir = LocalConfigs.export_to_directory().joinpath(
+    dst_dir = LocalConfigs.export_to_directory.joinpath(
         "wiiflow\\boxcovers\\blank_covers"
     )
     if not Helper.verify_exist_directory_ex(dst_dir):
@@ -39,15 +39,15 @@ def f1_2_export_png_covers(delete_dst_file_first: bool):
         print(f"【错误】无效的源文件 {src_file_path}")
 
     # 再处理其他封面文件
-    roms_dir = LocalConfigs.export_to_directory().joinpath(
-        WiiRA_Configs.roms_relative_directory()
+    roms_dir = LocalConfigs.export_to_directory.joinpath(
+        WiiRA_Configs.rom_relative_folder_win_path()
     )
     if not roms_dir.exists():
         print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
         return
 
-    plugin_name = WiiFlow_Configs.plugin_name()
-    dst_dir = LocalConfigs.export_to_directory().joinpath(
+    plugin_name = WiiFlow_Configs.plugin_name
+    dst_dir = LocalConfigs.export_to_directory.joinpath(
         f"wiiflow\\boxcovers\\{plugin_name}"
     )
     if not Helper.verify_exist_directory_ex(dst_dir):
@@ -86,7 +86,7 @@ def f1_2_export_png_covers(delete_dst_file_first: bool):
 
 def f3_4_export_wfc_covers(delete_dst_file_first: bool):
     # 先处理默认封面文件
-    dst_dir = LocalConfigs.export_to_directory().joinpath(
+    dst_dir = LocalConfigs.export_to_directory.joinpath(
         "wiiflow\\cache\\blank_covers"
     )
     if not Helper.verify_exist_directory_ex(dst_dir):
@@ -103,15 +103,15 @@ def f3_4_export_wfc_covers(delete_dst_file_first: bool):
         print(f"【错误】无效的源文件 {src_file_path}")
 
     # 再处理其他封面文件
-    roms_dir = LocalConfigs.export_to_directory().joinpath(
-        WiiRA_Configs.roms_relative_directory()
+    roms_dir = LocalConfigs.export_to_directory.joinpath(
+        WiiRA_Configs.rom_relative_folder_win_path()
     )
     if not roms_dir.exists():
         print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
         return
 
-    plugin_name = WiiFlow_Configs.plugin_name()
-    dst_dir = LocalConfigs.export_to_directory().joinpath(
+    plugin_name = WiiFlow_Configs.plugin_name
+    dst_dir = LocalConfigs.export_to_directory.joinpath(
         f"wiiflow\\cache\\{plugin_name}"
     )
     if not Helper.verify_exist_directory_ex(dst_dir):
@@ -149,15 +149,15 @@ def f3_4_export_wfc_covers(delete_dst_file_first: bool):
 
 
 def f5_6_export_snapshots_by_rom_file_title(delete_dst_file_first: bool):
-    roms_dir = LocalConfigs.export_to_directory().joinpath(
-        WiiRA_Configs.roms_relative_directory()
+    roms_dir = LocalConfigs.export_to_directory.joinpath(
+        WiiRA_Configs.rom_relative_folder_win_path()
     )
     if not roms_dir.exists():
         print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
         return
 
-    plugin_name = WiiFlow_Configs.plugin_name()
-    dst_dir = LocalConfigs.export_to_directory().joinpath(
+    plugin_name = WiiFlow_Configs.plugin_name
+    dst_dir = LocalConfigs.export_to_directory.joinpath(
         f"wiiflow\\snapshots\\{plugin_name}"
     )
     if not Helper.verify_exist_directory_ex(dst_dir):
@@ -209,15 +209,15 @@ def f5_6_export_snapshots_by_rom_file_title(delete_dst_file_first: bool):
 
 
 def f7_8_export_snapshots_by_game_name(delete_dst_file_first: bool):
-    roms_dir = LocalConfigs.export_to_directory().joinpath(
-        WiiRA_Configs.roms_relative_directory()
+    roms_dir = LocalConfigs.export_to_directory.joinpath(
+        WiiRA_Configs.rom_relative_folder_win_path()
     )
     if not roms_dir.exists():
         print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
         return
 
-    plugin_name = WiiFlow_Configs.plugin_name()
-    dst_dir = LocalConfigs.export_to_directory().joinpath(
+    plugin_name = WiiFlow_Configs.plugin_name
+    dst_dir = LocalConfigs.export_to_directory.joinpath(
         f"wiiflow\\snapshots\\{plugin_name}"
     )
     if not Helper.verify_exist_directory_ex(dst_dir):
@@ -277,12 +277,12 @@ def f7_8_export_snapshots_by_game_name(delete_dst_file_first: bool):
 
 
 def f9_export_plugin_files():
-    src_dir = LocalConfigs.repository_directory().joinpath("wii\\wiiflow\\plugins")
-    dst_dir = LocalConfigs.export_to_directory().joinpath("wiiflow\\plugins")
+    src_dir = LocalConfigs.repository_directory.joinpath("wii\\wiiflow\\plugins")
+    dst_dir = LocalConfigs.export_to_directory.joinpath("wiiflow\\plugins")
     Helper.copy_directory(src_dir, dst_dir)
 
-    plugin_name = WiiFlow_Configs.plugin_name()
-    dst_dir = LocalConfigs.export_to_directory().joinpath(
+    plugin_name = WiiFlow_Configs.plugin_name
+    dst_dir = LocalConfigs.export_to_directory.joinpath(
         f"wiiflow\\plugins_data\\{plugin_name}"
     )
     if not Helper.verify_exist_directory_ex(dst_dir):
@@ -291,7 +291,7 @@ def f9_export_plugin_files():
 
     file_name_list = [f"{plugin_name}.ini", f"{plugin_name}.xml"]
     for file_name in file_name_list:
-        src_file_path = LocalConfigs.repository_directory().joinpath(
+        src_file_path = LocalConfigs.repository_directory.joinpath(
             f"wii\\wiiflow\\plugins_data\\{plugin_name}", file_name
         )
         dst_file_path = dst_dir.joinpath(file_name)
@@ -305,7 +305,7 @@ if __name__ == "__main__":
     Init_Global_Configs()
 
     while True:
-        export_to_dir = LocalConfigs.export_to_directory()
+        export_to_dir = LocalConfigs.export_to_directory
         print(
             f"\n即将导出 WiiFlow 文件到目标文件夹\n默认目标文件夹路径：{export_to_dir}"
         )
@@ -314,7 +314,7 @@ if __name__ == "__main__":
             export_to_dir = Path(user_input)
 
         if export_to_dir.exists() and export_to_dir.is_dir():
-            LocalConfigs._export_to_directory = export_to_dir
+            LocalConfigs.export_to_directory = export_to_dir
         else:
             print(f"【错误】无效的文件夹路径：{export_to_dir}")
             continue

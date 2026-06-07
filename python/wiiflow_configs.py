@@ -5,11 +5,7 @@ import re
 
 
 class WiiFlow_Configs:
-    _plugin_name = None
-
-    @staticmethod
-    def plugin_name() -> str:
-        return WiiFlow_Configs._plugin_name
+    plugin_name = None
 
     _rom_file_extension = ".zip"
 
@@ -36,8 +32,4 @@ class WiiFlow_Configs:
         else:
             return True
 
-    _website = None
-
-    @staticmethod
-    def website():
-        return WiiFlow_Configs._website
+    website = None
