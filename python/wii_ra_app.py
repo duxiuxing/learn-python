@@ -100,19 +100,14 @@ class WiiRA_App:
             xml_file.write(
                 f"  <short_description>{self.configs.short_description()}</short_description>\n"
             )
-            xml_file.write(f"  <long_description>{self.configs.long_description}\n\n")
+            xml_file.write(f"  <long_description>{self.configs.long_description}")
 
             lower_plugin_name = WiiFlow_Configs.plugin_name.lower()
             website = WiiFlow_Configs.website
             if website is None:
-                xml_file.write(
-                    f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}</long_description>\n"
-                )
+                xml_file.write("</long_description>\n")
             else:
-                xml_file.write(
-                    f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}\n"
-                )
-                xml_file.write(f"Website: {website}</long_description>\n")
+                xml_file.write(f"\n\nWebsite: {website}</long_description>\n")
             xml_file.write("  <ahb_access/>\n")
 
             if self.configs.rom is not None:
@@ -129,7 +124,7 @@ class WiiRA_App:
 
     def settings_list(self):
         app_dir = self.app_folder_wii_path()
-        retroarch_dir = WiiRA_Configs.retroarch_folder_wii_path(self.configs.device)
+        retroarch_dir = WiiRA_Configs.data_folder_wii_path(self.configs.device)
 
         list_ret = [
             # 游戏画面宽高比：0=4:3 1=16:9 22=Core provided

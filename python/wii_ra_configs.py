@@ -12,12 +12,10 @@ class WiiRA_Configs:
     core_name = None
 
     # Wii 版 RetroArch 的 App 文件夹名称
-    app_folder_name = "retroarch-wii"
-
     @staticmethod
     def src_app_directory() -> Path:
         return LocalConfigs.repository_directory.joinpath(
-            f"wii\\apps\\{WiiRA_Configs.app_folder_name}"
+            f"wii\\apps\\retroarch-wii-v{WiiRA_Configs.version}"
         )
 
     # Wii 版 RetroArch 的发布年月日，比如 "20251120"
@@ -35,7 +33,7 @@ class WiiRA_Configs:
         return f"{device}:/{path}"
 
     @staticmethod
-    def retroarch_folder_wii_path(device) -> str:
+    def data_folder_wii_path(device) -> str:
         return f"{device}:/retroarch"
 
     settings_list = None
