@@ -18,43 +18,40 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 
 
 class WiiSS_App:
-    def __init__(self, configs: Wii_AppConfigs):
-        self.configs = configs
+    def __init__(self, app_configs: Wii_AppConfigs):
+        self.configs = app_configs
 
     def app_folder_name(self):
-        return f"{self.configs.device}-{self.configs.base_app_folder_name}-ss"
+        plugin_name = WiiFlow_Configs.plugin_name.lower()
+        if plugin_name == self.configs.base_app_folder_name:
+            return f"{self.configs.device}-{plugin_name}-ss"
+        else:
+            return f"{self.configs.device}-{plugin_name}-{self.configs.base_app_folder_name}-ss"
 
-    def app_folder_win_path(self) -> Path:
+    def win_app_directory(self) -> Path:
         return LocalConfigs.export_to_directory.joinpath(
             f"apps\\{self.app_folder_name()}"
         )
 
-    def app_folder_wii_path(self) -> str:
+    def wii_app_directory(self) -> str:
         return f"{self.configs.device}:/apps/{self.app_folder_name()}"
 
-    def boot_dol_win_path(self) -> Path:
-        return self.app_folder_win_path().joinpath("boot.dol")
-
-    def icon_png_win_path(self) -> Path:
-        return self.app_folder_win_path().joinpath("icon.png")
-
-    def meta_xml_win_path(self) -> Path:
-        return self.app_folder_win_path().joinpath("meta.xml")
-
-    def data_folder_win_path(self) -> Path:
+    def win_data_directory(self) -> Path:
         return LocalConfigs.export_to_directory.joinpath(
             f"private\\{WiiSS_Configs.data_folder_name}"
         )
 
-    def data_folder_wii_path(self) -> str:
+    def wii_data_directory(self) -> str:
         return f"{self.configs.device}:/private/{WiiSS_Configs.data_folder_name}"
 
     # 拷贝 boot.dol
     def export_core_files(self):
-        src_core_file_path = WiiSS_Configs.src_app_directory().joinpath(
+        src_core_file_path = WiiSS_Configs.repository_directory().joinpath(
             WiiSS_Configs.core_file_name,
         )
-        Helper.copy_file_if_not_exist(src_core_file_path, self.boot_dol_win_path())
+        Helper.copy_file_if_not_exist(
+            src_core_file_path, self.win_app_directory().joinpath("boot.dol")
+        )
 
     # logo 转 icon
     def export_icon_png(self):
@@ -71,14 +68,14 @@ class WiiSS_App:
                 print(f"【错误】无效的源文件 {src_icon_png_path}")
                 return
 
-        dst_icon_png_path = self.icon_png_win_path()
+        dst_icon_png_path = self.win_app_directory().joinpath("icon.png")
         if dst_icon_png_path.exists() and dst_icon_png_path.is_file():
             dst_icon_png_path.unlink()
 
         Image.open(src_icon_png_path).resize((128, 48)).save(dst_icon_png_path)
 
     def export_meta_xml(self):
-        meta_xml_path = self.meta_xml_win_path()
+        meta_xml_path = self.win_app_directory().joinpath("meta.xml")
         if meta_xml_path.exists() and meta_xml_path.is_file():
             meta_xml_path.unlink()
 
@@ -113,12 +110,12 @@ class WiiSS_App:
             if self.configs.rom is not None:
                 xml_file.write("  <arguments>\n")
                 xml_file.write(
-                    f"    <arg>{WiiRA_Configs.rom_folder_wii_path(self.configs.device)}</arg>\n"
+                    f"    <arg>{WiiRA_Configs.wii_roms_directory(self.configs.device)}</arg>\n"
                 )
                 rom_file_name = self.configs.rom.file_name().replace("&", "&amp;")
                 xml_file.write(f"    <arg>{rom_file_name}</arg>\n")
                 xml_file.write(
-                    f"    <arg>{self.data_folder_wii_path()}/{self.configs.rom.file_title}.cfg</arg>\n"
+                    f"    <arg>{self.wii_data_directory()}/{self.configs.rom.file_title}.cfg</arg>\n"
                 )
                 xml_file.write("  </arguments>\n")
 
@@ -126,7 +123,7 @@ class WiiSS_App:
             xml_file.close()
 
     def settings_list(self):
-        data_dir = self.data_folder_wii_path()
+        data_dir = self.wii_data_directory()
 
         list_ret = [
             # 宽高比：0=4:3 1=16:9 21=Core provided
@@ -146,7 +143,7 @@ class WiiSS_App:
             f'savestate_directory = "{data_dir}/savestates"',
             f'video_filter_dir = "{data_dir}/videofilters"',
             f'audio_filter_dir = "{data_dir}/audiofilters"',
-            f'rgui_browser_directory = "{WiiRA_Configs.rom_folder_wii_path(self.configs.device)}"',
+            f'rgui_browser_directory = "{WiiRA_Configs.wii_roms_directory(self.configs.device)}"',
             f'overlay_directory = "{data_dir}/overlays"',
             f'input_overlay = "{data_dir}/overlays/..."',
             # 菜单快捷组合键：L+R+Z+Start
@@ -180,17 +177,17 @@ class WiiSS_App:
         return dict_ret
 
     def export_cfg_file(self):
-        dst_cfg_file_path = self.data_directory().joinpath("main.cfg")
-        if len(self.configs.rom_file_relative_path_list) == 1:
-            dst_cfg_file_path = self.data_directory().joinpath(
-                f"{self.configs.rom_file_relative_path_list[0].stem}.cfg"
+        dst_cfg_file_path = self.win_data_directory().joinpath("main.cfg")
+        if self.configs.rom is not None:
+            dst_cfg_file_path = self.win_data_directory().joinpath(
+                f"{self.configs.rom.file_title}.cfg"
             )
         if dst_cfg_file_path.exists() and dst_cfg_file_path.is_file():
             dst_cfg_file_path.unlink()
 
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
             configs_dict = self.configs_dict()
-            src_cfg_file_path = WiiSS_Configs.src_app_directory().joinpath(
+            src_cfg_file_path = WiiSS_Configs.repository_directory().joinpath(
                 WiiSS_Configs.core_cfg_template_file_name(),
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
@@ -205,14 +202,12 @@ class WiiSS_App:
             dst_file.close()
 
     def export_all(self):
-        app_dir = LocalConfigs.export_to_directory.joinpath(
-            f"apps\\{self.app_folder_name()}"
-        )
+        app_dir = self.win_app_directory()
         if not Helper.verify_exist_directory_ex(app_dir):
             print(f"【错误】无效的目标文件夹 {app_dir}")
             return
 
-        data_dir = self.data_directory()
+        data_dir = self.win_data_directory()
         if not Helper.verify_exist_directory_ex(data_dir):
             print(f"【错误】无效的目标文件夹 {data_dir}")
             return

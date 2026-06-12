@@ -10,8 +10,8 @@ from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
+from ra_configs import RA_Configs
 from resource_file_helper import ResourceFileHelper
-from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -39,13 +39,6 @@ def f1_2_export_png_covers(delete_dst_file_first: bool):
         print(f"【错误】无效的源文件 {src_file_path}")
 
     # 再处理其他封面文件
-    roms_dir = LocalConfigs.export_to_directory.joinpath(
-        WiiRA_Configs.rom_relative_folder_win_path()
-    )
-    if not roms_dir.exists():
-        print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
-        return
-
     plugin_name = WiiFlow_Configs.plugin_name
     dst_dir = LocalConfigs.export_to_directory.joinpath(
         f"wiiflow\\boxcovers\\{plugin_name}"
@@ -55,17 +48,16 @@ def f1_2_export_png_covers(delete_dst_file_first: bool):
         return
 
     print(
-        f"\nROM 文件夹：{roms_dir}\n"
-        "程序会根据 ROM 文件夹里的文件，把对应的 .png 格式的封面文件导出到目标文件夹\n"
+        f"程序会根据 {plugin_name}.ini，把对应的 .png 格式的封面文件导出到目标文件夹\n"
         f"目标文件夹：{dst_dir}"
     )
 
     rom_file_count = 0
-    for rom_file_name in os.listdir(roms_dir):
-        if not WiiFlow_Configs.is_rom_file_name(rom_file_name):
-            continue
+    for rom in WiiFlow_RomsDB.all_roms():
         rom_file_count = rom_file_count + 1
-        src_file_path = WiiFlow_ResourceFileHelper.compute_png_cover_path(rom_file_name)
+        src_file_path = WiiFlow_ResourceFileHelper.compute_png_cover_path(
+            rom.file_name()
+        )
         if not src_file_path.exists():
             print(f"【错误】无效的源文件 {src_file_path}")
             continue
@@ -86,9 +78,7 @@ def f1_2_export_png_covers(delete_dst_file_first: bool):
 
 def f3_4_export_wfc_covers(delete_dst_file_first: bool):
     # 先处理默认封面文件
-    dst_dir = LocalConfigs.export_to_directory.joinpath(
-        "wiiflow\\cache\\blank_covers"
-    )
+    dst_dir = LocalConfigs.export_to_directory.joinpath("wiiflow\\cache\\blank_covers")
     if not Helper.verify_exist_directory_ex(dst_dir):
         print(f"【错误】无效的目标文件夹 {dst_dir}")
         return
@@ -103,13 +93,6 @@ def f3_4_export_wfc_covers(delete_dst_file_first: bool):
         print(f"【错误】无效的源文件 {src_file_path}")
 
     # 再处理其他封面文件
-    roms_dir = LocalConfigs.export_to_directory.joinpath(
-        WiiRA_Configs.rom_relative_folder_win_path()
-    )
-    if not roms_dir.exists():
-        print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
-        return
-
     plugin_name = WiiFlow_Configs.plugin_name
     dst_dir = LocalConfigs.export_to_directory.joinpath(
         f"wiiflow\\cache\\{plugin_name}"
@@ -119,17 +102,16 @@ def f3_4_export_wfc_covers(delete_dst_file_first: bool):
         return
 
     print(
-        f"\nROM 文件夹：{roms_dir}\n"
-        "程序会根据 ROM 文件夹里的文件，把对应的 .wfc 格式的封面文件导出到目标文件夹\n"
+        f"程序会根据 {plugin_name}.ini，把对应的 .wfc 格式的封面文件导出到目标文件夹\n"
         f"目标文件夹：{dst_dir}"
     )
 
     rom_file_count = 0
-    for rom_file_name in os.listdir(roms_dir):
-        if not WiiFlow_Configs.is_rom_file_name(rom_file_name):
-            continue
+    for rom in WiiFlow_RomsDB.all_roms():
         rom_file_count = rom_file_count + 1
-        src_file_path = WiiFlow_ResourceFileHelper.compute_wfc_cover_path(rom_file_name)
+        src_file_path = WiiFlow_ResourceFileHelper.compute_wfc_cover_path(
+            rom.file_name()
+        )
         if not src_file_path.exists():
             print(f"【错误】无效的源文件 {src_file_path}")
             continue
@@ -149,13 +131,6 @@ def f3_4_export_wfc_covers(delete_dst_file_first: bool):
 
 
 def f5_6_export_snapshots_by_rom_file_title(delete_dst_file_first: bool):
-    roms_dir = LocalConfigs.export_to_directory.joinpath(
-        WiiRA_Configs.rom_relative_folder_win_path()
-    )
-    if not roms_dir.exists():
-        print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
-        return
-
     plugin_name = WiiFlow_Configs.plugin_name
     dst_dir = LocalConfigs.export_to_directory.joinpath(
         f"wiiflow\\snapshots\\{plugin_name}"
@@ -165,25 +140,15 @@ def f5_6_export_snapshots_by_rom_file_title(delete_dst_file_first: bool):
         return
 
     print(
-        f"\nROM 文件夹：{roms_dir}\n"
-        "程序会根据 ROM 文件夹里的文件，把对应的截屏文件导出到目标文件夹\n"
+        f"程序会根据 {plugin_name}.ini，把对应的截屏文件导出到目标文件夹\n"
         f"目标文件夹：{dst_dir}"
     )
 
     rom_file_count = 0
-    for rom_file_name in os.listdir(roms_dir):
-        if not WiiFlow_Configs.is_rom_file_name(rom_file_name):
-            continue
-
-        rom_file_title = Path(rom_file_name).stem
-        rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
-        if rom is None:
-            print(f"【错误】未在 plugins_data 的 .ini 文件中配置：{rom_file_name}")
-            continue
-
+    for rom in WiiFlow_RomsDB.all_roms():
         game = GamesDB.query_game(game_id=rom.game_id)
         if game is None:
-            print(f"【提示】未知的 ROM 文件：{rom_file_name}")
+            print(f"【提示】未知的 ROM 文件：{rom.file_name()}")
             continue
 
         rom_file_count = rom_file_count + 1
@@ -193,7 +158,7 @@ def f5_6_export_snapshots_by_rom_file_title(delete_dst_file_first: bool):
         if not src_file_path.exists():
             print(f"【错误】无效的源文件 {src_file_path}")
             continue
-        dst_file_path = dst_dir.joinpath(f"{rom_file_title}.png")
+        dst_file_path = dst_dir.joinpath(f"{rom.file_title}.png")
         if delete_dst_file_first:
             if dst_file_path.exists() and dst_file_path.is_file():
                 dst_file_path.unlink()
@@ -209,13 +174,6 @@ def f5_6_export_snapshots_by_rom_file_title(delete_dst_file_first: bool):
 
 
 def f7_8_export_snapshots_by_game_name(delete_dst_file_first: bool):
-    roms_dir = LocalConfigs.export_to_directory.joinpath(
-        WiiRA_Configs.rom_relative_folder_win_path()
-    )
-    if not roms_dir.exists():
-        print(f"【错误】无效的 ROM 文件夹路径：{roms_dir}")
-        return
-
     plugin_name = WiiFlow_Configs.plugin_name
     dst_dir = LocalConfigs.export_to_directory.joinpath(
         f"wiiflow\\snapshots\\{plugin_name}"
@@ -225,25 +183,15 @@ def f7_8_export_snapshots_by_game_name(delete_dst_file_first: bool):
         return
 
     print(
-        f"\nROM 文件夹：{roms_dir}\n"
-        "程序会根据 ROM 文件夹里的文件，把对应的截屏文件导出到目标文件夹\n"
+        f"程序会根据 {plugin_name}.ini，把对应的截屏文件导出到目标文件夹\n"
         f"目标文件夹：{dst_dir}"
     )
 
     rom_file_count = 0
-    for rom_file_name in os.listdir(roms_dir):
-        if not WiiFlow_Configs.is_rom_file_name(rom_file_name):
-            continue
-
-        rom_file_title = Path(rom_file_name).stem
-        rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
-        if rom is None:
-            print(f"【错误】未在 plugins_data 的 .ini 文件中配置：{rom_file_name}")
-            continue
-
+    for rom in WiiFlow_RomsDB.all_roms():
         game = GamesDB.query_game(game_id=rom.game_id)
         if game is None:
-            print(f"【提示】未知的 ROM 文件：{rom_file_name}")
+            print(f"【提示】未知的 ROM 文件：{rom.file_name()}")
             continue
 
         rom_file_count = rom_file_count + 1
@@ -257,7 +205,7 @@ def f7_8_export_snapshots_by_game_name(delete_dst_file_first: bool):
         game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
         if game is None:
             print(
-                f"【错误】未在 plugins_data 的 .xml 文件中配置：{rom_file_name} id={rom.game_id}"
+                f"【错误】未在 plugins_data 的 .xml 文件中配置：{rom.file_name()} id={rom.game_id}"
             )
             continue
 
