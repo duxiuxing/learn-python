@@ -53,7 +53,7 @@ if __name__ == "__main__":
             rom = WiiFlow_RomsDB.query_rom(rom_file_title=Path(rom_file_name).stem)
             game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
             doc.write(
-                f"{index} | {rom_file_name} | {rom.crc32} | {game.en_title} | {game.zhcn_title}\n"
+                f"{index} | {rom_file_name} | {rom.crc32} | {game.en_title} | {game.zhcn_title[4:]}\n"
             )
 
         doc.write(
@@ -72,7 +72,7 @@ if __name__ == "__main__":
             rom = RomsDB.query_rom(rom_file_name=rom_file_name)
             game = GamesDB.query_game(game_id=rom.game_id)
             doc.write(
-                f"{index} | {rom_file_name} | {game.en_title} | {game.zhcn_title} | {bug}\n"
+                f"{index} | {rom_file_name} | {game.en_title} | {game.zhcn_title[4:]} | {bug}\n"
             )
 
         doc.close()
