@@ -3,6 +3,8 @@
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
+from ra_playlist import RA_Playlist
+from ra_playlist_configs import RA_PlaylistConfigs
 from wii_app_configs import add_game_app_configs
 from wii_app_configs import game_app_configs_list
 from wii_app_configs import Wii_AppConfigs
@@ -11,42 +13,6 @@ from wii_ss_app import WiiSS_App
 
 if __name__ == "__main__":
     Init_Global_Configs()
-
-    rom_file_title_list = [
-        "1941",
-        "cworld2j",
-        "dino",
-        "captcomm",
-        # "cawing",
-        "dynwar",
-        "ffight",
-        # "forgottn",
-        "ghouls",
-        "knights",
-        "msword",
-        "megaman",
-        "mtwins",
-        "mercs",
-        "mbombrd",
-        "nemo",
-        "pang3",
-        "pnickj",
-        "qad",
-        "qtono2j",
-        "slammast",
-        "sf2",
-        "sf2ce",
-        "sf2hf",
-        "sfzch",
-        "strider",
-        "kod",
-        "punisher",
-        "3wonders",
-        "unsquad",
-        "varth",
-        "wof",
-        "willow",
-    ]
 
     cps1_ra_app_configs = Wii_AppConfigs(
         app_name="Capcom - CP System I",
@@ -120,9 +86,10 @@ if __name__ == "__main__":
             continue
 
         print(
-            "\n1. 导出 App (retroarch-wii 核心) 到 wii-ra-apps-sd\n"
-            "2. 导出 App (RA-HEXAECO 核心) 到 wii-ss-apps-sd\n"
-            "3. 导出 App (RA-HEXAECO 核心) 到 wii-ss-apps-usb\n"
+            "\n1. 导出 ROM 文件\n"
+            "2. 导出 App (retroarch-wii 核心) 到 wii-ra-apps-sd\n"
+            "3. 导出 App (RA-HEXAECO 核心) 到 wii-ss-apps-sd\n"
+            "4. 导出 App (RA-HEXAECO 核心) 到 wii-ss-apps-usb\n"
             "其他输入表示退出"
         )
         user_input = input("请输入操作的序号 > ")
@@ -130,17 +97,25 @@ if __name__ == "__main__":
         try:
             number = int(user_input)
             if number == 1:
+                cps1_ra_app_configs.init_playlist_configs()
+                RA_Playlist(cps1_ra_app_configs.playlist_configs).export_rom_files()
+            elif number == 2:
                 device = Wii_AppConfigs.DEVICE_SD
 
                 cps1_ra_app_configs.device = device
-                cps1_ra_app_configs.init_playlist_configs(rom_file_title_list)
+                cps1_ra_app_configs.init_playlist_configs()
+                cps1_ra_app_configs.playlist_configs.boxarts_folder = None
+                cps1_ra_app_configs.playlist_configs.logos_folder = None
+                cps1_ra_app_configs.playlist_configs.snaps_folder = None
+                cps1_ra_app_configs.playlist_configs.titles_folder = None
+                cps1_ra_app_configs.use_favorites_as_playlist = False
                 WiiRA_App(cps1_ra_app_configs).export_all()
 
                 for game_app_configs in game_app_configs_list:
                     game_app_configs.device = device
                     game_app = WiiRA_App(game_app_configs)
                     game_app.export_all()
-            elif number == 2:
+            elif number == 3:
                 device = Wii_AppConfigs.DEVICE_SD
 
                 cps1_ss_app_configs.device = device
@@ -150,7 +125,7 @@ if __name__ == "__main__":
                     game_app_configs.device = device
                     game_app = WiiSS_App(game_app_configs)
                     game_app.export_all()
-            elif number == 3:
+            elif number == 4:
                 device = Wii_AppConfigs.DEVICE_USB
 
                 cps1_ss_app_configs.device = device
