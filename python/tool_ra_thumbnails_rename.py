@@ -39,13 +39,13 @@ class RA_ThumbnailsRename:
     @staticmethod
     def default_lpl_file_path():
         return LocalConfigs.retroarch_directory.joinpath(
-            f"playlists\\{RA_Configs.lpl_file_name()}"
+            f"playlists\\{RA_Configs.lpl_file_name}"
         )
 
     @staticmethod
     def default_thumbnails_directory():
         return LocalConfigs.retroarch_directory.joinpath(
-            f"thumbnails\\{RA_Configs.lpl_file_name().stem}"
+            f"thumbnails\\{RA_Configs.lpl_file_name.stem}"
         )
 
     @staticmethod

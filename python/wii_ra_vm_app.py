@@ -30,7 +30,7 @@ class WiiRA_VM_App:
         )
 
     def export_core_files(self):
-        src_app_dir = WiiRA_Configs.src_app_directory()
+        src_app_dir = WiiRA_Configs.repository_directory()
         dst_app_dir = self.directory()
 
         src_dir = src_app_dir.joinpath("info")
@@ -230,7 +230,7 @@ class WiiRA_VM_App:
 
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
             configs_dict = self.configs_dict()
-            src_cfg_file_path = WiiRA_Configs.src_app_directory().joinpath(
+            src_cfg_file_path = WiiRA_Configs.repository_directory().joinpath(
                 WiiRA_Configs.default_cfg_file_name,
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
@@ -245,7 +245,7 @@ class WiiRA_VM_App:
             dst_file.close()
 
     def export_playlist(self):
-        lpl_file_path = self.directory().joinpath("playlists", RA_Configs.lpl_file_name())
+        lpl_file_path = self.directory().joinpath("playlists", RA_Configs.lpl_file_name)
         if not Helper.verify_exist_directory_ex(
             self.directory().joinpath("playlists\\builtin")
         ):
@@ -287,7 +287,7 @@ class WiiRA_VM_App:
                 lpl_file.write(f'      "core_path": "{core_path}",\n')
                 lpl_file.write(f'      "core_name": "{RA_Configs.core_name()}",\n')
                 lpl_file.write(f'      "crc32": "{rom.crc32}|crc",\n')
-                lpl_file.write(f'      "db_name": "{RA_Configs.lpl_file_name()}"\n')
+                lpl_file.write(f'      "db_name": "{RA_Configs.lpl_file_name}"\n')
                 lpl_file.write("    }")
 
             lpl_file.write("\n  ]\n}\n")

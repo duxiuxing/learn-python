@@ -7,7 +7,7 @@ from local_configs import LocalConfigs
 from pathlib import Path
 from PIL import Image
 from ra_configs import RA_Configs
-from ra_playlist_config import RA_PlaylistConfig
+from ra_playlist_configs import RA_PlaylistConfigs
 from ra_playlist_item import RA_PlaylistItem
 from resource_file_helper import ResourceFileHelper
 from rom import Rom
@@ -15,7 +15,7 @@ from roms_db import RomsDB
 
 
 class RA_Playlist:
-    def __init__(self, configs: RA_PlaylistConfig):
+    def __init__(self, configs: RA_PlaylistConfigs):
         self.configs = configs
 
     @staticmethod
@@ -35,7 +35,7 @@ class RA_Playlist:
 
     def export_rom_files(self):
         dst_dir = LocalConfigs.export_to_directory.joinpath(
-            RA_Configs.roms_relative_directory()
+            self.configs.roms_relative_directory
         )
         for item in self.configs.item_list:
             rom = RomsDB.query_rom(rom_crc32=item.crc32)
@@ -77,7 +77,7 @@ class RA_Playlist:
             return
 
         dst_dir = LocalConfigs.export_to_directory.joinpath(
-            f"thumbnails\\{RA_Configs.lpl_file_name().stem}\\{dst_folder_name}",
+            f"thumbnails\\{RA_Configs.lpl_file_name.stem}\\{dst_folder_name}",
         )
         for item in self.configs.item_list:
             rom = RomsDB.query_rom(rom_crc32=item.crc32)

@@ -19,45 +19,40 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 
 
 class WiiRA_App:
-    def __init__(self, configs: Wii_AppConfigs):
-        self.configs = configs
+    def __init__(self, app_configs: Wii_AppConfigs):
+        self.configs = app_configs
 
     def app_folder_name(self):
-        return f"{self.configs.device}-{self.configs.base_app_folder_name}"
+        plugin_name = WiiFlow_Configs.plugin_name.lower()
+        if plugin_name == self.configs.base_app_folder_name:
+            return f"{self.configs.device}-{plugin_name}"
+        else:
+            return f"{self.configs.device}-{plugin_name}-{self.configs.base_app_folder_name}"
 
-    def app_folder_win_path(self) -> Path:
+    def win_app_directory(self) -> Path:
         return LocalConfigs.export_to_directory.joinpath(
             f"apps\\{self.app_folder_name()}"
         )
 
-    def app_folder_wii_path(self) -> str:
+    def wii_app_directory(self) -> str:
         return f"{self.configs.device}:/apps/{self.app_folder_name()}"
-
-    def boot_dol_win_path(self) -> Path:
-        return self.app_folder_win_path().joinpath("boot.dol")
-
-    def icon_png_win_path(self) -> Path:
-        return self.app_folder_win_path().joinpath("icon.png")
-
-    def meta_xml_win_path(self) -> Path:
-        return self.app_folder_win_path().joinpath("meta.xml")
 
     # 拷贝 boot.dol，如果是模拟器 App 还要拷贝 core 和 info 文件
     def export_core_files(self):
-        src_app_dir = WiiRA_Configs.src_app_directory()
-        src_core_file_path = src_app_dir.joinpath(WiiRA_Configs.core_file_name)
+        src_dir = WiiRA_Configs.repository_directory()
+        src_core_file_path = src_dir.joinpath(WiiRA_Configs.core_file_name)
 
         if self.configs.playlist_configs is not None:
-            src_core_info_file_path = src_app_dir.joinpath(
+            src_core_info_file_path = src_dir.joinpath(
                 f"info\\{WiiRA_Configs.core_info_file_name}"
             )
-            dst_info_dir = self.app_folder_win_path().joinpath("info")
+            dst_info_dir = self.win_app_directory().joinpath("info")
             Helper.copy_file_to_directory(src_core_info_file_path, dst_info_dir)
-            Helper.copy_file_to_directory(
-                src_core_file_path, self.app_folder_win_path()
-            )
+            Helper.copy_file_to_directory(src_core_file_path, self.win_app_directory())
 
-        Helper.copy_file_if_not_exist(src_core_file_path, self.boot_dol_win_path())
+        Helper.copy_file_if_not_exist(
+            src_core_file_path, self.win_app_directory().joinpath("boot.dol")
+        )
 
     # logo 转 icon
     def export_icon_png(self):
@@ -74,14 +69,14 @@ class WiiRA_App:
                 print(f"【错误】无效的源文件 {src_icon_png_path}")
                 return
 
-        dst_icon_png_path = self.icon_png_win_path()
+        dst_icon_png_path = self.win_app_directory().joinpath("icon.png")
         if dst_icon_png_path.exists() and dst_icon_png_path.is_file():
             dst_icon_png_path.unlink()
 
         Image.open(src_icon_png_path).resize((128, 48)).save(dst_icon_png_path)
 
     def export_meta_xml(self):
-        meta_xml_path = self.meta_xml_win_path()
+        meta_xml_path = self.win_app_directory().joinpath("meta.xml")
         if meta_xml_path.exists() and meta_xml_path.is_file():
             meta_xml_path.unlink()
 
@@ -100,25 +95,20 @@ class WiiRA_App:
             xml_file.write(
                 f"  <short_description>{self.configs.short_description()}</short_description>\n"
             )
-            xml_file.write(f"  <long_description>{self.configs.long_description}\n\n")
+            xml_file.write(f"  <long_description>{self.configs.long_description}")
 
             lower_plugin_name = WiiFlow_Configs.plugin_name.lower()
             website = WiiFlow_Configs.website
             if website is None:
-                xml_file.write(
-                    f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}</long_description>\n"
-                )
+                xml_file.write("</long_description>\n")
             else:
-                xml_file.write(
-                    f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}\n"
-                )
-                xml_file.write(f"Website: {website}</long_description>\n")
+                xml_file.write(f"\n\nWebsite: {website}</long_description>\n")
             xml_file.write("  <ahb_access/>\n")
 
             if self.configs.rom is not None:
                 xml_file.write("  <arguments>\n")
                 xml_file.write(
-                    f"    <arg>{WiiRA_Configs.rom_folder_wii_path(self.configs.device)}</arg>\n"
+                    f"    <arg>{WiiRA_Configs.wii_roms_directory(self.configs.device)}</arg>\n"
                 )
                 rom_file_name = self.configs.rom.file_name().replace("&", "&amp;")
                 xml_file.write(f"    <arg>{rom_file_name}</arg>\n")
@@ -128,8 +118,8 @@ class WiiRA_App:
             xml_file.close()
 
     def settings_list(self):
-        app_dir = self.app_folder_wii_path()
-        retroarch_dir = WiiRA_Configs.retroarch_folder_wii_path(self.configs.device)
+        app_dir = self.wii_app_directory()
+        retroarch_dir = WiiRA_Configs.wii_data_directory(self.configs.device)
 
         list_ret = [
             # 游戏画面宽高比：0=4:3 1=16:9 22=Core provided
@@ -258,7 +248,7 @@ class WiiRA_App:
 
     def cfg_file_path(self) -> Path:
         if self.configs.cfg_file_name is None:
-            return self.app_folder_win_path().joinpath(
+            return self.win_app_directory().joinpath(
                 WiiRA_Configs.default_cfg_file_name
             )
         else:
@@ -273,7 +263,7 @@ class WiiRA_App:
 
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
             configs_dict = self.configs_dict()
-            src_cfg_file_path = WiiRA_Configs.src_app_directory().joinpath(
+            src_cfg_file_path = WiiRA_Configs.repository_directory().joinpath(
                 WiiRA_Configs.default_cfg_file_name,
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
@@ -288,17 +278,17 @@ class WiiRA_App:
             dst_file.close()
 
     def core_file_wii_path(self):
-        return f"{self.app_folder_wii_path()}/{WiiRA_Configs.core_file_name}"
+        return f"{self.wii_app_directory()}/{WiiRA_Configs.core_file_name}"
 
     def export_playlist(self):
         if self.configs.playlist_configs is None:
             return
 
-        lpl_file_path = self.app_folder_win_path().joinpath(
-            f"playlists\\{RA_Configs.lpl_file_name()}",
+        lpl_file_path = self.win_app_directory().joinpath(
+            f"playlists\\{RA_Configs.lpl_file_name}",
         )
         if self.configs.use_favorites_as_playlist:
-            lpl_file_path = self.app_folder_win_path().joinpath(
+            lpl_file_path = self.win_app_directory().joinpath(
                 f"playlists\\builtin\\content_favorites.lpl"
             )
 
@@ -309,7 +299,7 @@ class WiiRA_App:
             lpl_file_path.unlink()
 
         self.configs.playlist_configs.lpl_file_path = lpl_file_path
-        self.configs.playlist_configs.head = (
+        self.configs.playlist_configs.set_head(
             "{\n"
             '  "version": "1.5",\n'
             f'  "default_core_path": "{self.core_file_wii_path()}",\n'
@@ -322,21 +312,34 @@ class WiiRA_App:
             '  "items": [\n'
         )
         self.configs.playlist_configs.png_file_match_rom_file = True
-        self.configs.playlist_configs.snaps_folder = "snap"
-        self.configs.playlist_configs.titles_folder = "title"
-
         playlist = RA_Playlist(self.configs.playlist_configs)
         playlist.export_lpl_file()
         old_dir = LocalConfigs.export_to_directory
         LocalConfigs.export_to_directory = LocalConfigs.export_to_directory.joinpath(
             "retroarch"
         )
+        playlist.export_thumbnails_boxarts()
+        playlist.export_thumbnails_logos()
         playlist.export_thumbnails_snaps()
         playlist.export_thumbnails_titles()
         LocalConfigs.export_to_directory = old_dir
 
+    def export_remap_file(self):
+        if self.configs.rom is None or self.configs.remap is None:
+            return
+
+        src_file_path = WiiRA_Configs.repository_directory().joinpath(
+            f"remaps\\{self.configs.remap}.rmp"
+        )
+        dst_file_path = LocalConfigs.export_to_directory.joinpath(
+            f"{WiiRA_Configs.wii_remaps_relative_directory}\\{self.configs.rom.file_title}.rmp"
+        )
+        if dst_file_path.exists() and dst_file_path.is_file():
+            dst_file_path.unlink()
+        Helper.copy_file_if_not_exist(src_file_path, dst_file_path)
+
     def export_all(self):
-        app_dir = self.app_folder_win_path()
+        app_dir = self.win_app_directory()
         if not Helper.verify_exist_directory_ex(app_dir):
             print(f"【错误】无效的目标文件夹 {app_dir}")
             return
@@ -346,3 +349,4 @@ class WiiRA_App:
         self.export_meta_xml()
         self.export_retroarch_cfg()
         self.export_playlist()
+        self.export_remap_file()

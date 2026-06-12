@@ -16,14 +16,9 @@ class WiiSS_Configs:
 
     core_file_name = None
 
-    # App 文件夹名称
-    app_folder_name = "RA-HEXAECO"
-
     @staticmethod
-    def src_app_directory() -> Path:
-        return LocalConfigs.repository_directory.joinpath(
-            f"wii\\apps\\{WiiSS_Configs.app_folder_name}"
-        )
+    def repository_directory() -> Path:
+        return LocalConfigs.repository_directory.joinpath("wii\\RA-HEXAECO")
 
     # private 文件夹里的数据文件夹名称
     data_folder_name = None
