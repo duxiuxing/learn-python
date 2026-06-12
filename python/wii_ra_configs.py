@@ -34,4 +34,4 @@ class WiiRA_Configs:
 
     settings_list = None
 
-    wii_remaps_relative_directory = None
+    remaps_relative_directory = None

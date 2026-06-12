@@ -332,7 +332,7 @@ class WiiRA_App:
             f"remaps\\{self.configs.remap}.rmp"
         )
         dst_file_path = LocalConfigs.export_to_directory.joinpath(
-            f"{WiiRA_Configs.wii_remaps_relative_directory}\\{self.configs.rom.file_title}.rmp"
+            f"{WiiRA_Configs.remaps_relative_directory}\\{self.configs.rom.file_title}.rmp"
         )
         if dst_file_path.exists() and dst_file_path.is_file():
             dst_file_path.unlink()
