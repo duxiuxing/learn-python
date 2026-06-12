@@ -7,7 +7,7 @@ from local_configs import LocalConfigs
 from pathlib import Path
 from ra_configs import RA_Configs
 from ra_playlist import RA_Playlist
-from ra_playlist_config import RA_PlaylistConfig
+from ra_playlist_configs import RA_PlaylistConfigs
 from ra_playlist_item import RA_PlaylistItem
 from rom import Rom
 from roms_db import RomsDB
@@ -30,7 +30,8 @@ cps3_rom_file_name_list = [
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    configs = RA_PlaylistConfig()
+    configs = RA_PlaylistConfigs()
+    configs.roms_relative_directory = RA_Configs.win_roms_relative_directory
 
     while True:
         export_to_dir = LocalConfigs.export_to_directory
@@ -64,10 +65,10 @@ if __name__ == "__main__":
                     rom = RomsDB.query_rom(rom_file_name=rom_file_name)
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"/storage/emulated/0/arcade/cps3/{rom_file_name}",
+                        path=f"{RA_Configs.android_roms_directory}/{rom_file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
-                        db_name=RA_Configs.lpl_file_name(),
+                        db_name=RA_Configs.lpl_file_name,
                     )
                     configs.item_list.append(item)
 
@@ -83,10 +84,10 @@ if __name__ == "__main__":
                     rom = RomsDB.query_rom(rom_file_name=rom_file_name)
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"~/Documents/RetroArch/arcade/cps3/{rom_file_name}",
+                        path=f"{RA_Configs.ipad_roms_directory}/{rom_file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
-                        db_name=RA_Configs.lpl_file_name(),
+                        db_name=RA_Configs.lpl_file_name,
                     )
                     configs.item_list.append(item)
 
@@ -102,10 +103,10 @@ if __name__ == "__main__":
                     rom = RomsDB.query_rom(rom_file_name=rom_file_name)
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"/dev_hdd0/game/RETROARCH/USRDIR/arcade/cps3/{rom_file_name}",
+                        path=f"{RA_Configs.ps3_roms_directory}/{rom_file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
-                        db_name=RA_Configs.lpl_file_name(),
+                        db_name=RA_Configs.lpl_file_name,
                     )
                     configs.item_list.append(item)
 
@@ -117,14 +118,15 @@ if __name__ == "__main__":
                 break
             elif number == 4:
                 # Windows
+                path_prefix = str(RA_Configs.win_roms_directory).replace("\\", "\\\\")
                 for rom_file_name in cps3_rom_file_name_list:
                     rom = RomsDB.query_rom(rom_file_name=rom_file_name)
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"X:\\\\arcade\\\\cps3\\\\{rom_file_name}",
+                        path=f"{path_prefix}\\\\{rom_file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
-                        db_name=RA_Configs.lpl_file_name(),
+                        db_name=RA_Configs.lpl_file_name,
                     )
                     configs.item_list.append(item)
 
@@ -136,14 +138,15 @@ if __name__ == "__main__":
                 break
             elif number == 5:
                 # XBOX
+                path_prefix = str(RA_Configs.xbox_roms_directory).replace("\\", "\\\\")
                 for rom_file_name in cps3_rom_file_name_list:
                     rom = RomsDB.query_rom(rom_file_name=rom_file_name)
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"E:\\\\arcade\\\\cps3\\\\{rom_file_name}",
+                        path=f"{path_prefix}\\\\{rom_file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
-                        db_name=RA_Configs.lpl_file_name(),
+                        db_name=RA_Configs.lpl_file_name,
                     )
                     configs.item_list.append(item)
 

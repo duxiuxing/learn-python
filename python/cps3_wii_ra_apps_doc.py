@@ -57,7 +57,7 @@ if __name__ == "__main__":
     with open(doc_path, "w", encoding="utf-8") as doc:
         doc.write(
             "# CPS3 街机游戏 App 列表\n\n"
-            "1G1R1App 是 1 Game 1 ROM 1 App 的缩写，意思是一个游戏只选取一个版本的 ROM 文件，同时还有一个独立的 App 专门负责加载这个游戏的 ROM 文件。\n\n"
+            "1G1R1App 是 one Game one ROM one App 的缩写，意思是一个游戏只选取一个版本的 ROM 文件，同时还有一个独立的 App 专门负责加载这个游戏的 ROM 文件。\n\n"
             "以下是基于 Wii 版 RetroArch 的 fbalpha2012_cps1_libretro_wii.dol 核心制作的，CPS3 街机游戏 App 列表：\n\n"
             "## 按 App 名称排序\n\n"
             "序号 | App 名称 | App 图标 | 游戏中文名 | ROM 文件\n"

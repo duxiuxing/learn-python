@@ -28,11 +28,19 @@ class Init_Global_Configs:
         )
 
         # RA_Config
-        RA_Configs._lpl_file_name = Path("Capcom - CP System III.lpl")
-        RA_Configs._roms_relative_directory = Path("arcade\\cps3")
+        RA_Configs.lpl_file_name = Path("Capcom - CP System III.lpl")
+        RA_Configs.win_roms_relative_directory = Path("arcade\\cps3")
+        RA_Configs.wii_roms_relative_directory = "arcade/fba/cps3"
+        RA_Configs.android_roms_directory = Path("/storage/emulated/0/arcade/cps3")
+        RA_Configs.ipad_roms_directory = Path("~/Documents/RetroArch/arcade/cps3")
+        RA_Configs.ps3_roms_directory = Path(
+            "/dev_hdd0/game/RETROARCH/USRDIR/arcade/cps3"
+        )
+        RA_Configs.win_roms_directory = Path("X:\\arcade\\cps3")
+        RA_Configs.xbox_roms_directory = Path("E:\\arcade\\cps3")
 
         # Wii_AppConfigs
-        Wii_AppConfigs._default_short_description = "Capcom Play System 3 Emulator"
+        Wii_AppConfigs.default_short_description = "Capcom Play System 3 Emulator"
 
         # WiiRA_Configs
         WiiRA_Configs.core_file_name = Path("fbalpha2012_cps3_libretro_wii.dol")
@@ -40,11 +48,11 @@ class Init_Global_Configs:
         WiiRA_Configs.core_name = "Arcade (FB Alpha 2012 CPS-3)"
         WiiRA_Configs.release_date = "20251120"
         WiiRA_Configs.version = "1.22.2"
-        WiiRA_Configs.rom_relative_folder_win_path = Path("arcade\\fba\\cps3")
         WiiRA_Configs.settings_list = [
             # CPS3 的原生分辨率是 384x224，故使用 24=384x448
             'current_resolution_id = "24"'
         ]
+        WiiRA_Configs.wii_remaps_relative_directory = Path("remaps\\FB Alpha 2012 CPS-3")
 
         # WiiFlow_Configs
         WiiFlow_Configs.plugin_name = "CPS3"
@@ -57,24 +65,40 @@ class Init_Global_Configs:
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    print("LocalConfigs:")
-    print(f"\trepository_directory = {LocalConfigs.repository_directory}")
-    print(f"\texport_to_directory = {LocalConfigs.export_to_directory}")
-    print(f"\tretroarch_directory = {LocalConfigs.retroarch_directory}")
-    print(f"\tseven_zip_exe_path = {LocalConfigs.seven_zip_exe_path}")
-
-    print("Wii_AppConfigs:")
-    print(f"\tdefault_short_description = {Wii_AppConfigs._default_short_description}")
-
-    print("WiiRA_Configs:")
-    print(f"\tcore_file_name = {WiiRA_Configs.core_file_name}")
-    print(f"\tcore_info_file_name = {WiiRA_Configs.core_info_file_name}")
-    print(f"\tcore_name = {WiiRA_Configs.core_name}")
-    print(f"\trelease_date = {WiiRA_Configs.release_date}")
     print(
-        f"\trom_relative_folder_win_path = {WiiRA_Configs.rom_relative_folder_win_path}"
+        "LocalConfigs:\n"
+        f"\trepository_directory = {LocalConfigs.repository_directory}\n"
+        f"\texport_to_directory = {LocalConfigs.export_to_directory}\n"
+        f"\tretroarch_directory = {LocalConfigs.retroarch_directory}\n"
+        f"\tseven_zip_exe_path = {LocalConfigs.seven_zip_exe_path}"
     )
-    print(f"\tversion = {WiiRA_Configs.version}")
+
+    print(
+        "RA_Config:\n"
+        f"\tlpl_file_name = {RA_Configs.lpl_file_name}\n"
+        f"\troms_win_relative_directory = {RA_Configs.win_roms_relative_directory}\n"
+        f"\troms_wii_relative_directory = {RA_Configs.wii_roms_relative_directory}\n"
+        f"\tandroid_roms_directory = {RA_Configs.android_roms_directory}\n"
+        f"\tipad_roms_directory = {RA_Configs.ipad_roms_directory}\n"
+        f"\tps3_roms_directory = {RA_Configs.ps3_roms_directory}\n"
+        f"\twin_roms_directory = {RA_Configs.win_roms_directory}\n"
+        f"\txbox_roms_directory = {RA_Configs.xbox_roms_directory}"
+    )
+
+    print(
+        "Wii_AppConfigs:\n"
+        f"\tdefault_short_description = {Wii_AppConfigs.default_short_description}"
+    )
+
+    print(
+        "WiiRA_Configs:\n"
+        f"\tcore_file_name = {WiiRA_Configs.core_file_name}\n"
+        f"\tcore_info_file_name = {WiiRA_Configs.core_info_file_name}\n"
+        f"\tcore_name = {WiiRA_Configs.core_name}\n"
+        f"\trelease_date = {WiiRA_Configs.release_date}\n"
+        f"\tversion = {WiiRA_Configs.version}\n"
+        f"\twii_remaps_relative_directory = {WiiRA_Configs.wii_remaps_relative_directory}"
+    )
 
     print("WiiFlow_Configs:")
     print(f"\tplugin_name = {WiiFlow_Configs.plugin_name}")

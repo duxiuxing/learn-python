@@ -6,7 +6,7 @@ from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
-from wii_ra_configs import WiiRA_Configs
+from ra_configs import RA_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         )
 
         roms_dir = LocalConfigs.export_to_directory.joinpath(
-            WiiRA_Configs.roms_relative_directory
+            RA_Configs.wii_roms_relative_directory
         )
         index = 0
         for rom_file_name in os.listdir(roms_dir):

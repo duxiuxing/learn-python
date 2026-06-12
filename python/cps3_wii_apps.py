@@ -3,6 +3,8 @@
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
+from ra_playlist import RA_Playlist
+from ra_playlist_configs import RA_PlaylistConfigs
 from wii_app_configs import add_game_app_configs
 from wii_app_configs import game_app_configs_list
 from wii_app_configs import Wii_AppConfigs
@@ -10,15 +12,6 @@ from wii_ra_app import WiiRA_App
 
 if __name__ == "__main__":
     Init_Global_Configs()
-
-    rom_file_title_list = [
-        "jojoba",
-        "jojo",
-        "redearth",
-        "sfiii",
-        "sfiii2",
-        "sfiii3",
-    ]
 
     cps3_ra_app_configs = Wii_AppConfigs(
         app_name="Capcom - CP System III",
@@ -31,8 +24,10 @@ if __name__ == "__main__":
         "- Compatible with FB Alpha v0.2.97.29 ROM sets"
     )
 
-    add_game_app_configs(rom_file_title="jojoba", app_name="JoJo's Venture 2")
-    add_game_app_configs(rom_file_title="jojo")
+    add_game_app_configs(rom_file_title="jojo", remap="jojo")
+    add_game_app_configs(
+        rom_file_title="jojoba", app_name="JoJo's Venture 2", remap="jojo"
+    )
     add_game_app_configs(rom_file_title="redearth")
     add_game_app_configs(rom_file_title="sfiii", app_name="Street Fighter 3.1")
     add_game_app_configs(rom_file_title="sfiii2", app_name="Street Fighter 3.2")
@@ -52,17 +47,26 @@ if __name__ == "__main__":
             continue
 
         print(
-            "\n1. 导出 App (retroarch-wii 核心) 到 wii-ra-apps-sd\n" "其他输入表示退出"
+            "\n1. 导出 ROM 文件\n"
+            "2. 导出 App (retroarch-wii 核心) 到 wii-ra-apps-sd\n"
+            "其他输入表示退出"
         )
         user_input = input("请输入操作的序号 > ")
         device = None
         try:
             number = int(user_input)
             if number == 1:
+                cps3_ra_app_configs.init_playlist_configs()
+                RA_Playlist(cps3_ra_app_configs.playlist_configs).export_rom_files()
+            elif number == 2:
                 device = Wii_AppConfigs.DEVICE_SD
 
                 cps3_ra_app_configs.device = device
-                cps3_ra_app_configs.init_playlist_configs(rom_file_title_list)
+                cps3_ra_app_configs.init_playlist_configs()
+                cps3_ra_app_configs.playlist_configs.boxarts_folder = None
+                cps3_ra_app_configs.playlist_configs.logos_folder = None
+                cps3_ra_app_configs.playlist_configs.snaps_folder = None
+                cps3_ra_app_configs.playlist_configs.titles_folder = None
                 cps3_ra_app_configs.use_favorites_as_playlist = True
                 WiiRA_App(cps3_ra_app_configs).export_all()
 
