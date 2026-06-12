@@ -2,11 +2,15 @@
 
 import os
 
+from game import Game
+from games_db import GamesDB
 from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
-from wii_ra_configs import WiiRA_Configs
+from ra_configs import RA_Configs
+from rom import Rom
+from roms_db import RomsDB
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -38,7 +42,7 @@ if __name__ == "__main__":
         )
 
         roms_dir = LocalConfigs.export_to_directory.joinpath(
-            WiiRA_Configs.rom_relative_folder_win_path
+            RA_Configs.wii_roms_relative_directory
         )
         index = 0
         for rom_file_name in os.listdir(roms_dir):
@@ -65,8 +69,8 @@ if __name__ == "__main__":
         index = 0
         for rom_file_name, bug in rom_file_name_to_bug_dict.items():
             index = index + 1
-            rom = WiiFlow_RomsDB.query_rom(rom_file_title=Path(rom_file_name).stem)
-            game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
+            rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+            game = GamesDB.query_game(game_id=rom.game_id)
             doc.write(
                 f"{index} | {rom_file_name} | {game.en_title} | {game.zhcn_title} | {bug}\n"
             )
