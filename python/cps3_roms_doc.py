@@ -54,7 +54,7 @@ if __name__ == "__main__":
             if rom.parent_rom is not None:
                 parent_rom_msg = f" {rom.parent_rom.file_name} "
             doc.write(
-                f"{index} | {rom_file_name} | {rom.crc32} |{parent_rom_msg}| {game.zhcn_title}\n"
+                f"{index} | {rom_file_name} | {rom.crc32} |{parent_rom_msg}| {game.zhcn_title[4:]}\n"
             )
 
         doc.write(
