@@ -52,7 +52,9 @@ class Init_Global_Configs:
             # CPS3 的原生分辨率是 384x224，故使用 24=384x448
             'current_resolution_id = "24"'
         ]
-        WiiRA_Configs.wii_remaps_relative_directory = Path("remaps\\FB Alpha 2012 CPS-3")
+        WiiRA_Configs.wii_remaps_relative_directory = Path(
+            "remaps\\FB Alpha 2012 CPS-3"
+        )
 
         # WiiFlow_Configs
         WiiFlow_Configs.plugin_name = "CPS3"
@@ -69,6 +71,7 @@ if __name__ == "__main__":
         "LocalConfigs:\n"
         f"\trepository_directory = {LocalConfigs.repository_directory}\n"
         f"\texport_to_directory = {LocalConfigs.export_to_directory}\n"
+        f"\timport_from_directory = {LocalConfigs.import_from_directory}\n"
         f"\tretroarch_directory = {LocalConfigs.retroarch_directory}\n"
         f"\tseven_zip_exe_path = {LocalConfigs.seven_zip_exe_path}"
     )
@@ -100,5 +103,4 @@ if __name__ == "__main__":
         f"\twii_remaps_relative_directory = {WiiRA_Configs.wii_remaps_relative_directory}"
     )
 
-    print("WiiFlow_Configs:")
-    print(f"\tplugin_name = {WiiFlow_Configs.plugin_name}")
+    print("WiiFlow_Configs:\n" f"\tplugin_name = {WiiFlow_Configs.plugin_name}")
