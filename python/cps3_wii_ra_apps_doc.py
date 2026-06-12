@@ -68,7 +68,7 @@ if __name__ == "__main__":
         for app in sorted(app_list, key=lambda x: x.name):
             index = index + 1
             doc.write(
-                f"{index} | {app.name} | ![](./apps/{app.folder_name}/icon.png) | {app.game_zhcn_title} | {app.rom_file_name}\n"
+                f"{index} | {app.name} | ![](./apps/{app.folder_name}/icon.png) | {app.game_zhcn_title[4:]} | {app.rom_file_name}\n"
             )
 
         doc.write(
