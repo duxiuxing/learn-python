@@ -5,27 +5,32 @@ from pathlib import Path
 from ra_configs import RA_Configs
 
 
-class RA_PlaylistConfig:
+class RA_PlaylistConfigs:
     def __init__(self):
+        self._head = None
+
         self.lpl_file_path = None
-        self.head = None
         self.item_list = []
         self.png_file_match_rom_file = False
         self.boxarts_folder = "boxart"
         self.logos_folder = "logo"
         self.snaps_folder = "snap"
         self.titles_folder = "title"
+        self.roms_relative_directory = None
 
     def get_lpl_file_path(self):
         if self.lpl_file_path is None:
             return LocalConfigs.export_to_directory.joinpath(
-                f"playlists\\{RA_Configs.lpl_file_name()}",
+                f"playlists\\{RA_Configs.lpl_file_name}",
             )
         else:
             return self.lpl_file_path
 
+    def set_head(self, head):
+        self._head = head
+
     def get_head(self):
-        if self.head is None:
+        if self._head is None:
             return (
                 "{\n"
                 '  "version": "1.5",\n'
@@ -39,4 +44,4 @@ class RA_PlaylistConfig:
                 '  "items": [\n'
             )
         else:
-            return self.head
+            return self._head

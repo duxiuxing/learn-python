@@ -3,7 +3,7 @@
 from local_configs import LocalConfigs
 from pathlib import Path
 from ra_configs import RA_Configs
-from ra_playlist_config import RA_PlaylistConfig
+from ra_playlist_configs import RA_PlaylistConfigs
 from ra_playlist_item import RA_PlaylistItem
 from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
@@ -19,12 +19,15 @@ class Wii_AppConfigs:
     DEVICE_SD = "sd"
     DEVICE_USB = "usb"
 
-    _default_short_description = None
+    default_short_description = None
 
-    def __init__(self, app_name: str, base_app_folder_name: str, rom: WiiFlow_Rom):
+    def __init__(
+        self, app_name: str, base_app_folder_name: str, rom: WiiFlow_Rom, remap=None
+    ):
         self.app_name = app_name
         self.base_app_folder_name = base_app_folder_name
         self.rom = rom
+        self.remap = remap
         self.device = None
         self._short_description = None
 
@@ -54,32 +57,35 @@ class Wii_AppConfigs:
         self.playlist_configs = None
         self.use_favorites_as_playlist = False
 
+    def set_short_description(self, short_description):
+        self._short_description = short_description
+
     def short_description(self) -> str:
         if self._short_description is None:
-            return Wii_AppConfigs._default_short_description
+            return Wii_AppConfigs.default_short_description
         else:
             return self._short_description
 
-    def init_playlist_configs(self, rom_file_title_list):
+    def init_playlist_configs(self):
         game_list = []
-        for rom_file_title in rom_file_title_list:
-            game_id = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title).game_id
-            game_list.append(WiiFlow_GamesDB.query_game(game_id=game_id))
+        for rom in WiiFlow_RomsDB.all_roms():
+            game_list.append(WiiFlow_GamesDB.query_game(game_id=rom.game_id))
 
-        self.playlist_configs = RA_PlaylistConfig()
-        rom_folder_wii_path = WiiRA_Configs.rom_folder_wii_path(self.device)
+        self.playlist_configs = RA_PlaylistConfigs()
+        self.playlist_configs.roms_relative_directory = Path(RA_Configs.wii_roms_relative_directory)
+        rom_folder_wii_path = WiiRA_Configs.wii_roms_directory(self.device)
         for game in sorted(game_list, key=lambda x: x.name):
             rom = WiiFlow_RomsDB.query_rom(game_id=game.id)
             item = RA_PlaylistItem(
                 path=f"{rom_folder_wii_path}/{rom.file_name()}",
                 label=game.name,
                 crc32=rom.crc32,
-                db_name=RA_Configs.lpl_file_name(),
+                db_name=RA_Configs.lpl_file_name,
             )
             self.playlist_configs.item_list.append(item)
 
 
-def add_game_app_configs(rom_file_title: str, app_name=None):
+def add_game_app_configs(rom_file_title: str, app_name=None, remap=None):
     rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
     game = WiiFlow_GamesDB.query_game(rom.game_id)
     if app_name is None:
@@ -88,8 +94,6 @@ def add_game_app_configs(rom_file_title: str, app_name=None):
         print(f"【提示】{rom.file_title} App 无需指定 app_name")
 
     app_configs = Wii_AppConfigs(
-        app_name=app_name,
-        base_app_folder_name=rom_file_title,
-        rom=rom,
+        app_name=app_name, base_app_folder_name=rom_file_title, rom=rom, remap=remap
     )
     game_app_configs_list.append(app_configs)

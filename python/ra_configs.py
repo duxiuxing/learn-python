@@ -4,14 +4,13 @@ from pathlib import Path
 
 
 class RA_Configs:
-    _lpl_file_name = None
+    lpl_file_name = None
 
-    @staticmethod
-    def lpl_file_name() -> Path:
-        return RA_Configs._lpl_file_name
-
-    _roms_relative_directory = None
-
-    @staticmethod
-    def roms_relative_directory() -> Path:
-        return RA_Configs._roms_relative_directory
+    win_roms_relative_directory = None
+    wii_roms_relative_directory = None
+    
+    android_roms_directory = None
+    ipad_roms_directory = None
+    ps3_roms_directory = None
+    win_roms_directory = None
+    xbox_roms_directory = None
