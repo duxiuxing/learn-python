@@ -19,6 +19,12 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 if __name__ == "__main__":
     Init_Global_Configs()
 
+    doc_path = LocalConfigs.export_to_directory.joinpath(
+        "CPS1 Apps (RA核心).md",
+    )
+    if doc_path.exists() and doc_path.is_file():
+        doc_path.unlink()
+
     app_info_list = []
     apps_dir = LocalConfigs.export_to_directory.joinpath("apps")
     for app_folder_name in os.listdir(apps_dir):
@@ -44,15 +50,6 @@ if __name__ == "__main__":
 
         if app_info.rom_file_name is not None:
             app_info_list.append(app_info)
-
-    doc_path = LocalConfigs.export_to_directory.joinpath(
-        "CPS1 Apps (RA核心).md",
-    )
-    if not Helper.verify_exist_directory_ex(doc_path.parent):
-        print(f"【错误】无效的目标文件 {doc_path}")
-        exit()
-    if doc_path.exists() and doc_path.is_file():
-        doc_path.unlink()
 
     with open(doc_path, "w", encoding="utf-8") as doc:
         doc.write(
