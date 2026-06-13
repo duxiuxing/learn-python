@@ -7,6 +7,7 @@ from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
 from ra_configs import RA_Configs
+from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -14,24 +15,21 @@ from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
 # https://github.com/R-Sam-1980/cps3 的 wii-roms 分支
-# 生成文档 CPS3 Roms (Wii).md
 if __name__ == "__main__":
     Init_Global_Configs()
 
     doc_path = LocalConfigs.export_to_directory.joinpath(
-        "CPS3 Roms (Wii).md",
+        f"{WiiFlow_Configs.plugin_name} Roms (Wii).md",
     )
-    if not Helper.verify_exist_directory_ex(doc_path.parent):
-        print(f"【错误】无效的目标文件 {doc_path}")
-        exit()
-
     if doc_path.exists() and doc_path.is_file():
         doc_path.unlink()
 
     with open(doc_path, "w", encoding="utf-8") as doc:
         doc.write(
-            "# CPS3 街机游戏兼容性列表\n\n"
-            "Wii 版的 RetroArch 使用 Arcade (FB Alpha 2012 CPS-3) 核心来加载 CPS3 街机游戏。\n\n\n"
+            f"# {WiiFlow_Configs.plugin_name} 街机游戏兼容性列表\n\n"
+            f"Wii 版的 RetroArch 使用以下核心来加载 {WiiFlow_Configs.plugin_name} 街机游戏：\n"
+            f"- 核心名称：{WiiRA_Configs.core_name}\n"
+            f"- 核心文件：{WiiRA_Configs.core_file_name}\n\n\n"
             "## 可玩游戏列表\n\n"
             "序号 | ROM 文件 | CRC32 | 英文名 | 中文名\n"
             "--- | --- | --- | --- | ---\n"

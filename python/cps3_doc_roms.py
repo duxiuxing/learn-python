@@ -11,14 +11,15 @@ from local_configs import LocalConfigs
 from pathlib import Path
 from rom import Rom
 from roms_db import RomsDB
+from wii_ra_configs import WiiRA_Configs
+from wiiflow_configs import WiiFlow_Configs
 
 # https://github.com/R-Sam-1980/cps3 的 roms 分支
-# 生成文档 CPS3 Roms.md
 if __name__ == "__main__":
     Init_Global_Configs()
 
     doc_path = LocalConfigs.export_to_directory.joinpath(
-        "CPS3 Roms.md",
+        f"{WiiFlow_Configs.plugin_name} Roms.md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
         print(f"【错误】无效的目标文件 {doc_path}")
@@ -29,15 +30,15 @@ if __name__ == "__main__":
 
     with open(doc_path, "w", encoding="utf-8") as doc:
         doc.write(
-            "# CPS3 街机游戏兼容性列表\n\n"
-            "以 Widows 版的 RetroArch 为例，支持 CPS3 街机游戏的核心不止一个：\n"
-            "- Arcade (FB Alpha 2012 CPS-3)\n"
+            f"# {WiiFlow_Configs.plugin_name} 街机游戏兼容性列表\n\n"
+            f"以 Widows 版的 RetroArch 为例，支持 {WiiFlow_Configs.plugin_name} 街机游戏的核心不止一个：\n"
+            f"- {WiiRA_Configs.core_name}\n"
             "- Arcade (FB Alpha 2012)\n"
             "- Arcade (FinalBurn Neo)\n"
             "- Arcade (MAME...) 系列核心\n\n"
             "1G1R 是 one Game one ROM 的缩写，意思是一个游戏只选取一个最佳版本的 ROM 文件。\n\n"
-            "下面这份 CPS3 街机游戏列表，是根据 FBNeo - Arcade Games.rdb 数据库里 ROM 文件描述，按照 1G1R 的策略收集整理的，每个 ROM 都支持以下三种核心：\n"
-            "1. Arcade (FB Alpha 2012 CPS-3)\n"
+            f"下面这份 {WiiFlow_Configs.plugin_name} 街机游戏列表，是根据 FBNeo - Arcade Games.rdb 数据库里 ROM 文件描述，按照 1G1R 的策略收集整理的，每个 ROM 都支持以下三种核心：\n"
+            f"1. {WiiRA_Configs.core_name}\n"
             "2. Arcade (FB Alpha 2012)\n"
             "3. Arcade (FinalBurn Neo)\n\n"
             "序号 | ROM 文件 | CRC32 | 依赖于 | 游戏名称\n"
