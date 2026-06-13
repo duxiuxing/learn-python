@@ -10,11 +10,11 @@ from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
+from ra_configs import RA_Configs
 from ra_rom import RA_Rom
 from resource_file_helper import ResourceFileHelper
 from rom import Rom
 from roms_db import RomsDB
-from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -27,8 +27,8 @@ if __name__ == "__main__":
 
     lpl_file_path = None
     while True:
-        lpl_file_path = LocalConfigs.retroarch_directory().joinpath(
-            "playlists", WiiRA_Configs.db_name()
+        lpl_file_path = LocalConfigs.retroarch_directory.joinpath(
+            f"playlists\\{RA_Configs.lpl_file_name}"
         )
         print("\n即将根据 .lpl 文件导入 ROM 文件")
         print(f"默认 .lpl 文件路径：{lpl_file_path}")

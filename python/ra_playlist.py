@@ -7,15 +7,15 @@ from local_configs import LocalConfigs
 from pathlib import Path
 from PIL import Image
 from ra_configs import RA_Configs
-from ra_playlist_config import LiteRom
-from ra_playlist_config import RA_PlaylistConfig
+from ra_playlist_configs import RA_PlaylistConfigs
+from ra_playlist_item import RA_PlaylistItem
 from resource_file_helper import ResourceFileHelper
 from rom import Rom
 from roms_db import RomsDB
 
 
 class RA_Playlist:
-    def __init__(self, configs: RA_PlaylistConfig):
+    def __init__(self, configs: RA_PlaylistConfigs):
         self.configs = configs
 
     @staticmethod
@@ -34,17 +34,16 @@ class RA_Playlist:
         Helper.copy_file_to_directory(src_file_path, dst_dir)
 
     def export_rom_files(self):
-        dst_dir = LocalConfigs.export_to_directory().joinpath(
-            RA_Configs.roms_relative_directory()
+        dst_dir = LocalConfigs.export_to_directory.joinpath(
+            self.configs.roms_relative_directory
         )
-        for rom in self.configs.rom_list:
+        for item in self.configs.item_list:
+            rom = RomsDB.query_rom(rom_crc32=item.crc32)
             RA_Playlist.export_rom_file(rom, dst_dir)
             RA_Playlist.export_rom_file(rom.parent_rom, dst_dir)
 
     def export_lpl_file(self):
-        lpl_file_path = LocalConfigs.export_to_directory().joinpath(
-            f"playlists\\{RA_Configs.db_name()}",
-        )
+        lpl_file_path = self.configs.get_lpl_file_path()
         if not Helper.verify_exist_directory_ex(lpl_file_path.parent):
             print(f"【错误】无效的目标文件 {lpl_file_path}")
             return
@@ -52,42 +51,22 @@ class RA_Playlist:
             lpl_file_path.unlink()
 
         with open(lpl_file_path, "w", encoding="utf-8") as lpl_file:
-            head = (
-                "{\n"
-                '  "version": "1.5",\n'
-                '  "default_core_path": "DETECT",\n'
-                '  "default_core_name": "DETECT",\n'
-                '  "label_display_mode": 0,\n'
-                '  "right_thumbnail_mode": 4,\n'
-                '  "left_thumbnail_mode": 2,\n'
-                '  "thumbnail_match_mode": 0,\n'
-                '  "sort_mode": 1,\n'
-                '  "items": [\n'
-            )
-            lpl_file.write(head)
+            lpl_file.write(self.configs.get_head())
 
-            first_rom = True
-            for rom in self.configs.rom_list:
-                if first_rom:
-                    first_rom = False
+            first_item = True
+            for item in self.configs.item_list:
+                if first_item:
+                    first_item = False
                     lpl_file.write("    {\n")
                 else:
                     lpl_file.write(",\n    {\n")
 
-                lpl_file.write(
-                    f'      "path": "{self.configs.rom_path_prefix}{rom.file_name}",\n'
-                )
-
-                game = GamesDB.query_game(game_id=rom.game_id)
-                label = game.en_title
-                if self.configs.use_zhcn_title_as_label:
-                    label = game.zhcn_title
-                lpl_file.write(f'      "label": "{label}",\n')
-
+                lpl_file.write(f'      "path": "{item.path}",\n')
+                lpl_file.write(f'      "label": "{item.label}",\n')
                 lpl_file.write('      "core_path": "DETECT",\n')
                 lpl_file.write('      "core_name": "DETECT",\n')
-                lpl_file.write(f'      "crc32": "{rom.crc32}|crc",\n')
-                lpl_file.write(f'      "db_name": "{RA_Configs.db_name()}"\n')
+                lpl_file.write(f'      "crc32": "{item.crc32}|crc",\n')
+                lpl_file.write(f'      "db_name": "{item.db_name}"\n')
                 lpl_file.write("    }")
 
             lpl_file.write("\n  ]\n}\n")
@@ -97,20 +76,17 @@ class RA_Playlist:
         if src_folder_name is None:
             return
 
-        dst_dir = LocalConfigs.export_to_directory().joinpath(
-            f"thumbnails\\{RA_Configs.db_name().stem}\\{dst_folder_name}",
+        dst_dir = LocalConfigs.export_to_directory.joinpath(
+            f"thumbnails\\{RA_Configs.lpl_file_name.stem}\\{dst_folder_name}",
         )
-        for rom in self.configs.rom_list:
+        for item in self.configs.item_list:
+            rom = RomsDB.query_rom(rom_crc32=item.crc32)
             src_file_path = ResourceFileHelper.compute_rom_media_file_path(
                 rom, src_folder_name, ".png"
             )
             dst_file_name = f"{rom.file_name.stem}.png"
             if not self.configs.png_file_match_rom_file:
-                game = GamesDB.query_game(game_id=rom.game_id)
-                label = game.en_title
-                if self.configs.use_zhcn_title_as_label:
-                    label = game.zhcn_title
-                dst_file_name = f"{label}.png"
+                dst_file_name = f"{item.label}.png"
             dst_file_path = dst_dir.joinpath(dst_file_name)
             Helper.copy_file_if_not_exist(src_file_path, dst_file_path)
 

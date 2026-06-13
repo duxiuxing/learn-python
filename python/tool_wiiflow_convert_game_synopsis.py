@@ -12,7 +12,7 @@ if __name__ == "__main__":
     # 但 WiiFlow 在显示中文句子的时候不会自动换行，需要在每个汉字之间加上空格才能有较好的显示效果，
     # 本函数用于生成 WiiFlow 专用排版格式的游戏摘要文本，原始的摘要文本存于 game_synopsis.md，
     # 转换后的摘要文本存于 game_synopsis.wiiflow.md，需要手动合入 .xml 文件
-    src_file_path = LocalConfigs.repository_directory().joinpath(
+    src_file_path = LocalConfigs.repository_directory.joinpath(
         "doc\\game_synopsis.md"
     )
     if not src_file_path.exists() or not src_file_path.is_file():
@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
                 dst_lines.append(dst_line)
 
-    dst_file_path = LocalConfigs.repository_directory().joinpath(
+    dst_file_path = LocalConfigs.repository_directory.joinpath(
         "doc\\game_synopsis.wiiflow.md"
     )
     with open(dst_file_path, "w", encoding="utf-8") as dst_file:
