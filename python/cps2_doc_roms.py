@@ -2,22 +2,23 @@
 
 import os
 
-from cps2_ra_playlist import cps2_lite_rom_list
+from cps2_ra_playlist import cps2_rom_file_name_list
 from game import Game
 from games_db import GamesDB
 from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
-from ra_playlist_config import LiteRom
 from rom import Rom
 from roms_db import RomsDB
 
+# https://github.com/R-Sam-1980/cps2 的 roms 分支
+# 生成文档 CPS2 Roms.md
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    doc_path = LocalConfigs.export_to_directory().joinpath(
-        f"CPS2 Roms.md",
+    doc_path = LocalConfigs.export_to_directory.joinpath(
+        "CPS2 Roms.md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
         print(f"【错误】无效的目标文件 {doc_path}")
@@ -34,7 +35,7 @@ if __name__ == "__main__":
             "- Arcade (FB Alpha 2012)\n"
             "- Arcade (FinalBurn Neo)\n"
             "- Arcade (MAME...) 系列核心\n\n"
-            "1G1R 是 1 Game 1 ROM 的缩写，意思是一个游戏只选取一个最佳版本的 ROM 文件。\n\n"
+            "1G1R 是 one Game one ROM 的缩写，意思是一个游戏只选取一个最佳版本的 ROM 文件。\n\n"
             "下面这份 CPS1 街机游戏列表，是根据 FBNeo - Arcade Games.rdb 数据库里 ROM 文件描述，按照 1G1R 的策略收集整理的，当一个游戏有多个版本的 ROM 文件时，筛选规则如下：\n"
             "1. 只支持 FinalBurn Neo，不支持 FB Alpha 2012 CPS-2 和 FB Alpha 2012 的 ROM 文件淘汰；\n"
             "2. 如果不止一个版本的 ROM 文件支持多核心，优先选择没有依赖的 ROM 文件。\n\n"
@@ -47,10 +48,8 @@ if __name__ == "__main__":
         }
 
         index = 0
-        for lite_rom in sorted(cps2_lite_rom_list, key=lambda x: x.file_name):
-            rom = RomsDB.query_rom(
-                rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
-            )
+        for rom_file_name in sorted(cps2_rom_file_name_list):
+            rom = RomsDB.query_rom(rom_file_name=rom_file_name)
             game = GamesDB.query_game(game_id=rom.game_id)
 
             index = index + 1
@@ -58,10 +57,10 @@ if __name__ == "__main__":
             if rom.parent_rom is not None:
                 parent_rom_msg = f" {rom.parent_rom.file_name} "
             bug_msg = ""
-            if str(lite_rom.file_name) in rom_file_name_to_bug_dict.keys():
-                bug_msg = f" {rom_file_name_to_bug_dict[str(lite_rom.file_name)]} "
+            if str(rom_file_name) in rom_file_name_to_bug_dict.keys():
+                bug_msg = f" {rom_file_name_to_bug_dict[str(rom_file_name)]} "
             doc.write(
-                f"{index} | {lite_rom.file_name} | {rom.crc32} |{parent_rom_msg}| {game.zhcn_title} |{bug_msg}\n"
+                f"{index} | {rom_file_name} | {rom.crc32} |{parent_rom_msg}| {game.zhcn_title[4:]} |{bug_msg}\n"
             )
 
         doc.write(
