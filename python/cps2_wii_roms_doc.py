@@ -2,22 +2,28 @@
 
 import os
 
+from game import Game
+from games_db import GamesDB
 from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
-from wii_ra_configs import WiiRA_Configs
+from ra_configs import RA_Configs
+from rom import Rom
+from roms_db import RomsDB
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
 from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
+# https://github.com/R-Sam-1980/cps2 的 wii-roms 分支
+# 生成文档 CPS2 Roms (Wii).md
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    doc_path = LocalConfigs.export_to_directory().joinpath(
-        f"CPS2 Roms (Wii).md",
+    doc_path = LocalConfigs.export_to_directory.joinpath(
+        "CPS2 Roms (Wii).md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
         print(f"【错误】无效的目标文件 {doc_path}")
@@ -35,8 +41,8 @@ if __name__ == "__main__":
             "--- | --- | --- | --- | ---\n"
         )
 
-        roms_dir = LocalConfigs.export_to_directory().joinpath(
-            WiiRA_Configs.roms_relative_directory()
+        roms_dir = LocalConfigs.export_to_directory.joinpath(
+            RA_Configs.wii_roms_relative_directory
         )
         index = 0
         for rom_file_name in os.listdir(roms_dir):
@@ -47,7 +53,7 @@ if __name__ == "__main__":
             rom = WiiFlow_RomsDB.query_rom(rom_file_title=Path(rom_file_name).stem)
             game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
             doc.write(
-                f"{index} | {rom_file_name} | {rom.crc32} | {game.en_title} | {game.zhcn_title}\n"
+                f"{index} | {rom_file_name} | {rom.crc32} | {game.en_title} | {game.zhcn_title[4:]}\n"
             )
 
         doc.write(
@@ -62,10 +68,10 @@ if __name__ == "__main__":
         index = 0
         for rom_file_name, bug in rom_file_name_to_bug_dict.items():
             index = index + 1
-            rom = WiiFlow_RomsDB.query_rom(rom_file_title=Path(rom_file_name).stem)
-            game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
+            rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+            game = GamesDB.query_game(game_id=rom.game_id)
             doc.write(
-                f"{index} | {rom_file_name} | {game.en_title} | {game.zhcn_title} | {bug}\n"
+                f"{index} | {rom_file_name} | {game.en_title} | {game.zhcn_title[4:]} | {bug}\n"
             )
 
         doc.close()
