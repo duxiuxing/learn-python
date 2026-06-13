@@ -7,7 +7,9 @@ from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
+from wii_app_configs import Wii_AppConfigs
 from wii_app_info import Wii_AppInfo
+from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -19,34 +21,34 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    app_list = []
+    app_info_list = []
     apps_dir = LocalConfigs.export_to_directory.joinpath("apps")
     for app_folder_name in os.listdir(apps_dir):
         meta_xml_path = apps_dir.joinpath(f"{app_folder_name}\\meta.xml")
         if not meta_xml_path.exists() or not meta_xml_path.is_file():
             continue
 
-        app = Wii_AppInfo(app_folder_name)
+        app_info = Wii_AppInfo(app_folder_name)
         tree = ET.parse(meta_xml_path)
         root_elem = tree.getroot()
         for elem in root_elem:
             if elem.tag == "name":
-                app.name = elem.text
+                app_info.name = elem.text
             elif elem.tag == "arguments":
                 for arg_elem in elem.findall("arg"):
                     if WiiFlow_Configs.is_rom_file_name(arg_elem.text):
-                        app.rom_file_name = arg_elem.text
+                        app_info.rom_file_name = arg_elem.text
                         rom = WiiFlow_RomsDB.query_rom(
                             rom_file_title=Path(arg_elem.text).stem
                         )
                         game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
-                        app.game_zhcn_title = game.zhcn_title
+                        app_info.game_zhcn_title = game.zhcn_title
 
-        if app.rom_file_name is not None:
-            app_list.append(app)
+        if app_info.rom_file_name is not None:
+            app_info_list.append(app_info)
 
     doc_path = LocalConfigs.export_to_directory.joinpath(
-        "CPS3 Apps (RetroArch).md",
+        "CPS3 Apps (RA核心，SD卡版).md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
         print(f"【错误】无效的目标文件 {doc_path}")
@@ -57,18 +59,18 @@ if __name__ == "__main__":
     with open(doc_path, "w", encoding="utf-8") as doc:
         doc.write(
             "# CPS3 街机游戏 App 列表\n\n"
-            "1G1R1App 是 one Game one ROM one App 的缩写，意思是一个游戏只选取一个版本的 ROM 文件，同时还有一个独立的 App 专门负责加载这个游戏的 ROM 文件。\n\n"
-            "以下是基于 Wii 版 RetroArch 的 fbalpha2012_cps1_libretro_wii.dol 核心制作的，CPS3 街机游戏 App 列表：\n\n"
+            "1G1R1A 是 one Game one ROM one App 的缩写，意思是一个游戏只选取一个版本的 ROM 文件，同时还有一个独立的 App 专门负责加载这个游戏的 ROM 文件。\n\n"
+            "以下这些 CPS3 街机游戏 App，基于 Wii 版 RetroArch 的 CPS3 核心（fbalpha2012_cps3_libretro_wii.dol）制作，必须和游戏 ROM 文件一起放置在 SD 卡才能正常运行：\n\n"
             "## 按 App 名称排序\n\n"
             "序号 | App 名称 | App 图标 | 游戏中文名 | ROM 文件\n"
             "--- | --- | --- | --- | ---\n"
         )
 
         index = 0
-        for app in sorted(app_list, key=lambda x: x.name):
+        for app_info in sorted(app_info_list, key=lambda x: x.name):
             index = index + 1
             doc.write(
-                f"{index} | {app.name} | ![](./apps/{app.folder_name}/icon.png) | {app.game_zhcn_title[4:]} | {app.rom_file_name}\n"
+                f"{index} | {app_info.name} | ![](./apps/{app_info.folder_name}/icon.png) | {app_info.game_zhcn_title[4:]} | {app_info.rom_file_name}\n"
             )
 
         doc.write(
@@ -78,9 +80,9 @@ if __name__ == "__main__":
         )
 
         index = 0
-        for app in sorted(app_list, key=lambda x: x.game_zhcn_title):
+        for app_info in sorted(app_info_list, key=lambda x: x.game_zhcn_title):
             index = index + 1
             doc.write(
-                f"{index} | {app.game_zhcn_title} | ![](./apps/{app.folder_name}/icon.png) | {app.name} | {app.rom_file_name}\n"
+                f"{index} | {app_info.game_zhcn_title} | ![](./apps/{app_info.folder_name}/icon.png) | {app_info.name} | {app_info.rom_file_name}\n"
             )
         doc.close()
