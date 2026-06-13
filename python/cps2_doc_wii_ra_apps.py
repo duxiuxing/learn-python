@@ -7,36 +7,26 @@ from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
-from wii_ra_app import WiiRA_App
-from wii_ra_app_configs import WiiRA_AppConfigs
-from wii_ra_configs import WiiRA_Configs
-from wii_ra_ss_app import WiiRA_SS_App
+from wii_app_info import Wii_AppInfo
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
 from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
-
-class WiiApp:
-    def __init__(self, folder_name):
-        self.folder_name = folder_name
-        self.name = None
-        self.rom_file_name = None
-        self.game_zhcn_title = None
-
-
+# https://github.com/R-Sam-1980/cps2 的 wii-ra-apps-sd 分支
+# 生成文档 CPS2 Apps (RetroArch).md
 if __name__ == "__main__":
     Init_Global_Configs()
 
     app_list = []
-    apps_dir = LocalConfigs.export_to_directory().joinpath("apps")
+    apps_dir = LocalConfigs.export_to_directory.joinpath("apps")
     for app_folder_name in os.listdir(apps_dir):
         meta_xml_path = apps_dir.joinpath(f"{app_folder_name}\\meta.xml")
         if not meta_xml_path.exists() or not meta_xml_path.is_file():
             continue
 
-        app = WiiApp(app_folder_name)
+        app = Wii_AppInfo(app_folder_name)
         tree = ET.parse(meta_xml_path)
         root_elem = tree.getroot()
         for elem in root_elem:
@@ -55,7 +45,7 @@ if __name__ == "__main__":
         if app.rom_file_name is not None:
             app_list.append(app)
 
-    doc_path = LocalConfigs.export_to_directory().joinpath(
+    doc_path = LocalConfigs.export_to_directory.joinpath(
         "CPS2 Apps (RetroArch).md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
@@ -67,7 +57,7 @@ if __name__ == "__main__":
     with open(doc_path, "w", encoding="utf-8") as doc:
         doc.write(
             "# CPS2 街机游戏 App 列表\n\n"
-            "1G1R1App 是 1 Game 1 ROM 1 App 的缩写，意思是一个游戏只选取一个最佳版本的 ROM 文件，同时还有一个独立的 App 专门负责加载这个游戏的 ROM 文件。\n\n"
+            "1G1R1A 是 one Game one ROM one App 的缩写，意思是一个游戏只选取一个最佳版本的 ROM 文件，同时还有一个独立的 App 专门负责加载这个游戏的 ROM 文件。\n\n"
             "以下是基于 Wii 版 RetroArch 的 fbalpha2012_cps2_libretro_wii.dol 核心制作的，CPS2 街机游戏 App 列表：\n\n"
             "## 按 App 名称排序\n\n"
             "序号 | App 名称 | App 图标 | 游戏中文名 | ROM 文件\n"
@@ -78,7 +68,7 @@ if __name__ == "__main__":
         for app in sorted(app_list, key=lambda x: x.name):
             index = index + 1
             doc.write(
-                f"{index} | {app.name} | ![](./apps/{app.folder_name}/icon.png) | {app.game_zhcn_title} | {app.rom_file_name}\n"
+                f"{index} | {app.name} | ![](./apps/{app.folder_name}/icon.png) | {app.game_zhcn_title[4:]} | {app.rom_file_name}\n"
             )
 
         doc.write(
