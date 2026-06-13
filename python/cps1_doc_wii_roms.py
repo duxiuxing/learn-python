@@ -19,20 +19,19 @@ from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
 # https://github.com/R-Sam-1980/cps1 的 wii-roms 分支
-# 生成文档 CPS1 Roms (Wii).md
 if __name__ == "__main__":
     Init_Global_Configs()
 
     doc_path = LocalConfigs.export_to_directory.joinpath(
-        "CPS1 Roms (Wii).md",
+        f"{WiiFlow_Configs.plugin_name} Roms (Wii).md",
     )
     if doc_path.exists() and doc_path.is_file():
         doc_path.unlink()
 
     with open(doc_path, "w", encoding="utf-8") as doc:
         doc.write(
-            "# CPS1 街机游戏兼容性列表\n\n"
-            "Wii 版的 RetroArch 使用以下核心来加载 CPS1 街机游戏：\n"
+            f"# {WiiFlow_Configs.plugin_name} 街机游戏兼容性列表\n\n"
+            f"Wii 版的 RetroArch 使用以下核心来加载 {WiiFlow_Configs.plugin_name} 街机游戏：\n"
             f"- 核心名称：{WiiRA_Configs.core_name}\n"
             f"- 核心文件：{WiiRA_Configs.core_file_name}\n\n\n"
             "## 可玩游戏列表\n\n"
