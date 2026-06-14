@@ -8,7 +8,7 @@ from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
 from wii_app_info import Wii_AppInfo
-from wii_ra_configs import WiiRA_Configs
+from wii_ss_configs import WiiSS_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -19,7 +19,7 @@ if __name__ == "__main__":
     Init_Global_Configs()
 
     doc_path = LocalConfigs.export_to_directory.joinpath(
-        f"{WiiFlow_Configs.plugin_name} Apps (RA核心{WiiRA_Configs.version}版).md",
+        f"{WiiFlow_Configs.plugin_name} Apps (SS核心).md",
     )
     if doc_path.exists() and doc_path.is_file():
         doc_path.unlink()
@@ -54,11 +54,11 @@ if __name__ == "__main__":
         doc.write(
             f"# {WiiFlow_Configs.plugin_name} 街机游戏 App 列表\n\n"
             "1G1R1A 是 one Game one ROM one App 的缩写，意思是一个游戏只选取一个最佳版本的 ROM 文件，同时还有一个独立的 App 专门负责加载这个游戏的 ROM 文件。\n\n"
-            f"Wii 版的 RetroArch 使用以下核心来加载 {WiiFlow_Configs.plugin_name} 街机游戏：\n"
-            f"- 核心名称：{WiiRA_Configs.core_name}\n"
-            f"- 核心文件：{WiiRA_Configs.core_file_name}\n\n"
-            f"以下这些 {WiiFlow_Configs.plugin_name} 街机游戏 App，都是基于以上核心制作的。\n\n"
-            "> 注意：App 文件必须和游戏 ROM 文件一起放置在 SD 卡才能正常运行。\n\n"
+            f"RA-SS Hexaeco 使用 {WiiSS_Configs.core_file_name} 核心来加载 {WiiFlow_Configs.plugin_name} 街机游戏。\n\n"
+            f"以下这些 {WiiFlow_Configs.plugin_name} 街机游戏 App，都是基于该核心制作的。\n\n"
+            "> 注意：\n"
+            "> - SD 版的 App 文件必须和游戏 ROM 文件一起放置在 SD 卡才能正常运行；\n"
+            "> - USB 版的 App 文件必须和游戏 ROM 文件一起放置在分区格式为 FAT32 的 USB 存储设备才能正常运行。\n\n"
             "## 按 App 名称排序\n\n"
             "序号 | App 名称 | App 图标 | 游戏中文名 | ROM 文件\n"
             "--- | --- | --- | --- | ---\n"
