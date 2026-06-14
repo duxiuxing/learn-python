@@ -18,7 +18,7 @@ class WiiRA_Configs:
             f"wii\\retroarch-wii-v{WiiRA_Configs.version}"
         )
 
-    # Wii 版 RetroArch 的发布年月日，比如 "20251120"
+    # Wii 版 RetroArch 发布的年月日，比如 "20251120"
     release_date = None
 
     # Wii 版 RetroArch 的版本号，比如 "1.22.2"
