@@ -31,11 +31,9 @@ class Init_Global_Configs:
         RA_Configs.lpl_file_name = Path("Capcom - CP System III.lpl")
         RA_Configs.win_roms_relative_directory = Path("arcade\\cps3")
         RA_Configs.wii_roms_relative_directory = "arcade/fba/cps3"
-        RA_Configs.android_roms_directory = Path("/storage/emulated/0/arcade/cps3")
-        RA_Configs.ipad_roms_directory = Path("~/Documents/RetroArch/arcade/cps3")
-        RA_Configs.ps3_roms_directory = Path(
-            "/dev_hdd0/game/RETROARCH/USRDIR/arcade/cps3"
-        )
+        RA_Configs.android_roms_directory = "/storage/emulated/0/arcade/cps3"
+        RA_Configs.ipad_roms_directory = "~/Documents/RetroArch/arcade/cps3"
+        RA_Configs.ps3_roms_directory = "/dev_hdd0/game/RETROARCH/USRDIR/arcade/cps3"
         RA_Configs.win_roms_directory = Path("X:\\arcade\\cps3")
         RA_Configs.xbox_roms_directory = Path("E:\\arcade\\cps3")
 
@@ -52,9 +50,7 @@ class Init_Global_Configs:
             # CPS3 的原生分辨率是 384x224，故使用 24=384x448
             'current_resolution_id = "24"'
         ]
-        WiiRA_Configs.remaps_relative_directory = Path(
-            "remaps\\FB Alpha 2012 CPS-3"
-        )
+        WiiRA_Configs.remaps_relative_directory = Path("remaps\\FB Alpha 2012 CPS-3")
 
         # WiiFlow_Configs
         WiiFlow_Configs.plugin_name = "CPS3"
