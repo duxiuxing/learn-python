@@ -73,8 +73,8 @@ if __name__ == "__main__":
         rom=None,
     )
     wiiflow_plugin_ss_app_configs.long_description = (
-        "- Mod By RunningSnakes\n"
-        "- Emulator for CPS-2 games based on RA-SS Hexaeco\n"
+        "- Mod By RunningSnakes based on RA-SS Hexaeco\n"
+        "- Emulator for CPS-2 games\n"
         "- Based on a snapshot of the FB Alpha codebase from 2012\n"
         "- Compatible with FB Alpha v0.2.97.29 ROM sets"
     )
