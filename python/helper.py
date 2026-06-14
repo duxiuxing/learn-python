@@ -136,10 +136,8 @@ class Helper:
     @staticmethod
     def files_in_letter_folder():
         # 如果 roms 文件夹里有 roms.xml，则返回 False，否则返回 True
-        xml_file_path = os.path.join(
-            LocalConfigs.repository_directory(), "roms\\roms.xml"
-        )
-        if os.path.exists(xml_file_path):
+        xml_file_path = LocalConfigs.repository_directory.joinpath("roms\\roms.xml")
+        if xml_file_path.exists() and xml_file_path.is_file():
             return False
         else:
             return True
@@ -159,7 +157,7 @@ class Helper:
 
 
 if __name__ == "__main__":
-    repository_dir = LocalConfigs.repository_directory()
+    repository_dir = LocalConfigs.repository_directory
     if not Helper.verify_exist_directory(
         repository_dir
     ) or not Helper.verify_exist_directory_ex(repository_dir):

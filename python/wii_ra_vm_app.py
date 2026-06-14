@@ -6,8 +6,9 @@ from helper import Helper
 from local_configs import LocalConfigs
 from pathlib import Path
 from PIL import Image
+from ra_configs import RA_Configs
 from resource_file_helper import ResourceFileHelper
-from wii_ra_app_configs import WiiRA_AppConfigs
+from wii_app_configs import Wii_AppConfigs
 from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
@@ -17,18 +18,19 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 
 
 class WiiRA_VM_App:
-    def __init__(self, configs: WiiRA_AppConfigs):
+    def __init__(self, configs: Wii_AppConfigs):
         self.configs = configs
 
+    def folder_name(self):
+        return f"{self.configs.device}-{self.configs.base_app_folder_name}"
+
     def directory(self):
-        return LocalConfigs.export_to_directory().joinpath(
-            "apps", f"{self.configs.folder_name}-{self.configs.device}"
+        return LocalConfigs.export_to_directory.joinpath(
+            "apps", f"{self.configs._base_folder_name}-{self.configs.device}"
         )
 
     def export_core_files(self):
-        src_app_dir = LocalConfigs.repository_directory().joinpath(
-            "wii\\apps", WiiRA_Configs.core_folder_name()
-        )
+        src_app_dir = WiiRA_Configs.repository_directory()
         dst_app_dir = self.directory()
 
         src_dir = src_app_dir.joinpath("info")
@@ -47,7 +49,7 @@ class WiiRA_VM_App:
             game, "logo", ".png"
         )
         if not src_icon_png_path.exists():
-            rom_file_title = Path(self.configs.rom_file_path_list[0]).stem
+            rom_file_title = self.configs.rom_file_relative_path_list[0].stem
             rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
             game = GamesDB.query_game(game_id=rom.game_id)
             src_icon_png_path = ResourceFileHelper.compute_game_media_file_path(
@@ -75,16 +77,16 @@ class WiiRA_VM_App:
             xml_file.write(f"  <name>{app_name}</name>\n")
             xml_file.write("  <author>MundoWiiHACK &amp; R-Sam</author>\n")
             xml_file.write(
-                f"  <version>{WiiRA_Configs.version()}.{self.configs.device}</version>\n"
+                f"  <version>{WiiRA_Configs.version}.{self.configs.device}</version>\n"
             )
             xml_file.write(
-                f"  <release_date>{WiiRA_Configs.release_date()}</release_date>\n"
+                f"  <release_date>{WiiRA_Configs.release_date}</release_date>\n"
             )
             xml_file.write(
                 f"  <short_description>{self.configs.short_description()}</short_description>\n"
             )
             if self.configs.long_description is None:
-                rom_file_title = Path(self.configs.rom_file_path_list[0]).stem
+                rom_file_title = self.configs.rom_file_relative_path_list[0].stem
                 rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
                 game = WiiFlow_GamesDB.query_game(game_id=rom.game_id)
 
@@ -104,7 +106,7 @@ class WiiRA_VM_App:
                     f"  <long_description>{self.configs.long_description}\n\n"
                 )
 
-            lower_plugin_name = WiiFlow_Configs.plugin_name().lower()
+            lower_plugin_name = WiiFlow_Configs.plugin_name.lower()
             xml_file.write(
                 f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}\n"
             )
@@ -113,16 +115,16 @@ class WiiRA_VM_App:
             )
             xml_file.write("  <no_ios_reload/>\n")
             xml_file.write("  <ahb_access/>\n")
-            if len(self.configs.rom_file_path_list) == 1:
+            if len(self.configs.rom_file_relative_path_list) == 1:
                 rom_file_parent = str(
-                    self.configs.rom_file_path_list[0].parent
+                    self.configs.rom_file_relative_path_list[0].parent
                 ).replace("\\", "/")
                 xml_file.write("  <arguments>\n")
                 xml_file.write(
                     f"    <arg>{self.configs.device}:/{rom_file_parent}</arg>\n"
                 )
                 xml_file.write(
-                    f"    <arg>{self.configs.rom_file_path_list[0].name}</arg>\n"
+                    f"    <arg>{self.configs.rom_file_relative_path_list[0].name}</arg>\n"
                 )
                 xml_file.write("  </arguments>\n")
 
@@ -130,7 +132,7 @@ class WiiRA_VM_App:
             xml_file.close()
 
     def configs_list(self):
-        app_dir = f"{self.configs.device}:/apps/{self.configs.folder_name}-{self.configs.device}"
+        app_dir = f"{self.configs.device}:/apps/{self.configs._base_folder_name}-{self.configs.device}"
         retroarch_dir = f"{self.configs.device}:/retroarch"
 
         list_ret = [
@@ -217,8 +219,8 @@ class WiiRA_VM_App:
         return dict_ret
 
     def export_retroarch_vm_cfg(self):
-        dst_cfg_file_path = LocalConfigs.export_to_directory().joinpath(
-            "retroarch", WiiRA_Configs.core_cfg_file_name()
+        dst_cfg_file_path = LocalConfigs.export_to_directory.joinpath(
+            "retroarch", WiiRA_Configs.default_cfg_file_name
         )
         if not Helper.verify_exist_directory_ex(dst_cfg_file_path.parent):
             print(f"【错误】无效的目标文件 {dst_cfg_file_path}")
@@ -228,9 +230,8 @@ class WiiRA_VM_App:
 
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
             configs_dict = self.configs_dict()
-            src_cfg_file_path = LocalConfigs.repository_directory().joinpath(
-                f"wii\\apps\\{WiiRA_Configs.core_folder_name()}",
-                WiiRA_Configs.core_cfg_file_name(),
+            src_cfg_file_path = WiiRA_Configs.repository_directory().joinpath(
+                WiiRA_Configs.default_cfg_file_name,
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
                 line = src_file.readline()
@@ -244,7 +245,7 @@ class WiiRA_VM_App:
             dst_file.close()
 
     def export_playlist(self):
-        lpl_file_path = self.directory().joinpath("playlists", WiiRA_Configs.db_name())
+        lpl_file_path = self.directory().joinpath("playlists", RA_Configs.lpl_file_name)
         if not Helper.verify_exist_directory_ex(
             self.directory().joinpath("playlists\\builtin")
         ):
@@ -254,7 +255,7 @@ class WiiRA_VM_App:
             lpl_file_path.unlink()
 
         with open(lpl_file_path, "w", encoding="utf-8") as lpl_file:
-            core_path = f"{self.configs.device}:/apps/{self.configs.folder_name}-{self.configs.device}/{WiiRA_Configs.core_file_name()}"
+            core_path = f"{self.configs.device}:/apps/{self.configs._base_folder_name}-{self.configs.device}/{WiiRA_Configs.core_file_name()}"
             head = (
                 "{\n"
                 '  "version": "1.2",\n'
@@ -268,7 +269,7 @@ class WiiRA_VM_App:
             lpl_file.write(head)
 
             first_rom = True
-            for rom_file_path in self.configs.rom_file_path_list:
+            for rom_file_path in self.configs.rom_file_relative_path_list:
                 if first_rom:
                     first_rom = False
                     lpl_file.write("    {\n")
@@ -284,9 +285,9 @@ class WiiRA_VM_App:
                 game = GamesDB.query_game(game_id=rom.game_id)
                 lpl_file.write(f'      "label": "{game.en_title}",\n')
                 lpl_file.write(f'      "core_path": "{core_path}",\n')
-                lpl_file.write(f'      "core_name": "{WiiRA_Configs.core_name()}",\n')
+                lpl_file.write(f'      "core_name": "{RA_Configs.core_name()}",\n')
                 lpl_file.write(f'      "crc32": "{rom.crc32}|crc",\n')
-                lpl_file.write(f'      "db_name": "{WiiRA_Configs.db_name()}"\n')
+                lpl_file.write(f'      "db_name": "{RA_Configs.lpl_file_name}"\n')
                 lpl_file.write("    }")
 
             lpl_file.write("\n  ]\n}\n")

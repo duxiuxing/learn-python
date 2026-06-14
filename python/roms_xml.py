@@ -28,24 +28,24 @@ class RomsXML:
             GamesDB.add_game(game)
 
             for rom_elem in game_elem.findall("Rom"):
-                parent_rom = RomsDB.query_rom(
+                rom = Rom(
+                    file_name=rom_elem.attrib["file_name"],
+                    crc32=rom_elem.attrib["crc32"].rjust(8, "0"),
+                )
+                rom.bytes = rom_elem.attrib["bytes"]
+                rom.game_id = game.id
+                rom.parent_rom = RomsDB.query_rom(
                     rom_crc32=rom_elem.get("parent_rom_crc32"),
                     rom_file_name=rom_elem.get("parent_rom_file"),
                 )
-                rom = Rom(
-                    game_id=game.id,
-                    crc32=rom_elem.attrib["crc32"].rjust(8, "0"),
-                    bytes=rom_elem.attrib["bytes"],
-                    file_name=rom_elem.attrib["file_name"],
-                    parent_rom=parent_rom,
-                    en_title=rom_elem.attrib["en_title"],
-                    zhcn_title=game_elem.get("zhcn_title"),
-                )
+                rom.en_title = rom_elem.attrib["en_title"]
+                rom.zhcn_title = game_elem.get("zhcn_title")
+
                 RomsDB.add_rom(rom)
                 game.rom_list.append(rom)
 
     def __init__(self):
-        repository_dir = LocalConfigs.repository_directory()
+        repository_dir = LocalConfigs.repository_directory
         if Helper.files_in_letter_folder():
             for letter in "#ABCDEFGHIJKLMNOPQRSTUVWXYZ":
                 xml_file_path = repository_dir.joinpath(f"roms\\{letter}\\{letter}.xml")

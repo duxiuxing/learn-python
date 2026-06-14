@@ -17,8 +17,8 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 class WiiFlow_PluginsData:
     @staticmethod
     def _parse_xml_file():
-        plugin_name = WiiFlow_Configs.plugin_name()
-        xml_file_path = LocalConfigs.repository_directory().joinpath(
+        plugin_name = WiiFlow_Configs.plugin_name
+        xml_file_path = LocalConfigs.repository_directory.joinpath(
             f"wii\\wiiflow\\plugins_data\\{plugin_name}\\{plugin_name}.xml"
         )
 
@@ -94,8 +94,8 @@ class WiiFlow_PluginsData:
 
     @staticmethod
     def _parse_ini_file():
-        plugin_name = WiiFlow_Configs.plugin_name()
-        ini_file_path = LocalConfigs.repository_directory().joinpath(
+        plugin_name = WiiFlow_Configs.plugin_name
+        ini_file_path = LocalConfigs.repository_directory.joinpath(
             f"wii\\wiiflow\\plugins_data\\{plugin_name}\\{plugin_name}.ini"
         )
 

@@ -73,7 +73,7 @@ if __name__ == "__main__":
 
     src_dir = None
     while True:
-        src_dir = LocalConfigs.repository_directory().joinpath("media\\logo-hd")
+        src_dir = LocalConfigs.repository_directory.joinpath("media\\logo-hd")
         print("\n即将对源文件夹里的 Logo 文件进行重新剪裁")
         print(f"默认源文件夹路径：{src_dir}")
         user_input = input("请确认源文件夹路径，使用默认路径请直接按回车 > ")
