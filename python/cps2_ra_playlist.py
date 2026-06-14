@@ -12,95 +12,96 @@ from ra_playlist_item import RA_PlaylistItem
 from rom import Rom
 from roms_db import RomsDB
 
-cps2_rom_file_name_list = [
+cps2_lite_rom_list = [
     # # - 1944 征服世界
-    "1944d.zip",
+    Rom("1944j.zip"),
     # # - 19XX 命运否决战
-    "19xxd.zip",
+    Rom("19xxb.zip"),
     # C - 超强魔法气泡
-    "mpang.zip",
+    Rom("mpang.zip"),
     # C - 超级口袋战士
-    "sgemf.zip",
+    Rom("sgemf.zip"),
     # C - 超级街头霸王2 加速版
-    "ssf2t.zip",
+    Rom("ssf2t.zip"),
     # C - 超级街头霸王2 周年纪念版
-    "hsf2.zip",
+    Rom("hsf2.zip"),
     # C - 超级街头霸王2 新挑战者
-    "ssf2d.zip",
+    Rom("ssf2a.zip"),
     # C - 超级魔法大作战
-    "dimahoo.zip",
+    Rom("dimahoo.zip"),
     # E - 恶魔战士 午夜斗士
-    "dstlk.zip",
+    Rom("dstlk.zip"),
     # H - 火星矩阵 超固体射击
-    "mmatrix.zip",
+    Rom("mmatrix.zip"),
     # H - 环保战士
-    "ecofghtr.zip",
+    Rom("ecofghtr.zip"),
     # J - 机甲战士 全金属狂潮
-    "cybots.zip",
+    Rom("cybots.zip"),
     # J - 街霸方块
-    "spf2td.zip",
+    Rom("spf2ta.zip"),
     # K - 卡普空运动俱乐部
-    "csclub.zip",
+    Rom("csclub.zip"),
     # L - 洛克人1 力量之战 (CPS2版)
-    "mmancp2u.zip",
+    Rom("mmancp2u.zip"),
     # L - 洛克人2 力量对决
-    "megaman2.zip",
+    Rom("megaman2.zip"),
     # L - 龙与地下城1 毁灭之塔
-    "ddtod.zip",
+    Rom("ddtod.zip"),
     # L - 龙与地下城2 暗黑秘影
-    "ddsom.zip",
+    Rom("ddsom.zip"),
     # M - 漫威对卡普空 超级英雄乱斗
-    "mvscud.zip",
+    Rom("mvsc.zip"),
     # M - 漫威超级英雄
-    "msh.zip",
+    Rom("msh.zip"),
     # M - 漫威超级英雄对街头霸王
-    "mshvsf.zip",
+    Rom("mshvsf.zip"),
     # N - 能源之岚
-    "progear.zip",
+    Rom("progear.zip"),
     # Q - 千兆之翼
-    "gigawing.zip",
+    Rom("gigawing.zip"),
     # Q - 雀国志 霸王的采牌
-    "jyangoku.zip",
+    Rom("jyangoku.zip"),
     # S - 少年街霸1 斗士的梦想
-    "sfa.zip",
+    Rom("sfa.zip"),
     # S - 少年街霸2
-    "sfa2.zip",
+    Rom("sfa2.zip"),
     # S - 少年街霸2 Alpha
-    "sfz2al.zip",
+    Rom("sfz2al.zip"),
     # S - 少年街霸3
-    "sfa3.zip",
+    Rom("sfa3.zip"),
     # S - 摔角霸王2 连环爆裂
-    "ringdest.zip",
+    Rom("ringdest.zip"),
     # W - 问答七彩梦 虹色町的奇迹
-    "qndream.zip",
+    Rom("qndream.zip"),
     # X - X战警 磁场原子人
-    "xmcota.zip",
+    Rom("xmcota.zip"),
     # X - X战警对街头霸王
-    "xmvsf.zip",
+    Rom("xmvsf.zip"),
     # X - 吸血鬼猎人1 恶魔的复仇
-    "nwarr.zip",
+    Rom("nwarr.zip"),
     # X - 吸血鬼猎人2 恶魔的复仇
-    "vhunt2.zip",
+    Rom("vhunt2.zip"),
     # X - 恶魔救世主1 吸血鬼之王
-    "vsav.zip",
+    Rom("vsav.zip"),
     # X - 恶魔救世主2 吸血鬼之王
-    "vsav2.zip",
+    Rom("vsav2.zip"),
     # Y - 异形对铁血战士
-    "avspu.zip",
+    Rom("avsp.zip", "4BFE3F71"),
     # Y - 益智麻将牌 长江
-    "choko.zip",
+    Rom("choko.zip"),
     # Z - 战斗回路
-    "batcir.zip",
+    Rom("batcir.zip"),
     # Z - 智力循环2
-    "pzloop2.zip",
+    Rom("pzloop2.zip"),
     # Z - 装甲战士
-    "armwar.zip",
+    Rom("armwar.zip"),
 ]
 
 if __name__ == "__main__":
     Init_Global_Configs()
 
     configs = RA_PlaylistConfigs()
+    configs.roms_relative_directory = RA_Configs.win_roms_relative_directory
 
     while True:
         export_to_dir = LocalConfigs.export_to_directory
@@ -130,11 +131,13 @@ if __name__ == "__main__":
             number = int(user_input)
             if number == 1:
                 # Android
-                for rom_file_name in cps2_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps2_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{RA_Configs.android_roms_directory}/{rom_file_name}",
+                        path=f"{RA_Configs.android_roms_directory}/{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
@@ -149,11 +152,13 @@ if __name__ == "__main__":
                 break
             elif number == 2:
                 # iPad
-                for rom_file_name in cps2_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps2_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{RA_Configs.ipad_roms_directory}/{rom_file_name}",
+                        path=f"{RA_Configs.ipad_roms_directory}/{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
@@ -168,11 +173,13 @@ if __name__ == "__main__":
                 break
             elif number == 3:
                 # PS3
-                for rom_file_name in cps2_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps2_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{RA_Configs.ps3_roms_directory}/{rom_file_name}",
+                        path=f"{RA_Configs.ps3_roms_directory}/{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
@@ -188,11 +195,13 @@ if __name__ == "__main__":
             elif number == 4:
                 # Windows
                 path_prefix = str(RA_Configs.win_roms_directory).replace("\\", "\\\\")
-                for rom_file_name in cps2_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps2_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{path_prefix}\\\\{rom_file_name}",
+                        path=f"{path_prefix}\\\\{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
@@ -208,11 +217,13 @@ if __name__ == "__main__":
             elif number == 5:
                 # XBOX
                 path_prefix = str(RA_Configs.xbox_roms_directory).replace("\\", "\\\\")
-                for rom_file_name in cps2_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps2_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{path_prefix}\\\\{rom_file_name}",
+                        path=f"{path_prefix}\\\\{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
