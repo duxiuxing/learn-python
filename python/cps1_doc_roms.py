@@ -64,7 +64,7 @@ if __name__ == "__main__":
             if str(rom_file_name) in rom_file_name_to_bug_dict.keys():
                 bug_msg = f" {rom_file_name_to_bug_dict[str(rom_file_name)]} "
             doc.write(
-                f"{index} | {rom_file_name} | {rom.crc32} |{parent_rom_msg}| {game.zhcn_title[4:]}|{bug_msg}\n"
+                f"{index} | {rom_file_name} | {rom.crc32} |{parent_rom_msg}| {game.zhcn_title[4:]} |{bug_msg}\n"
             )
 
         doc.write(
