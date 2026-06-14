@@ -85,26 +85,21 @@ class WiiSS_App:
             app_name = self.configs.app_name.replace("&", "&amp;")
             xml_file.write(f"  <name>{app_name}</name>\n")
             xml_file.write("  <author>SuperrSonic &amp; R-Sam</author>\n")
-            xml_file.write(f"  <version>{self.configs.device}</version>\n")
+            xml_file.write(f"  <version>{self.configs.device.upper()}</version>\n")
             xml_file.write(
                 f"  <release_date>{WiiSS_Configs.release_date}</release_date>\n"
             )
             xml_file.write(
                 f"  <short_description>{self.configs.short_description()}</short_description>\n"
             )
-            xml_file.write(f"  <long_description>{self.configs.long_description}\n\n")
+            xml_file.write(f"  <long_description>{self.configs.long_description}")
 
             lower_plugin_name = WiiFlow_Configs.plugin_name.lower()
             website = WiiFlow_Configs.website
             if website is None:
-                xml_file.write(
-                    f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}</long_description>\n"
-                )
+                xml_file.write("</long_description>\n")
             else:
-                xml_file.write(
-                    f"Wii Channel: {self.configs.device}:/wad/{lower_plugin_name}\n"
-                )
-                xml_file.write(f"Website: {website}</long_description>\n")
+                xml_file.write(f"\n\nWebsite: {website}</long_description>\n")
             xml_file.write("  <ahb_access/>\n")
 
             if self.configs.rom is not None:
@@ -126,11 +121,11 @@ class WiiSS_App:
         data_dir = self.wii_data_directory()
 
         list_ret = [
-            # 宽高比：0=4:3 1=16:9 21=Core provided
-            'aspect_ratio_index = "0"',
-            'aspect_ratio_index_wide = "0"',
-            # 分辨率：21=640x448 29=640x480 31=640x456
-            'video_vres = "31"',
+            # 宽高比：0=4:3 1=16:9 21=Core provided 22=Custom
+            'aspect_ratio_index = "22"',
+            'aspect_ratio_index_wide = "22"',
+            # 分辨率：23=384x448 40=640x480
+            'video_vres = "40"',
             # 目录相关的设置
             'libretro_path = "."',
             'libretro_directory = "."',
@@ -165,6 +160,10 @@ class WiiSS_App:
             # 刷新率一律填 60
             'video_refresh_rate = "60.000000"',
         ]
+
+        if WiiSS_Configs.settings_list is not None:
+            for line in WiiSS_Configs.settings_list:
+                list_ret.append(line)
 
         return list_ret
 

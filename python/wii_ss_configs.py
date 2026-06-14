@@ -23,5 +23,7 @@ class WiiSS_Configs:
     # private 文件夹里的数据文件夹名称
     data_folder_name = None
 
-    # .dol 的发布年月日
+    # .dol 发布的年月日
     release_date = None
+
+    settings_list = None
