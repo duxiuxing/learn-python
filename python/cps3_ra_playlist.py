@@ -12,19 +12,19 @@ from ra_playlist_item import RA_PlaylistItem
 from rom import Rom
 from roms_db import RomsDB
 
-cps3_rom_file_name_list = [
+cps3_lite_rom_list = [
     # C - 赤色大地
-    "redearth.zip",
+    Rom("redearth.zip"),
     # J - JOJO的奇妙冒险1
-    "jojon.zip",
+    Rom("jojon.zip"),
     # J - JOJO的奇妙冒险2 未来遗产
-    "jojobaner1.zip",
+    Rom("jojobaner1.zip"),
     # J - 街头霸王3.1 新纪元
-    "sfiiin.zip",
+    Rom("sfiiin.zip"),
     # J - 街头霸王3.2 巨型打击
-    "sfiii2.zip",
+    Rom("sfiii2.zip"),
     # J - 街头霸王3.3 未来战斗
-    "sfiii3.zip",
+    Rom("sfiii3.zip"),
 ]
 
 if __name__ == "__main__":
@@ -61,11 +61,13 @@ if __name__ == "__main__":
             number = int(user_input)
             if number == 1:
                 # Android
-                for rom_file_name in cps3_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps3_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{RA_Configs.android_roms_directory}/{rom_file_name}",
+                        path=f"{RA_Configs.android_roms_directory}/{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
@@ -80,11 +82,13 @@ if __name__ == "__main__":
                 break
             elif number == 2:
                 # iPad
-                for rom_file_name in cps3_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps3_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{RA_Configs.ipad_roms_directory}/{rom_file_name}",
+                        path=f"{RA_Configs.ipad_roms_directory}/{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
@@ -99,11 +103,13 @@ if __name__ == "__main__":
                 break
             elif number == 3:
                 # PS3
-                for rom_file_name in cps3_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps3_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{RA_Configs.ps3_roms_directory}/{rom_file_name}",
+                        path=f"{RA_Configs.ps3_roms_directory}/{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
@@ -119,11 +125,13 @@ if __name__ == "__main__":
             elif number == 4:
                 # Windows
                 path_prefix = str(RA_Configs.win_roms_directory).replace("\\", "\\\\")
-                for rom_file_name in cps3_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps3_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{path_prefix}\\\\{rom_file_name}",
+                        path=f"{path_prefix}\\\\{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
@@ -139,11 +147,13 @@ if __name__ == "__main__":
             elif number == 5:
                 # XBOX
                 path_prefix = str(RA_Configs.xbox_roms_directory).replace("\\", "\\\\")
-                for rom_file_name in cps3_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps3_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{path_prefix}\\\\{rom_file_name}",
+                        path=f"{path_prefix}\\\\{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
