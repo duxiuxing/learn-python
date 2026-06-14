@@ -41,7 +41,7 @@ if __name__ == "__main__":
             export_to_dir = Path(user_input)
 
         if export_to_dir.exists() and export_to_dir.is_dir():
-            LocalConfigs._export_to_directory = export_to_dir
+            LocalConfigs.export_to_directory = export_to_dir
         else:
             print(f"【错误】无效的文件夹路径：{export_to_dir}")
             continue
@@ -62,13 +62,13 @@ if __name__ == "__main__":
                     wiiflow_plugin_ra_app_configs.playlist_configs
                 ).export_rom_files()
             elif number == 2:
-                # Game App (RA 核心)
+                # Game App (RA 核心， SD 版)
                 for game_app_configs in game_app_configs_list:
                     game_app_configs.device = Wii_AppConfigs.DEVICE_SD
                     game_app = WiiRA_App(game_app_configs)
                     game_app.export_all()
             elif number == 3:
-                # Wiiflow Plugin App (RA 核心)
+                # Wiiflow Plugin App (RA 核心， SD 版)
                 wiiflow_plugin_ra_app_configs.device = Wii_AppConfigs.DEVICE_SD
                 wiiflow_plugin_ra_app_configs.init_playlist_configs()
                 wiiflow_plugin_ra_app_configs.playlist_configs.boxarts_folder = None
