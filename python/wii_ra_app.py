@@ -124,7 +124,7 @@ class WiiRA_App:
         list_ret = [
             # 游戏画面宽高比：0=4:3 1=16:9 22=Core provided
             'aspect_ratio_index = "0"',
-            # 分辨率：0=默认 24=384x448
+            # 分辨率：0=默认 24=384x448 30=640x448
             # 各个机种的分辨率不一定相同，可通过 WiiRA_Configs.settings_list 指定
             'current_resolution_id = "0"',
             # 菜单界面宽高比：11=Auto
