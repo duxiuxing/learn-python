@@ -11,14 +11,15 @@ from local_configs import LocalConfigs
 from pathlib import Path
 from rom import Rom
 from roms_db import RomsDB
+from wii_ra_configs import WiiRA_Configs
+from wiiflow_configs import WiiFlow_Configs
 
 # https://github.com/R-Sam-1980/cps1 的 roms 分支
-# 生成文档 CPS1 Roms.md
 if __name__ == "__main__":
     Init_Global_Configs()
 
     doc_path = LocalConfigs.export_to_directory.joinpath(
-        "CPS1 Roms.md",
+        f"{WiiFlow_Configs.plugin_name} Roms.md",
     )
     if not Helper.verify_exist_directory_ex(doc_path.parent):
         print(f"【错误】无效的目标文件 {doc_path}")
@@ -29,24 +30,25 @@ if __name__ == "__main__":
 
     with open(doc_path, "w", encoding="utf-8") as doc:
         doc.write(
-            "# CPS1 街机游戏兼容性列表\n\n"
-            "以 Widows 版的 RetroArch 为例，支持 CPS1 街机游戏的核心不止一个：\n"
-            "- Arcade (FB Alpha 2012 CPS-1)\n"
+            f"# {WiiFlow_Configs.plugin_name} 街机游戏兼容性列表\n\n"
+            f"以 Widows 版的 RetroArch 为例，支持 {WiiFlow_Configs.plugin_name} 街机游戏的核心不止一个：\n"
+            f"- {WiiRA_Configs.core_name}\n"
             "- Arcade (FB Alpha 2012)\n"
             "- Arcade (FinalBurn Neo)\n"
             "- Arcade (MAME...) 系列核心\n\n"
             "1G1R 是 one Game one ROM 的缩写，意思是一个游戏只选取一个最佳版本的 ROM 文件。\n\n"
-            "下面这份 CPS1 街机游戏列表，是根据 FBNeo - Arcade Games.rdb 数据库里 ROM 文件描述，按照 1G1R 的策略收集整理的，当一个游戏有多个版本的 ROM 文件时，筛选规则如下：\n"
-            "1. 只支持 FinalBurn Neo，不支持 FB Alpha 2012 CPS-1 和 FB Alpha 2012 的 ROM 文件淘汰；\n"
-            "2. 如果不止一个版本的 ROM 文件支持多核心，优先选择没有依赖的 ROM 文件。\n\n"
+            f"下面这份 {WiiFlow_Configs.plugin_name} 街机游戏列表，是根据 FBNeo - Arcade Games.rdb 数据库里 ROM 文件描述，按照 1G1R 的策略收集整理的，当一个游戏有多个版本的 ROM 文件时，筛选规则如下：\n"
+            "1. 尽量选择支持多核心的 ROM 文件，不支持多核心的 ROM 文件淘汰；\n"
+            "2. 如果不止一个版本的 ROM 文件支持多核心，优先选择没有依赖的 ROM 文件；\n"
+            "3. 如果没有支持多核心的 ROM 文件，则保留支持 FinalBurn Neo 核心的 ROM 文件。\n\n"
             "序号 | ROM 文件 | CRC32 | 依赖于 | 游戏名称 | 兼容性说明\n"
             "--- | --- | --- | --- | --- | ---\n"
         )
 
         rom_file_name_to_bug_dict = {
-            "cawing.zip": "FB Alpha 的两个核心不可玩：<br>第一关从云层下降到海面不久，<br>后方出现的敌机会呈现黑色，<br>游戏随后卡死",
-            "forgottnu.zip": "FB Alpha 的两个核心不可玩：<br>部分按键无效",
-            "sfzch.zip": "降配妥协之作<br>CPS2上的才是正式版",
+            "cawing.zip": "FB Alpha 的两个核心不可玩<br>请使用 FinalBurn Neo 核心",
+            "forgottn.zip": "FB Alpha 的两个核心不可玩<br>请使用 FinalBurn Neo 核心",
+            "sfzch.zip": "降配妥协之作<br>CPS2版才是正式版",
         }
 
         index = 0
@@ -62,7 +64,7 @@ if __name__ == "__main__":
             if str(rom_file_name) in rom_file_name_to_bug_dict.keys():
                 bug_msg = f" {rom_file_name_to_bug_dict[str(rom_file_name)]} "
             doc.write(
-                f"{index} | {rom_file_name} | {rom.crc32} |{parent_rom_msg}| {game.zhcn_title} |{bug_msg}\n"
+                f"{index} | {rom_file_name} | {rom.crc32} |{parent_rom_msg}| {game.zhcn_title[4:]}|{bug_msg}\n"
             )
 
         doc.write(

@@ -33,11 +33,9 @@ class Init_Global_Configs:
         RA_Configs.lpl_file_name = Path("Capcom - CP System I.lpl")
         RA_Configs.win_roms_relative_directory = Path("arcade\\cps1")
         RA_Configs.wii_roms_relative_directory = "arcade/fba/cps1"
-        RA_Configs.android_roms_directory = Path("/storage/emulated/0/arcade/cps1")
-        RA_Configs.ipad_roms_directory = Path("~/Documents/RetroArch/arcade/cps1")
-        RA_Configs.ps3_roms_directory = Path(
-            "/dev_hdd0/game/RETROARCH/USRDIR/arcade/cps1"
-        )
+        RA_Configs.android_roms_directory = "/storage/emulated/0/arcade/cps1"
+        RA_Configs.ipad_roms_directory = "~/Documents/RetroArch/arcade/cps1"
+        RA_Configs.ps3_roms_directory = "/dev_hdd0/game/RETROARCH/USRDIR/arcade/cps1"
         RA_Configs.win_roms_directory = Path("X:\\arcade\\cps1")
         RA_Configs.xbox_roms_directory = Path("E:\\arcade\\cps1")
 
