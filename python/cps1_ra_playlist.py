@@ -12,73 +12,73 @@ from ra_playlist_item import RA_PlaylistItem
 from rom import Rom
 from roms_db import RomsDB
 
-cps1_rom_file_name_list = [
+cps1_lite_rom_list = [
     # # - 1941 反击战
-    "1941.zip",
+    Rom("1941.zip"),
     # C - 出击飞龙
-    "strider.zip",
+    Rom("strider.zip"),
     # C - 惩罚者
-    "punisher.zip",
+    Rom("punisher.zip"),
     # C - 雌虎战机
-    "cawing.zip",
+    Rom("cawing.zip"),
     # D - 大魔界村
-    "ghouls.zip",
+    Rom("ghouls.zip"),
     # J - 街头霸王2 四大天王
-    "sf2ce.zip",
+    Rom("sf2ce.zip"),
     # J - 街头霸王2 天下斗士
-    "sf2.zip",
+    Rom("sf2.zip"),
     # J - 街头霸王2 战斗宣言
-    "sf2hf.zip",
+    Rom("sf2hf.zip"),
     # K - 快打旋风
-    "ffight.zip",
+    Rom("ffight.zip"),
     # K - 恐龙快打
-    "dino.zip",
+    Rom("dino.zip"),
     # L - 洛克人1 力量之战 (CPS1版)
-    "megaman.zip",
+    Rom("megaman.zip"),
     # L - 龙之迷题
-    "qad.zip",
+    Rom("qad.zip"),
     # L - 龙王战士
-    "kod.zip",
+    Rom("kod.zip"),
     # M - 冒险问答 卡普空世界2
-    "cworld2j.zip",
+    Rom("cworld2j.zip"),
     # M - 名将
-    "captcomm.zip",
+    Rom("captcomm.zip"),
     # M - 梦幻冒险
-    "nemo.zip",
+    Rom("nemo.zip"),
     # M - 魔法剑 英雄的幻想
-    "msword.zip",
+    Rom("msword.zip"),
     # M - 魔法方块
-    "pnickj.zip",
+    Rom("pnickj.zip"),
     # M - 魔鬼气泡3
-    "pang3.zip",
+    Rom("pang3.zip"),
     # Q - 奇迹三世界
-    "3wonders.zip",
+    Rom("3wonders.zip"),
     # S - 双麒儿
-    "mtwins.zip",
+    Rom("mtwins.zip"),
     # S - 失落的世界
-    "forgottn.zip",
+    Rom("forgottn.zip"),
     # S - 少年街霸1 (CPS1版)
-    "sfzch.zip",
+    Rom("sfzch.zip"),
     # S - 摔角霸王1
-    "slammast.zip",
+    Rom("slammast.zip"),
     # S - 摔角霸王1 最终之战
-    "mbombrd.zip",
+    Rom("mbombrd.zip"),
     # T - 吞食天地1 王朝战争
-    "dynwar.zip",
+    Rom("dynwar.zip"),
     # T - 吞食天地2 赤壁之战
-    "wof.zip",
+    Rom("wof.zip"),
     # W - 威洛之旅
-    "willowj.zip",
+    Rom("willowj.zip"),
     # W - 威虎战机 雷暴行动
-    "varth.zip",
+    Rom("varth.zip"),
     # W - 问答 信长之野望2
-    "qtono2j.zip",
+    Rom("qtono2j.zip"),
     # Y - 圆桌骑士
-    "knights.zip",
+    Rom("knights.zip"),
     # Z - 战区88
-    "unsquad.zip",
+    Rom("unsquad.zip"),
     # Z - 战场之狼2
-    "mercs.zip",
+    Rom("mercs.zip"),
 ]
 
 if __name__ == "__main__":
@@ -115,11 +115,13 @@ if __name__ == "__main__":
             number = int(user_input)
             if number == 1:
                 # Android
-                for rom_file_name in cps1_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps1_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{RA_Configs.android_roms_directory}/{rom_file_name}",
+                        path=f"{RA_Configs.android_roms_directory}/{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
@@ -134,11 +136,13 @@ if __name__ == "__main__":
                 break
             elif number == 2:
                 # iPad
-                for rom_file_name in cps1_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps1_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{RA_Configs.ipad_roms_directory}/{rom_file_name}",
+                        path=f"{RA_Configs.ipad_roms_directory}/{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
@@ -153,11 +157,13 @@ if __name__ == "__main__":
                 break
             elif number == 3:
                 # PS3
-                for rom_file_name in cps1_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps1_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{RA_Configs.ps3_roms_directory}/{rom_file_name}",
+                        path=f"{RA_Configs.ps3_roms_directory}/{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
@@ -173,11 +179,13 @@ if __name__ == "__main__":
             elif number == 4:
                 # Windows
                 path_prefix = str(RA_Configs.win_roms_directory).replace("\\", "\\\\")
-                for rom_file_name in cps1_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps1_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{path_prefix}\\\\{rom_file_name}",
+                        path=f"{path_prefix}\\\\{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
@@ -193,11 +201,13 @@ if __name__ == "__main__":
             elif number == 5:
                 # XBOX
                 path_prefix = str(RA_Configs.xbox_roms_directory).replace("\\", "\\\\")
-                for rom_file_name in cps1_rom_file_name_list:
-                    rom = RomsDB.query_rom(rom_file_name=rom_file_name)
+                for lite_rom in cps1_lite_rom_list:
+                    rom = RomsDB.query_rom(
+                        rom_crc32=lite_rom.crc32, rom_file_name=lite_rom.file_name
+                    )
                     game = GamesDB.query_game(game_id=rom.game_id)
                     item = RA_PlaylistItem(
-                        path=f"{path_prefix}\\\\{rom_file_name}",
+                        path=f"{path_prefix}\\\\{rom.file_name}",
                         label=game.zhcn_title,
                         crc32=rom.crc32,
                         db_name=RA_Configs.lpl_file_name,
