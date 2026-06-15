@@ -119,7 +119,7 @@ if __name__ == "__main__":
             elif number == 3:
                 # Wiiflow Plugin App (RA 核心， SD 版)
                 plugin_ra_app_configs.device = Wii_AppConfigs.DEVICE_SD
-                plugin_ra_app_configs.use_favorites_as_playlist = True
+                plugin_ra_app_configs.use_favorites_as_playlist = False
 
                 playlist_configs = WiiRA_App.init_playlist_configs()
                 playlist_configs.boxarts_folder = None
