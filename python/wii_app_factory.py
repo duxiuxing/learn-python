@@ -1,6 +1,8 @@
 # -- coding: UTF-8 --
 
 from wii_app_configs import Wii_AppConfigs
+from wii_ra_app import WiiRA_App
+from wii_ss_app import WiiSS_App
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
 from wiiflow_rom import WiiFlow_Rom
@@ -25,3 +27,17 @@ class Wii_AppFactory:
             app_name=app_name, app_folder_base_name=rom_file_title, rom=rom, remap=remap
         )
         Wii_AppFactory.game_app_configs_list.append(app_configs)
+
+    @staticmethod
+    def export_game_ra_apps(wii_device: str):
+        for app_configs in Wii_AppFactory.game_app_configs_list:
+            app_configs.device = wii_device
+            ss_app = WiiRA_App(app_configs)
+            ss_app.export_all()
+
+    @staticmethod
+    def export_game_ss_apps(wii_device: str):
+        for app_configs in Wii_AppFactory.game_app_configs_list:
+            app_configs.device = wii_device
+            ss_app = WiiSS_App(app_configs)
+            ss_app.export_all()

@@ -8,6 +8,8 @@ from pathlib import Path
 from PIL import Image
 from ra_configs import RA_Configs
 from ra_playlist import RA_Playlist
+from ra_playlist_configs import RA_PlaylistConfigs
+from ra_playlist_item import RA_PlaylistItem
 from resource_file_helper import ResourceFileHelper
 from wii_app_configs import Wii_AppConfigs
 from wii_ra_configs import WiiRA_Configs
@@ -19,8 +21,44 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 
 
 class WiiRA_App:
-    def __init__(self, app_configs: Wii_AppConfigs):
+    @staticmethod
+    def init_playlist_configs(
+        rom_file_title_list: list | None = None,
+        wii_device=Wii_AppConfigs.DEVICE_SD,
+    ) -> RA_PlaylistConfigs:
+        game_list = []
+        if rom_file_title_list is None:
+            for rom in WiiFlow_RomsDB.all_roms():
+                game_list.append(WiiFlow_GamesDB.query_game(game_id=rom.game_id))
+        else:
+            for rom_file_title in rom_file_title_list:
+                rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
+                game_list.append(WiiFlow_GamesDB.query_game(game_id=rom.game_id))
+
+        playlist_configs = RA_PlaylistConfigs()
+        playlist_configs.roms_relative_directory = Path(
+            RA_Configs.wii_roms_relative_directory
+        )
+        wii_roms_directory = WiiRA_Configs.wii_roms_directory(wii_device)
+        for game in sorted(game_list, key=lambda x: x.name):
+            rom = WiiFlow_RomsDB.query_rom(game_id=game.id)
+            item = RA_PlaylistItem(
+                path=f"{wii_roms_directory}/{rom.file_name()}",
+                label=game.name,
+                crc32=rom.crc32,
+                db_name=RA_Configs.lpl_file_name,
+            )
+            playlist_configs.item_list.append(item)
+
+        return playlist_configs
+
+    def __init__(
+        self,
+        app_configs: Wii_AppConfigs,
+        playlist_configs: RA_PlaylistConfigs | None = None,
+    ):
         self.configs = app_configs
+        self.playlist_configs = playlist_configs
 
     def app_folder_name(self):
         plugin_name = WiiFlow_Configs.plugin_name.lower()
@@ -42,7 +80,7 @@ class WiiRA_App:
         src_dir = WiiRA_Configs.repository_directory()
         src_core_file_path = src_dir.joinpath(WiiRA_Configs.core_file_name)
 
-        if self.configs.playlist_configs is not None:
+        if self.playlist_configs is not None:
             src_core_info_file_path = src_dir.joinpath(
                 f"info\\{WiiRA_Configs.core_info_file_name}"
             )
@@ -282,7 +320,7 @@ class WiiRA_App:
         return f"{self.wii_app_directory()}/{WiiRA_Configs.core_file_name}"
 
     def export_playlist(self):
-        if self.configs.playlist_configs is None:
+        if self.playlist_configs is None:
             return
 
         lpl_file_path = self.win_app_directory().joinpath(
@@ -299,8 +337,8 @@ class WiiRA_App:
         if lpl_file_path.exists() and lpl_file_path.is_file():
             lpl_file_path.unlink()
 
-        self.configs.playlist_configs.lpl_file_path = lpl_file_path
-        self.configs.playlist_configs.set_head(
+        self.playlist_configs.lpl_file_path = lpl_file_path
+        self.playlist_configs.set_head(
             "{\n"
             '  "version": "1.5",\n'
             f'  "default_core_path": "{self.core_file_wii_path()}",\n'
@@ -312,8 +350,8 @@ class WiiRA_App:
             '  "sort_mode": 1,\n'
             '  "items": [\n'
         )
-        self.configs.playlist_configs.png_file_match_rom_file = True
-        playlist = RA_Playlist(self.configs.playlist_configs)
+        self.playlist_configs.png_file_match_rom_file = True
+        playlist = RA_Playlist(self.playlist_configs)
         playlist.export_lpl_file()
         old_dir = LocalConfigs.export_to_directory
         LocalConfigs.export_to_directory = LocalConfigs.export_to_directory.joinpath(
