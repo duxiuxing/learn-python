@@ -48,7 +48,7 @@ if __name__ == "__main__":
         rom_file_name_to_bug_dict = {
             "cawing.zip": "FB Alpha 的两个核心不可玩<br>请使用 FinalBurn Neo 核心",
             "forgottn.zip": "FB Alpha 的两个核心不可玩<br>请使用 FinalBurn Neo 核心",
-            "sfzch.zip": "降配妥协之作<br>CPS2版才是正式版",
+            "sfzch.zip": "降配妥协之作<br>CPS2上的才是正式版",
         }
 
         index = 0

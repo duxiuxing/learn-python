@@ -57,7 +57,7 @@ cps1_lite_rom_list = [
     Rom("mtwins.zip"),
     # S - 失落的世界
     Rom("forgottn.zip"),
-    # S - 少年街霸1 (CPS1版)
+    # S - 少年街霸 (CPS1版)
     Rom("sfzch.zip"),
     # S - 摔角霸王1
     Rom("slammast.zip"),

@@ -5,66 +5,79 @@ from local_configs import LocalConfigs
 from pathlib import Path
 from ra_playlist import RA_Playlist
 from ra_playlist_configs import RA_PlaylistConfigs
-from wii_app_configs import add_game_app_configs
-from wii_app_configs import game_app_configs_list
 from wii_app_configs import Wii_AppConfigs
+from wii_app_factory import Wii_AppFactory
 from wii_ra_app import WiiRA_App
 from wii_ss_app import WiiSS_App
 
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    add_game_app_configs(rom_file_title="1941")
-    add_game_app_configs(rom_file_title="3wonders")
-    add_game_app_configs(rom_file_title="captcomm")
-    # add_game_app_configs(rom_file_title="cawing")
-    add_game_app_configs(rom_file_title="cworld2j", app_name="Capcom World 2")
-    add_game_app_configs(rom_file_title="dino")
-    add_game_app_configs(rom_file_title="dynwar")
-    add_game_app_configs(rom_file_title="ffight")
-    # add_game_app_configs(rom_file_title="forgottn")
-    add_game_app_configs(rom_file_title="ghouls")
-    add_game_app_configs(rom_file_title="knights")
-    add_game_app_configs(rom_file_title="kod")
-    add_game_app_configs(rom_file_title="mbombrd", app_name="Slam Masters - UTB")
-    add_game_app_configs(rom_file_title="megaman", app_name="Mega Man")
-    add_game_app_configs(rom_file_title="mercs")
-    add_game_app_configs(rom_file_title="msword", app_name="Magic Sword")
-    add_game_app_configs(rom_file_title="mtwins")
-    add_game_app_configs(rom_file_title="nemo")
-    add_game_app_configs(rom_file_title="pang3")
-    add_game_app_configs(rom_file_title="pnickj")
-    add_game_app_configs(rom_file_title="punisher")
-    add_game_app_configs(rom_file_title="qad")
-    add_game_app_configs(rom_file_title="qtono2j", app_name="Quiz Tonosama no Yabou 2")
-    add_game_app_configs(rom_file_title="sf2", app_name="Street Fighter 2")
-    add_game_app_configs(rom_file_title="sf2ce", app_name="Street Fighter 2' CE")
-    add_game_app_configs(rom_file_title="sf2hf", app_name="Street Fighter 2' HF")
-    add_game_app_configs(rom_file_title="sfzch")
-    add_game_app_configs(rom_file_title="slammast", app_name="Slam Masters")
-    add_game_app_configs(rom_file_title="strider")
-    add_game_app_configs(rom_file_title="unsquad")
-    add_game_app_configs(rom_file_title="varth", app_name="Varth")
-    add_game_app_configs(rom_file_title="willow")
-    add_game_app_configs(rom_file_title="wof")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="1941")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="3wonders")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="captcomm")
+    # Wii_AppFactory.add_game_app_configs(rom_file_title="cawing")
+    Wii_AppFactory.add_game_app_configs(
+        rom_file_title="cworld2j", app_name="Capcom World 2"
+    )
+    Wii_AppFactory.add_game_app_configs(rom_file_title="dino")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="dynwar")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="ffight")
+    # Wii_AppFactory.add_game_app_configs(rom_file_title="forgottn")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="ghouls")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="knights")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="kod")
+    Wii_AppFactory.add_game_app_configs(
+        rom_file_title="mbombrd", app_name="Slam Masters - UTB"
+    )
+    Wii_AppFactory.add_game_app_configs(rom_file_title="megaman", app_name="Mega Man")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="mercs")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="msword", app_name="Magic Sword")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="mtwins")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="nemo")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="pang3")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="pnickj")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="punisher")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="qad")
+    Wii_AppFactory.add_game_app_configs(
+        rom_file_title="qtono2j", app_name="Quiz Tonosama no Yabou 2"
+    )
+    Wii_AppFactory.add_game_app_configs(
+        rom_file_title="sf2", app_name="Street Fighter 2"
+    )
+    Wii_AppFactory.add_game_app_configs(
+        rom_file_title="sf2ce", app_name="Street Fighter 2' CE"
+    )
+    Wii_AppFactory.add_game_app_configs(
+        rom_file_title="sf2hf", app_name="Street Fighter 2' HF"
+    )
+    Wii_AppFactory.add_game_app_configs(rom_file_title="sfzch")
+    Wii_AppFactory.add_game_app_configs(
+        rom_file_title="slammast", app_name="Slam Masters"
+    )
+    Wii_AppFactory.add_game_app_configs(rom_file_title="strider")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="unsquad")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="varth", app_name="Varth")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="willow")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="wof")
 
-    wiiflow_plugin_ra_app_configs = Wii_AppConfigs(
+    plugin_ra_app_configs = Wii_AppConfigs(
         app_name="Capcom - CP System I",
-        base_app_folder_name="cps1",
+        app_folder_base_name="cps1",
         rom=None,
     )
-    wiiflow_plugin_ra_app_configs.long_description = (
+    plugin_ra_app_configs.long_description = (
         "- Emulator for CPS-1 games based on RetroArch\n"
         "- Based on a snapshot of the FB Alpha codebase from 2012\n"
         "- Compatible with FB Alpha v0.2.97.29 ROM sets"
     )
 
-    wiiflow_plugin_ss_app_configs = Wii_AppConfigs(
+    plugin_ss_app_configs = Wii_AppConfigs(
         app_name="RA-SS CPS-1",
-        base_app_folder_name="cps1",
+        app_folder_base_name="cps1",
         rom=None,
     )
-    wiiflow_plugin_ss_app_configs.long_description = (
+    plugin_ss_app_configs.long_description = (
         "- Mod By RunningSnakes based on RA-SS Hexaeco\n"
         "- Emulator for CPS-1 games\n"
         "- Based on a snapshot of the FB Alpha codebase from 2012\n"
@@ -98,42 +111,33 @@ if __name__ == "__main__":
         try:
             number = int(user_input)
             if number == 1:
-                wiiflow_plugin_ra_app_configs.init_playlist_configs()
-                RA_Playlist(
-                    wiiflow_plugin_ra_app_configs.playlist_configs
-                ).export_rom_files()
+                # 导出 ROM 文件
+                RA_Playlist(WiiRA_App.init_playlist_configs()).export_rom_files()
             elif number == 2:
                 # Game App (RA 核心， SD 版)
-                for game_app_configs in game_app_configs_list:
-                    game_app_configs.device = Wii_AppConfigs.DEVICE_SD
-                    game_app = WiiRA_App(game_app_configs)
-                    game_app.export_all()
+                Wii_AppFactory.export_game_ra_apps(Wii_AppConfigs.DEVICE_SD)
             elif number == 3:
                 # Wiiflow Plugin App (RA 核心， SD 版)
-                wiiflow_plugin_ra_app_configs.device = Wii_AppConfigs.DEVICE_SD
-                wiiflow_plugin_ra_app_configs.init_playlist_configs()
-                wiiflow_plugin_ra_app_configs.playlist_configs.boxarts_folder = None
-                wiiflow_plugin_ra_app_configs.playlist_configs.logos_folder = None
-                wiiflow_plugin_ra_app_configs.playlist_configs.snaps_folder = None
-                wiiflow_plugin_ra_app_configs.playlist_configs.titles_folder = None
-                wiiflow_plugin_ra_app_configs.use_favorites_as_playlist = True
-                WiiRA_App(wiiflow_plugin_ra_app_configs).export_all()
+                plugin_ra_app_configs.device = Wii_AppConfigs.DEVICE_SD
+                plugin_ra_app_configs.use_favorites_as_playlist = True
+
+                playlist_configs = WiiRA_App.init_playlist_configs()
+                playlist_configs.boxarts_folder = None
+                playlist_configs.logos_folder = None
+                playlist_configs.snaps_folder = None
+                playlist_configs.titles_folder = None
+
+                WiiRA_App(plugin_ra_app_configs, playlist_configs).export_all()
             elif number == 4:
                 # Game App (SS 核心， SD 版)
-                for game_app_configs in game_app_configs_list:
-                    game_app_configs.device = Wii_AppConfigs.DEVICE_SD
-                    game_app = WiiSS_App(game_app_configs)
-                    game_app.export_all()
+                Wii_AppFactory.export_game_ss_apps(Wii_AppConfigs.DEVICE_SD)
             elif number == 5:
                 # Wiiflow Plugin App (SS 核心， SD 版)
-                wiiflow_plugin_ss_app_configs.device = Wii_AppConfigs.DEVICE_SD
-                WiiSS_App(wiiflow_plugin_ss_app_configs).export_all()
+                plugin_ss_app_configs.device = Wii_AppConfigs.DEVICE_SD
+                WiiSS_App(plugin_ss_app_configs).export_all()
             elif number == 6:
                 # Game App (SS 核心， USB 版)
-                for game_app_configs in game_app_configs_list:
-                    game_app_configs.device = Wii_AppConfigs.DEVICE_USB
-                    game_app = WiiSS_App(game_app_configs)
-                    game_app.export_all()
+                Wii_AppFactory.export_game_ss_apps(Wii_AppConfigs.DEVICE_USB)
             else:
                 break
         except ValueError:
