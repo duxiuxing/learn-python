@@ -26,7 +26,7 @@ class RomsDB:
         return RomsDB._instance()._crc32_to_rom.values()
 
     @staticmethod
-    def rom_exist(rom_crc32):
+    def rom_exist(rom_crc32) -> bool:
         return rom_crc32 in RomsDB._instance()._crc32_to_rom.keys()
 
     @staticmethod
@@ -34,14 +34,16 @@ class RomsDB:
         RomsDB._instance()._crc32_to_rom[rom.crc32] = rom
 
     @staticmethod
-    def query_rom(rom_crc32=None, rom_file_name=None) -> Rom | None:
+    def query_rom(
+        rom_crc32: str | None = None, rom_file_name: str | None = None
+    ) -> Rom | None:
         roms_db = RomsDB._instance()
         if rom_crc32 is not None:
             return roms_db._crc32_to_rom.get(rom_crc32)
 
         if rom_file_name is not None:
             for rom in roms_db._crc32_to_rom.values():
-                if rom.file_name == Path(rom_file_name):
+                if rom.file_name == rom_file_name:
                     return rom
 
         return None

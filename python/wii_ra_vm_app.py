@@ -22,7 +22,7 @@ class WiiRA_VM_App:
         self.configs = configs
 
     def folder_name(self):
-        return f"{self.configs.device}-{self.configs.base_app_folder_name}"
+        return f"{self.configs.device}-{self.configs.app_folder_base_name}"
 
     def directory(self):
         return LocalConfigs.export_to_directory.joinpath(

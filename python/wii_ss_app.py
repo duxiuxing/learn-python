@@ -23,10 +23,10 @@ class WiiSS_App:
 
     def app_folder_name(self):
         plugin_name = WiiFlow_Configs.plugin_name.lower()
-        if plugin_name == self.configs.base_app_folder_name:
+        if plugin_name == self.configs.app_folder_base_name:
             return f"{self.configs.device}-{plugin_name}-ss"
         else:
-            return f"{self.configs.device}-{plugin_name}-{self.configs.base_app_folder_name}-ss"
+            return f"{self.configs.device}-{plugin_name}-{self.configs.app_folder_base_name}-ss"
 
     def win_app_directory(self) -> Path:
         return LocalConfigs.export_to_directory.joinpath(
