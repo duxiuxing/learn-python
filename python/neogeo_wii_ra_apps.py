@@ -5,9 +5,8 @@ from local_configs import LocalConfigs
 from pathlib import Path
 from ra_playlist import RA_Playlist
 from ra_playlist_configs import RA_PlaylistConfigs
-from wii_app_configs import add_game_app_configs
-from wii_app_configs import game_app_configs_list
 from wii_app_configs import Wii_AppConfigs
+from wii_app_factory import Wii_AppFactory
 from wii_ra_app import WiiRA_App
 from wii_ss_app import WiiSS_App
 
@@ -15,30 +14,46 @@ if __name__ == "__main__":
     Init_Global_Configs()
 
     # #
-    add_game_app_configs(rom_file_title="2020bb")
-    add_game_app_configs(rom_file_title="3countb")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="2020bb")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="3countb")
     # A
-    add_game_app_configs(rom_file_title="alpham2")
-    add_game_app_configs(rom_file_title="androdun")
-    add_game_app_configs(rom_file_title="aodk")
-    add_game_app_configs(rom_file_title="aof")
-    add_game_app_configs(rom_file_title="aof2")
-    add_game_app_configs(rom_file_title="aof3")
-    add_game_app_configs(rom_file_title="sonicwi2")
-    add_game_app_configs(rom_file_title="sonicwi3")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="alpham2")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="androdun")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="aodk")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="aof")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="aof2")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="aof3")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="sonicwi2")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="sonicwi3")
     # B
-    add_game_app_configs(rom_file_title="b2buster")
-    add_game_app_configs(rom_file_title="bakatono", app_name="Mahjong 3")
-    add_game_app_configs(rom_file_title="bangbead")
-    add_game_app_configs(rom_file_title="bjourney")
-    add_game_app_configs(rom_file_title="blazstar")
-    add_game_app_configs(rom_file_title="breakers")
-    add_game_app_configs(rom_file_title="breakrev")
-    add_game_app_configs(rom_file_title="bstars")
-    add_game_app_configs(rom_file_title="bstars2")
-    add_game_app_configs(rom_file_title="burningf")
-    add_game_app_configs(rom_file_title="flipshot")
-
+    Wii_AppFactory.add_game_app_configs(rom_file_title="b2buster")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="bakatono", app_name="Mahjong 3")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="bangbead")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="bjourney")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="blazstar")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="breakers")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="breakrev")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="bstars")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="bstars2")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="burningf")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="flipshot")
+    # C
+    Wii_AppFactory.add_game_app_configs(rom_file_title="crsword")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="ctomaday")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="cyberlip")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="marukodq")
+    # D
+    Wii_AppFactory.add_game_app_configs(rom_file_title="doubledr")
+    # E
+    Wii_AppFactory.add_game_app_configs(rom_file_title="eightman")
+    # F
+    Wii_AppFactory.add_game_app_configs(rom_file_title="fatfursp")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="fatfury1")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="fatfury2")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="fatfury3")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="fbfrenzy")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="fightfev")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="kabukikl")
     # M
     # add_game_app_configs(rom_file_title="magdrop2")
     # add_game_app_configs(rom_file_title="magdrop3")
@@ -50,23 +65,23 @@ if __name__ == "__main__":
     # add_game_app_configs(rom_file_title="mslug2", app_name="Metal Slug 2")
     # add_game_app_configs(rom_file_title="mutnat")
 
-    wiiflow_plugin_ra_app_configs = Wii_AppConfigs(
+    plugin_ra_app_configs = Wii_AppConfigs(
         app_name="SNK - Neo Geo",
-        base_app_folder_name="neogeo",
+        app_folder_base_name="neogeo",
         rom=None,
     )
-    wiiflow_plugin_ra_app_configs.long_description = (
+    plugin_ra_app_configs.long_description = (
         "- Emulator for Neo Geo games smaller than 23 MB\n"
         "- Based on a snapshot of the FB Alpha codebase from 2012\n"
         "- Compatible with FB Alpha v0.2.97.29 ROM sets"
     )
 
-    wiiflow_plugin_ss_app_configs = Wii_AppConfigs(
+    plugin_ss_app_configs = Wii_AppConfigs(
         app_name="RA-SS Neo Geo",
-        base_app_folder_name="neogeo",
+        app_folder_base_name="neogeo",
         rom=None,
     )
-    wiiflow_plugin_ss_app_configs.long_description = (
+    plugin_ss_app_configs.long_description = (
         "- Mod By RunningSnakes based on RA-SS Hexaeco\n"
         "- Emulator for Neo Geo games smaller than 23 MB\n"
         "- Based on a snapshot of the FB Alpha codebase from 2012\n"
@@ -100,42 +115,33 @@ if __name__ == "__main__":
         try:
             number = int(user_input)
             if number == 1:
-                wiiflow_plugin_ra_app_configs.init_playlist_configs()
-                RA_Playlist(
-                    wiiflow_plugin_ra_app_configs.playlist_configs
-                ).export_rom_files()
+                # 导出 ROM 文件
+                RA_Playlist(WiiRA_App.init_playlist_configs()).export_rom_files()
             elif number == 2:
                 # Game App (RA 核心， SD 版)
-                for game_app_configs in game_app_configs_list:
-                    game_app_configs.device = Wii_AppConfigs.DEVICE_SD
-                    game_app = WiiRA_App(game_app_configs)
-                    game_app.export_all()
+                Wii_AppFactory.export_game_ra_apps(Wii_AppConfigs.DEVICE_SD)
             elif number == 3:
                 # Wiiflow Plugin App (RA 核心， SD 版)
-                wiiflow_plugin_ra_app_configs.device = Wii_AppConfigs.DEVICE_SD
-                wiiflow_plugin_ra_app_configs.init_playlist_configs()
-                wiiflow_plugin_ra_app_configs.playlist_configs.boxarts_folder = None
-                wiiflow_plugin_ra_app_configs.playlist_configs.logos_folder = None
-                wiiflow_plugin_ra_app_configs.playlist_configs.snaps_folder = None
-                wiiflow_plugin_ra_app_configs.playlist_configs.titles_folder = None
-                wiiflow_plugin_ra_app_configs.use_favorites_as_playlist = True
-                WiiRA_App(wiiflow_plugin_ra_app_configs).export_all()
+                plugin_ra_app_configs.device = Wii_AppConfigs.DEVICE_SD
+                plugin_ra_app_configs.use_favorites_as_playlist = False
+
+                playlist_configs = WiiRA_App.init_playlist_configs()
+                playlist_configs.boxarts_folder = None
+                playlist_configs.logos_folder = None
+                playlist_configs.snaps_folder = None
+                playlist_configs.titles_folder = None
+
+                WiiRA_App(plugin_ra_app_configs, playlist_configs).export_all()
             elif number == 4:
                 # Game App (SS 核心， SD 版)
-                for game_app_configs in game_app_configs_list:
-                    game_app_configs.device = Wii_AppConfigs.DEVICE_SD
-                    game_app = WiiSS_App(game_app_configs)
-                    game_app.export_all()
+                Wii_AppFactory.export_game_ss_apps(Wii_AppConfigs.DEVICE_SD)
             elif number == 5:
                 # Wiiflow Plugin App (SS 核心， SD 版)
-                wiiflow_plugin_ss_app_configs.device = Wii_AppConfigs.DEVICE_SD
-                WiiSS_App(wiiflow_plugin_ss_app_configs).export_all()
+                plugin_ss_app_configs.device = Wii_AppConfigs.DEVICE_SD
+                WiiSS_App(plugin_ss_app_configs).export_all()
             elif number == 6:
                 # Game App (SS 核心， USB 版)
-                for game_app_configs in game_app_configs_list:
-                    game_app_configs.device = Wii_AppConfigs.DEVICE_USB
-                    game_app = WiiSS_App(game_app_configs)
-                    game_app.export_all()
+                Wii_AppFactory.export_game_ss_apps(Wii_AppConfigs.DEVICE_USB)
             else:
                 break
         except ValueError:
