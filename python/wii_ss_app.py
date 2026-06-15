@@ -23,10 +23,10 @@ class WiiSS_App:
 
     def app_folder_name(self):
         plugin_name = WiiFlow_Configs.plugin_name.lower()
-        if plugin_name == self.configs.base_app_folder_name:
+        if plugin_name == self.configs.app_folder_base_name:
             return f"{self.configs.device}-{plugin_name}-ss"
         else:
-            return f"{self.configs.device}-{plugin_name}-{self.configs.base_app_folder_name}-ss"
+            return f"{self.configs.device}-{plugin_name}-{self.configs.app_folder_base_name}-ss"
 
     def win_app_directory(self) -> Path:
         return LocalConfigs.export_to_directory.joinpath(
@@ -124,7 +124,7 @@ class WiiSS_App:
             # 宽高比：0=4:3 1=16:9 21=Core provided 22=Custom
             'aspect_ratio_index = "22"',
             'aspect_ratio_index_wide = "22"',
-            # 分辨率：23=384x448 40=640x480
+            # 分辨率：23=384x448 29=640x448 40=640x480
             'video_vres = "40"',
             # 目录相关的设置
             'libretro_path = "."',
