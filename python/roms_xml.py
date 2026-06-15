@@ -14,7 +14,7 @@ from roms_db import RomsDB
 class RomsXML:
     @staticmethod
     def _parse(xml_file_path: Path):
-        if not xml_file_path.exists():
+        if not xml_file_path.exists() or not xml_file_path.is_file():
             return
 
         game_list_elem = ET.parse(xml_file_path).getroot()
