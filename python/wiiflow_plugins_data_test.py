@@ -100,7 +100,7 @@ def f7_check_game_element():
     wiiflow_all_games = WiiFlow_GamesDB.all_games()
     print(f"在 {plugin_name}.xml 中发现 {len(wiiflow_all_games)} 个游戏")
     for wiiflow_game in wiiflow_all_games:
-        game = GamesDB.query_game(game_id=game.id)
+        game = GamesDB.query_game(game_id=wiiflow_game.id)
         if game is None:
             print(
                 f"【错误】{plugin_name}.xml 中的 <Game> 没有在 roms.xml 中配置："
