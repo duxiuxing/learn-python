@@ -14,12 +14,17 @@ class Wii_AppConfigs:
     default_short_description = None
 
     def __init__(
-        self, app_name: str, app_folder_base_name: str, rom: WiiFlow_Rom, remap=None
+        self,
+        app_name: str,
+        app_folder_base_name: str,
+        rom: WiiFlow_Rom | None,
+        remap=None,
     ):
         self.app_name = app_name
         self.app_folder_base_name = app_folder_base_name
         self.rom = rom
         self.remap = remap
+        self.cfg_file_name = None
         self.device = None
         self._short_description = None
 
@@ -45,7 +50,6 @@ class Wii_AppConfigs:
                     f"- Max Players: {game.players}"
                 )
 
-        self.cfg_file_name = None
         self.use_favorites_as_playlist = False
 
     def set_short_description(self, short_description):
