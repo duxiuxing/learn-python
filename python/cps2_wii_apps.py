@@ -109,6 +109,7 @@ if __name__ == "__main__":
         app_folder_base_name="cps2",
         rom=None,
     )
+    plugin_ss_app_configs.cfg_file_name = "main.cfg"
     plugin_ss_app_configs.long_description = (
         "- Mod By RunningSnakes based on RA-SS Hexaeco\n"
         "- Emulator for CPS-2 games\n"
