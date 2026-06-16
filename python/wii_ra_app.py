@@ -75,6 +75,12 @@ class WiiRA_App:
     def wii_app_directory(self) -> str:
         return f"{self.configs.device}:/apps/{self.app_folder_name()}"
 
+    def win_data_directory(self) -> Path:
+        return LocalConfigs.export_to_directory.joinpath("retroarch")
+
+    def wii_data_directory(self) -> str:
+        return f"{self.configs.device}:/retroarch"
+
     # 拷贝 boot.dol，如果是模拟器 App 还要拷贝 core 和 info 文件
     def export_core_files(self):
         src_dir = WiiRA_Configs.repository_directory()
@@ -157,7 +163,7 @@ class WiiRA_App:
 
     def settings_list(self):
         app_dir = self.wii_app_directory()
-        retroarch_dir = WiiRA_Configs.wii_data_directory(self.configs.device)
+        data_dir = self.wii_data_directory()
 
         list_ret = [
             # 游戏画面宽高比：0=4:3 1=16:9 22=Core provided
@@ -171,8 +177,8 @@ class WiiRA_App:
             'rgui_menu_color_theme = "29"',
             # 目录相关的设置
             f'playlist_directory = "{app_dir}/playlists"',
-            f'rgui_config_directory = "{retroarch_dir}/config"',
-            f'thumbnails_directory = "{retroarch_dir}/thumbnails"',
+            f'rgui_config_directory = "{data_dir}/config"',
+            f'thumbnails_directory = "{data_dir}/thumbnails"',
             # 在游戏列表中显示缩略图
             'menu_thumbnails = "2"',
             'menu_left_thumbnails = "1"',
@@ -220,24 +226,24 @@ class WiiRA_App:
             'quick_menu_show_start_streaming = "false"',
             'quick_menu_show_undo_save_load_state = "false"',
             # 其他
-            f'assets_directory = "{retroarch_dir}/assets"',
-            f'audio_filter_dir = "{retroarch_dir}/filters/audio"',
-            f'cheat_database_path = "{retroarch_dir}/cheats"',
+            f'assets_directory = "{data_dir}/assets"',
+            f'audio_filter_dir = "{data_dir}/filters/audio"',
+            f'cheat_database_path = "{data_dir}/cheats"',
             f'content_favorites_path = "{app_dir}/playlists/builtin/content_favorites.lpl"',
             f'content_history_path = "{app_dir}/playlists/builtin/content_history.lpl"',
             f'content_image_history_path = "{app_dir}/playlists/builtin/content_image_history.lpl"',
             f'content_music_history_path = "{app_dir}/playlists/builtin/content_music_history.lpl"',
             f'content_video_history_path = "{app_dir}/playlists/builtin/content_video_history.lpl"',
-            f'joypad_autoconfig_dir = "{retroarch_dir}/autoconfig"',
+            f'joypad_autoconfig_dir = "{data_dir}/autoconfig"',
             f'libretro_directory = "{app_dir}"',
             f'libretro_info_path = "{app_dir}/info"',
-            f'log_dir = "{retroarch_dir}/logs"',
-            f'osk_overlay_directory = "{retroarch_dir}/overlays/keyboards"',
-            f'overlay_directory = "{retroarch_dir}/overlays"',
-            f'savefile_directory = "{retroarch_dir}/savefiles"',
-            f'savestate_directory = "{retroarch_dir}/savestates"',
-            f'system_directory = "{retroarch_dir}/system"',
-            f'video_filter_dir = "{retroarch_dir}/filters/video"',
+            f'log_dir = "{data_dir}/logs"',
+            f'osk_overlay_directory = "{data_dir}/overlays/keyboards"',
+            f'overlay_directory = "{data_dir}/overlays"',
+            f'savefile_directory = "{data_dir}/savefiles"',
+            f'savestate_directory = "{data_dir}/savestates"',
+            f'system_directory = "{data_dir}/system"',
+            f'video_filter_dir = "{data_dir}/filters/video"',
             # 刷新率一律填 60
             'crt_video_refresh_rate = "60.000000"',
             'video_refresh_rate = "60.000000"',
@@ -277,7 +283,7 @@ class WiiRA_App:
 
         return list_ret
 
-    def configs_dict(self):
+    def settings_dict(self):
         dict_ret = {}
         for line in self.settings_list():
             key = line[: line.find("=")]
@@ -286,24 +292,17 @@ class WiiRA_App:
         return dict_ret
 
     def cfg_file_path(self) -> Path:
-        if self.configs.cfg_file_name is None:
-            return self.win_app_directory().joinpath(
-                WiiRA_Configs.default_cfg_file_name
-            )
-        else:
-            return LocalConfigs.export_to_directory.joinpath(
-                f"retroarch\\{self.configs.cfg_file_name}"
-            )
+        return self.win_app_directory().joinpath("retroarch.cfg")
 
-    def export_retroarch_cfg(self):
+    def export_cfg_file(self):
         dst_cfg_file_path = self.cfg_file_path()
         if dst_cfg_file_path.exists() and dst_cfg_file_path.is_file():
             dst_cfg_file_path.unlink()
 
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
-            configs_dict = self.configs_dict()
+            configs_dict = self.settings_dict()
             src_cfg_file_path = WiiRA_Configs.repository_directory().joinpath(
-                WiiRA_Configs.default_cfg_file_name,
+                WiiRA_Configs.template_cfg_file_name,
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
                 line = src_file.readline()
@@ -386,6 +385,6 @@ class WiiRA_App:
         self.export_core_files()
         self.export_icon_png()
         self.export_meta_xml()
-        self.export_retroarch_cfg()
+        self.export_cfg_file()
         self.export_playlist()
         self.export_remap_file()

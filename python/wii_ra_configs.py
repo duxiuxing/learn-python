@@ -6,7 +6,7 @@ from ra_configs import RA_Configs
 
 
 class WiiRA_Configs:
-    default_cfg_file_name = Path("retroarch.cfg")
+    template_cfg_file_name = Path("retroarch.cfg")    
 
     core_file_name = None
     core_info_file_name = None
