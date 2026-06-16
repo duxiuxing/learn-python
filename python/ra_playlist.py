@@ -84,7 +84,7 @@ class RA_Playlist:
             src_file_path = ResourceFileHelper.compute_rom_media_file_path(
                 rom, src_folder_name, ".png"
             )
-            dst_file_name = f"{rom.file_name.stem}.png"
+            dst_file_name = f"{rom.file_title()}.png"
             if not self.configs.png_file_match_rom_file:
                 dst_file_name = f"{item.label}.png"
             dst_file_path = dst_dir.joinpath(dst_file_name)

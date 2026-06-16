@@ -5,14 +5,9 @@ from pathlib import Path
 
 
 class WiiSS_Configs:
-    template_cfg_file_name = None
-
     @staticmethod
-    def core_cfg_template_file_name() -> Path:
-        if WiiSS_Configs.template_cfg_file_name is None:
-            return f"{WiiSS_Configs.core_file_name.stem}.cfg"
-        else:
-            return WiiSS_Configs.template_cfg_file_name
+    def template_cfg_file_name() -> Path:
+        return Path(f"{WiiSS_Configs.core_file_name.stem}.cfg")
 
     core_file_name = None
 
