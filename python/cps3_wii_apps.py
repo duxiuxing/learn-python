@@ -5,29 +5,34 @@ from local_configs import LocalConfigs
 from pathlib import Path
 from ra_playlist import RA_Playlist
 from ra_playlist_configs import RA_PlaylistConfigs
-from wii_app_configs import add_game_app_configs
-from wii_app_configs import game_app_configs_list
 from wii_app_configs import Wii_AppConfigs
+from wii_app_factory import Wii_AppFactory
 from wii_ra_app import WiiRA_App
 
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    add_game_app_configs(rom_file_title="jojo", remap="jojo")
-    add_game_app_configs(
+    Wii_AppFactory.add_game_app_configs(rom_file_title="jojo", remap="jojo")
+    Wii_AppFactory.add_game_app_configs(
         rom_file_title="jojoba", app_name="JoJo's Venture 2", remap="jojo"
     )
-    add_game_app_configs(rom_file_title="redearth")
-    add_game_app_configs(rom_file_title="sfiii", app_name="Street Fighter 3.1")
-    add_game_app_configs(rom_file_title="sfiii2", app_name="Street Fighter 3.2")
-    add_game_app_configs(rom_file_title="sfiii3", app_name="Street Fighter 3.3")
+    Wii_AppFactory.add_game_app_configs(rom_file_title="redearth")
+    Wii_AppFactory.add_game_app_configs(
+        rom_file_title="sfiii", app_name="Street Fighter 3.1"
+    )
+    Wii_AppFactory.add_game_app_configs(
+        rom_file_title="sfiii2", app_name="Street Fighter 3.2"
+    )
+    Wii_AppFactory.add_game_app_configs(
+        rom_file_title="sfiii3", app_name="Street Fighter 3.3"
+    )
 
-    wiiflow_plugin_ra_app_configs = Wii_AppConfigs(
+    plugin_ra_app_configs = Wii_AppConfigs(
         app_name="Capcom - CP System III",
-        base_app_folder_name="cps3",
+        app_folder_base_name="cps3",
         rom=None,
     )
-    wiiflow_plugin_ra_app_configs.long_description = (
+    plugin_ra_app_configs.long_description = (
         "- Emulator for CPS-3 games based on RetroArch\n"
         "- Based on a snapshot of the FB Alpha codebase from 2012\n"
         "- Compatible with FB Alpha v0.2.97.29 ROM sets"
@@ -57,26 +62,23 @@ if __name__ == "__main__":
         try:
             number = int(user_input)
             if number == 1:
-                wiiflow_plugin_ra_app_configs.init_playlist_configs()
-                RA_Playlist(
-                    wiiflow_plugin_ra_app_configs.playlist_configs
-                ).export_rom_files()
+                # 导出 ROM 文件
+                RA_Playlist(WiiRA_App.init_playlist_configs()).export_rom_files()
             elif number == 2:
                 # Game App (RA 核心， SD 版)
-                for game_app_configs in game_app_configs_list:
-                    game_app_configs.device = Wii_AppConfigs.DEVICE_SD
-                    game_app = WiiRA_App(game_app_configs)
-                    game_app.export_all()
+                Wii_AppFactory.export_game_ra_apps(Wii_AppConfigs.DEVICE_SD)
             elif number == 3:
                 # Wiiflow Plugin App (RA 核心， SD 版)
-                wiiflow_plugin_ra_app_configs.device = Wii_AppConfigs.DEVICE_SD
-                wiiflow_plugin_ra_app_configs.init_playlist_configs()
-                wiiflow_plugin_ra_app_configs.playlist_configs.boxarts_folder = None
-                wiiflow_plugin_ra_app_configs.playlist_configs.logos_folder = None
-                wiiflow_plugin_ra_app_configs.playlist_configs.snaps_folder = None
-                wiiflow_plugin_ra_app_configs.playlist_configs.titles_folder = None
-                wiiflow_plugin_ra_app_configs.use_favorites_as_playlist = True
-                WiiRA_App(wiiflow_plugin_ra_app_configs).export_all()
+                plugin_ra_app_configs.device = Wii_AppConfigs.DEVICE_SD
+                plugin_ra_app_configs.use_favorites_as_playlist = True
+
+                playlist_configs = WiiRA_App.init_playlist_configs()
+                playlist_configs.boxarts_folder = None
+                playlist_configs.logos_folder = None
+                playlist_configs.snaps_folder = None
+                playlist_configs.titles_folder = None
+
+                WiiRA_App(plugin_ra_app_configs, playlist_configs).export_all()
             else:
                 break
         except ValueError:
