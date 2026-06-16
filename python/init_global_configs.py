@@ -52,7 +52,9 @@ class Init_Global_Configs:
             # NeoGeo 的原生分辨率是 320x224，故使用 30=640x448
             'current_resolution_id = "30"'
         ]
-        WiiRA_Configs.remaps_relative_directory = Path("remaps\\FB Alpha 2012 Neo Geo")
+        WiiRA_Configs.remaps_relative_directory = Path(
+            "retroarch\\remaps\\FB Alpha 2012 Neo Geo"
+        )
 
         # WiiSS_Configs
         WiiSS_Configs.core_file_name = Path("Arcade NEO VM.dol")
