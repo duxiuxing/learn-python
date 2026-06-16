@@ -15,7 +15,7 @@ from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
 
-# 检查 roms.xml 里面的 <Game> 是否和 WiiFlow 里面的一致
+# 检查 roms.xml 和 WiiFlow 里面的游戏名称是否一致
 def check_game_element():
     all_games = GamesDB.all_games()
     print(f"在 roms.xml 中发现 {len(all_games)} 个游戏")
