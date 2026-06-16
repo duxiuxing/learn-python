@@ -66,7 +66,7 @@ if __name__ == "__main__":
             continue
 
         wiiflow_rom = WiiFlow_RomsDB.query_rom(
-            rom_crc32=ra_rom.crc32, rom_file_title=ra_rom.file_path.stem
+            rom_crc32=ra_rom.crc32, rom_file_title=ra_rom.file_title()
         )
         if wiiflow_rom is None:
             print(
