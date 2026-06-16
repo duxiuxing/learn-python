@@ -175,19 +175,18 @@ class WiiSS_App:
 
         return dict_ret
 
+    def cfg_file_path(self) -> Path:
+        return self.win_data_directory().joinpath(self.configs.cfg_file_name)
+
     def export_cfg_file(self):
-        dst_cfg_file_path = self.win_data_directory().joinpath("main.cfg")
-        if self.configs.rom is not None:
-            dst_cfg_file_path = self.win_data_directory().joinpath(
-                f"{self.configs.rom.file_title}.cfg"
-            )
+        dst_cfg_file_path = self.cfg_file_path()
         if dst_cfg_file_path.exists() and dst_cfg_file_path.is_file():
             dst_cfg_file_path.unlink()
 
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
             configs_dict = self.configs_dict()
             src_cfg_file_path = WiiSS_Configs.repository_directory().joinpath(
-                WiiSS_Configs.core_cfg_template_file_name(),
+                WiiSS_Configs.template_cfg_file_name(),
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
                 line = src_file.readline()

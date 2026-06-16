@@ -1,7 +1,9 @@
 # -- coding: UTF-8 --
 
+from ra_playlist_configs import RA_PlaylistConfigs
 from wii_app_configs import Wii_AppConfigs
 from wii_ra_app import WiiRA_App
+from wii_ra_vm_app import WiiRA_VM_App
 from wii_ss_app import WiiSS_App
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -32,12 +34,30 @@ class Wii_AppFactory:
     def export_game_ra_apps(wii_device: str):
         for app_configs in Wii_AppFactory.game_app_configs_list:
             app_configs.device = wii_device
-            ss_app = WiiRA_App(app_configs)
-            ss_app.export_all()
+            ra_app = WiiRA_App(app_configs)
+            ra_app.export_all()
+
+    @staticmethod
+    def export_game_ra_vm_apps(wii_device: str):
+        for app_configs in Wii_AppFactory.game_app_configs_list:
+            app_configs.cfg_file_name = (
+                f"{app_configs.rom.file_title.ljust(9, '_')}.cfg"
+            )
+            app_configs.device = wii_device
+            playlist_configs = WiiRA_VM_App.init_playlist_configs(
+                rom_file_title_list=[app_configs.rom.file_title], wii_device=wii_device
+            )
+            playlist_configs.boxarts_folder = None
+            playlist_configs.logos_folder = None
+            playlist_configs.snaps_folder = None
+            playlist_configs.titles_folder = None
+            ra_vm_app = WiiRA_VM_App(app_configs, playlist_configs)
+            ra_vm_app.export_all()
 
     @staticmethod
     def export_game_ss_apps(wii_device: str):
         for app_configs in Wii_AppFactory.game_app_configs_list:
+            app_configs.cfg_file_name = f"{app_configs.rom.file_title}.cfg"
             app_configs.device = wii_device
             ss_app = WiiSS_App(app_configs)
             ss_app.export_all()
