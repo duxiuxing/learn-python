@@ -57,7 +57,7 @@ if __name__ == "__main__":
     new_roms_count = 0
     for ra_rom in ra_rom_list:
         if not fnmatch.fnmatch(
-            ra_rom.file_path, f"*{WiiFlow_Configs.rom_file_extension()}"
+            ra_rom.file_path, f"*{RA_Configs.rom_file_extension}"
         ):
             continue
 
@@ -108,9 +108,9 @@ if __name__ == "__main__":
             en_title="",
             zhcn_title="",
         )
-        if WiiFlow_Configs.rom_file_renameable():
+        if RA_Configs.rom_file_renameable:
             rom.file_name = (
-                f"{wiiflow_rom.file_title}{WiiFlow_Configs.rom_file_extension()}"
+                f"{wiiflow_rom.file_title}{RA_Configs.rom_file_extension}"
             )
         RomsDB.add_rom(rom)
 
