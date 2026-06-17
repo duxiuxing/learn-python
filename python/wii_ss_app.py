@@ -161,7 +161,7 @@ class WiiSS_App:
             'video_refresh_rate = "60.000000"',
         ]
 
-        for key, value in WiiRA_Configs.settings_dict.items():
+        for key, value in WiiSS_Configs.settings_dict.items():
             line = f'{key} = "{value}"'
             settings_list.append(line)
 
