@@ -48,23 +48,19 @@ class Init_Global_Configs:
         WiiRA_Configs.core_name = "Arcade (FB Alpha 2012 CPS-1)"
         WiiRA_Configs.release_date = "20251120"
         WiiRA_Configs.version = "1.22.2"
-        WiiRA_Configs.settings_list = [
-            # CPS1 的原生分辨率是 384x224，故使用 24=384x448
-            'current_resolution_id = "24"'
-        ]
+        # CPS1 的原生分辨率是 384x224，故使用 24=384x448
+        WiiRA_Configs.settings_dict["current_resolution_id"] = "24"
         WiiRA_Configs.remaps_relative_directory = Path("remaps\\FB Alpha 2012 CPS-1")
 
         # WiiSS_Configs
         WiiSS_Configs.core_file_name = Path("Arcade CPS1.dol")
         WiiSS_Configs.data_folder_name = "C1MOD"
         WiiSS_Configs.release_date = "20220508"
-        WiiSS_Configs.settings_list = [
-            # 宽高比：0=4:3
-            'aspect_ratio_index = "0"',
-            'aspect_ratio_index_wide = "0"',
-            # CPS1 的原生分辨率是 384x224，故使用 23=384x448
-            'video_vres = "23"',
-        ]
+        # 宽高比：0=4:3
+        WiiSS_Configs.settings_dict["aspect_ratio_index"] = "0"
+        WiiSS_Configs.settings_dict["aspect_ratio_index_wide"] = "0"
+        # CPS1 的原生分辨率是 384x224，故使用 23=384x448
+        WiiSS_Configs.settings_dict["video_vres"] = "23"
 
         # WiiFlow_Configs
         WiiFlow_Configs.plugin_name = "CPS1"
