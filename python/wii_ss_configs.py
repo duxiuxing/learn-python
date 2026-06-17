@@ -21,4 +21,4 @@ class WiiSS_Configs:
     # .dol 发布的年月日
     release_date = None
 
-    settings_list = None
+    settings_dict = {}

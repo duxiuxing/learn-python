@@ -75,12 +75,6 @@ class WiiRA_App:
     def wii_app_directory(self) -> str:
         return f"{self.configs.device}:/apps/{self.app_folder_name()}"
 
-    def win_data_directory(self) -> Path:
-        return LocalConfigs.export_to_directory.joinpath("retroarch")
-
-    def wii_data_directory(self) -> str:
-        return f"{self.configs.device}:/retroarch"
-
     # 拷贝 boot.dol，如果是模拟器 App 还要拷贝 core 和 info 文件
     def export_core_files(self):
         src_dir = WiiRA_Configs.repository_directory()
@@ -161,15 +155,15 @@ class WiiRA_App:
             xml_file.write("</app>\n")
             xml_file.close()
 
-    def settings_list(self):
+    def settings_dict(self):
         app_dir = self.wii_app_directory()
-        data_dir = self.wii_data_directory()
+        data_dir = WiiRA_Configs.wii_data_directory(self.configs.device)
 
-        list_ret = [
+        settings_list = [
             # 游戏画面宽高比：0=4:3 1=16:9 22=Core provided
             'aspect_ratio_index = "0"',
             # 分辨率：0=默认 24=384x448 30=640x448
-            # 各个机种的分辨率不一定相同，可通过 WiiRA_Configs.settings_list 指定
+            # 各个机种的分辨率不一定相同，可通过 WiiRA_Configs.settings_dict 指定
             'current_resolution_id = "0"',
             # 菜单界面宽高比：11=Auto
             'rgui_aspect_ratio = "11"',
@@ -253,39 +247,36 @@ class WiiRA_App:
         ]
 
         if self.configs.rom is not None:
-            list_ret.append('content_show_favorites = "false"')
-            list_ret.append('content_show_history = "false"')
-            list_ret.append('content_show_playlists = "false"')
-            list_ret.append('menu_show_restart_retroarch = "false"')
-            list_ret.append('playlist_entry_remove_enable = "2"')
-            list_ret.append('quick_menu_show_add_to_favorites = "false"')
-            list_ret.append('quit_on_close_content = "2"')
+            settings_list.append('content_show_favorites = "false"')
+            settings_list.append('content_show_history = "false"')
+            settings_list.append('content_show_playlists = "false"')
+            settings_list.append('menu_show_restart_retroarch = "false"')
+            settings_list.append('playlist_entry_remove_enable = "2"')
+            settings_list.append('quick_menu_show_add_to_favorites = "false"')
+            settings_list.append('quit_on_close_content = "2"')
         elif self.configs.use_favorites_as_playlist:
-            list_ret.append('content_show_favorites = "true"')
-            list_ret.append('content_show_history = "false"')
-            list_ret.append('content_show_playlists = "false"')
-            list_ret.append('menu_show_restart_retroarch = "true"')
-            list_ret.append('playlist_entry_remove_enable = "2"')
-            list_ret.append('quick_menu_show_add_to_favorites = "false"')
-            list_ret.append('quit_on_close_content = "0"')
+            settings_list.append('content_show_favorites = "true"')
+            settings_list.append('content_show_history = "false"')
+            settings_list.append('content_show_playlists = "false"')
+            settings_list.append('menu_show_restart_retroarch = "true"')
+            settings_list.append('playlist_entry_remove_enable = "2"')
+            settings_list.append('quick_menu_show_add_to_favorites = "false"')
+            settings_list.append('quit_on_close_content = "0"')
         else:
-            list_ret.append('content_show_favorites = "true"')
-            list_ret.append('content_show_history = "true"')
-            list_ret.append('content_show_playlists = "true"')
-            list_ret.append('menu_show_restart_retroarch = "true"')
-            list_ret.append('playlist_entry_remove_enable = "1"')
-            list_ret.append('quick_menu_show_add_to_favorites = "true"')
-            list_ret.append('quit_on_close_content = "0"')
+            settings_list.append('content_show_favorites = "true"')
+            settings_list.append('content_show_history = "true"')
+            settings_list.append('content_show_playlists = "true"')
+            settings_list.append('menu_show_restart_retroarch = "true"')
+            settings_list.append('playlist_entry_remove_enable = "1"')
+            settings_list.append('quick_menu_show_add_to_favorites = "true"')
+            settings_list.append('quit_on_close_content = "0"')
 
-        if WiiRA_Configs.settings_list is not None:
-            for line in WiiRA_Configs.settings_list:
-                list_ret.append(line)
+        for key, value in WiiRA_Configs.settings_dict.items():
+            line = f'{key} = "{value}"'
+            settings_list.append(line)
 
-        return list_ret
-
-    def settings_dict(self):
         dict_ret = {}
-        for line in self.settings_list():
+        for line in settings_list:
             key = line[: line.find("=")]
             dict_ret[key] = line
 
@@ -300,14 +291,13 @@ class WiiRA_App:
             dst_cfg_file_path.unlink()
 
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
-            configs_dict = self.settings_dict()
             src_cfg_file_path = WiiRA_Configs.repository_directory().joinpath(
                 WiiRA_Configs.template_cfg_file_name,
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
                 line = src_file.readline()
                 while line:
-                    for key, value in configs_dict.items():
+                    for key, value in self.settings_dict().items():
                         if line.startswith(key):
                             line = value + "\n"
                             break

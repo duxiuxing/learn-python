@@ -6,7 +6,7 @@ from ra_configs import RA_Configs
 
 
 class WiiRA_Configs:
-    template_cfg_file_name = Path("retroarch.cfg")    
+    template_cfg_file_name = Path("retroarch.cfg")
 
     core_file_name = None
     core_info_file_name = None
@@ -17,6 +17,17 @@ class WiiRA_Configs:
         return LocalConfigs.repository_directory.joinpath(
             f"wii\\retroarch-wii-v{WiiRA_Configs.version}"
         )
+
+    # 设备根目录的 retroarch 文件夹
+    data_folder_name = "retroarch"
+
+    @staticmethod
+    def win_data_directory() -> Path:
+        return LocalConfigs.export_to_directory.joinpath(WiiRA_Configs.data_folder_name)
+
+    @staticmethod
+    def wii_data_directory(wii_device) -> str:
+        return f"{wii_device}:/{WiiRA_Configs.data_folder_name}"
 
     # Wii 版 RetroArch 发布的年月日，比如 "20251120"
     release_date = None
@@ -32,6 +43,6 @@ class WiiRA_Configs:
     def wii_data_directory(device) -> str:
         return f"{device}:/retroarch"
 
-    settings_list = None
+    settings_dict = {}
 
     remaps_relative_directory = None

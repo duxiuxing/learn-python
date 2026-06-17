@@ -52,11 +52,12 @@ def f2_print_games_by_genre():
             en_genre_to_game_list[game.en_genre] = [game]
 
     for en_genre in sorted(en_genre_list):
-        print(en_genre)
-        for game in sorted(en_genre_to_game_list[en_genre], key=lambda x: x.name):
-            print(
-                f"\t{game.zhcn_genre}\tzhcn = {game.zhcn_title}, en = {game.en_title}"
-            )
+        game_list = en_genre_to_game_list[en_genre]
+        print(f"{en_genre} x {len(game_list)}")
+        index = 0
+        for game in sorted(game_list, key=lambda x: x.name):
+            index = index + 1
+            print(f"  {game.zhcn_genre}\t{index}\t{game.zhcn_title}    {game.en_title}")
 
 
 def f3_print_games_by_en_title():
