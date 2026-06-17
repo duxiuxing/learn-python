@@ -46,10 +46,8 @@ class Init_Global_Configs:
         WiiRA_Configs.core_name = "Arcade (FB Alpha 2012 CPS-3)"
         WiiRA_Configs.release_date = "20251120"
         WiiRA_Configs.version = "1.22.2"
-        WiiRA_Configs.settings_list = [
-            # CPS3 的原生分辨率是 384x224，故使用 24=384x448
-            'current_resolution_id = "24"'
-        ]
+        # CPS3 的原生分辨率是 384x224，故使用 24=384x448
+        WiiRA_Configs.settings_dict["current_resolution_id"] = "24"
         WiiRA_Configs.remaps_relative_directory = Path("remaps\\FB Alpha 2012 CPS-3")
 
         # WiiFlow_Configs
