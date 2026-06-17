@@ -125,6 +125,7 @@ class WiiSS_App:
             'aspect_ratio_index = "22"',
             'aspect_ratio_index_wide = "22"',
             # 分辨率：23=384x448 29=640x448 40=640x480
+            # 各个机种的分辨率不一定相同，可通过 WiiSS_Configs.settings_dict 指定
             'video_vres = "40"',
             # 目录相关的设置
             'libretro_path = "."',
