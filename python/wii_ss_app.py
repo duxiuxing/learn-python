@@ -117,14 +117,15 @@ class WiiSS_App:
             xml_file.write("</app>\n")
             xml_file.close()
 
-    def settings_list(self):
+    def settings_dict(self):
         data_dir = self.wii_data_directory()
 
-        list_ret = [
+        settings_list = [
             # 宽高比：0=4:3 1=16:9 21=Core provided 22=Custom
             'aspect_ratio_index = "22"',
             'aspect_ratio_index_wide = "22"',
             # 分辨率：23=384x448 29=640x448 40=640x480
+            # 各个机种的分辨率不一定相同，可通过 WiiSS_Configs.settings_dict 指定
             'video_vres = "40"',
             # 目录相关的设置
             'libretro_path = "."',
@@ -161,15 +162,12 @@ class WiiSS_App:
             'video_refresh_rate = "60.000000"',
         ]
 
-        if WiiSS_Configs.settings_list is not None:
-            for line in WiiSS_Configs.settings_list:
-                list_ret.append(line)
+        for key, value in WiiSS_Configs.settings_dict.items():
+            line = f'{key} = "{value}"'
+            settings_list.append(line)
 
-        return list_ret
-
-    def configs_dict(self):
         dict_ret = {}
-        for line in self.settings_list():
+        for line in settings_list:
             key = line[: line.find("=")]
             dict_ret[key] = line
 
@@ -184,14 +182,13 @@ class WiiSS_App:
             dst_cfg_file_path.unlink()
 
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
-            configs_dict = self.configs_dict()
             src_cfg_file_path = WiiSS_Configs.repository_directory().joinpath(
                 WiiSS_Configs.template_cfg_file_name(),
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
                 line = src_file.readline()
                 while line:
-                    for key, value in configs_dict.items():
+                    for key, value in self.settings_dict().items():
                         if line.startswith(key):
                             line = value + "\n"
                             break
