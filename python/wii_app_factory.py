@@ -3,8 +3,10 @@
 from ra_playlist_configs import RA_PlaylistConfigs
 from wii_app_configs import Wii_AppConfigs
 from wii_ra_app import WiiRA_App
+from wii_ra_configs import WiiRA_Configs
 from wii_ra_vm_app import WiiRA_VM_App
 from wii_ss_app import WiiSS_App
+from wii_ss_configs import WiiSS_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
 from wiiflow_rom import WiiFlow_Rom
@@ -34,8 +36,7 @@ class Wii_AppFactory:
     def export_game_ra_apps(wii_device: str):
         for app_configs in Wii_AppFactory.game_app_configs_list:
             app_configs.device = wii_device
-            ra_app = WiiRA_App(app_configs)
-            ra_app.export_all()
+            ra_app = WiiRA_App(app_configs).export_all()
 
     @staticmethod
     def export_game_ra_vm_apps(wii_device: str):
@@ -51,13 +52,21 @@ class Wii_AppFactory:
             playlist_configs.logos_folder = None
             playlist_configs.snaps_folder = None
             playlist_configs.titles_folder = None
-            ra_vm_app = WiiRA_VM_App(app_configs, playlist_configs)
-            ra_vm_app.export_all()
+            WiiRA_VM_App(app_configs, playlist_configs).export_all()
 
     @staticmethod
     def export_game_ss_apps(wii_device: str):
         for app_configs in Wii_AppFactory.game_app_configs_list:
             app_configs.cfg_file_name = f"{app_configs.rom.file_title}.cfg"
             app_configs.device = wii_device
-            ss_app = WiiSS_App(app_configs)
-            ss_app.export_all()
+            WiiSS_App(app_configs).export_all()
+
+    @staticmethod
+    def export_game_ss_vm_apps(wii_device: str):
+        WiiSS_Configs.settings_dict["system_directory"] = (
+            f"{WiiRA_Configs.wii_data_directory(wii_device)}/system"
+        )
+        for app_configs in Wii_AppFactory.game_app_configs_list:
+            app_configs.cfg_file_name = f"{app_configs.rom.file_title}.cfg"
+            app_configs.device = wii_device
+            WiiSS_App(app_configs).export_all()

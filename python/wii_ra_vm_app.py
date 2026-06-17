@@ -79,7 +79,7 @@ class WiiRA_VM_App:
         return LocalConfigs.export_to_directory.joinpath("retroarch")
 
     def wii_data_directory(self) -> str:
-        return f"{self.configs.device}:/retroarch"
+        return f"{self.configs.device}:/{WiiRA_Configs.data_folder_name}"
 
     # 拷贝 boot.dol，core 和 info 文件
     def export_core_files(self):
@@ -163,11 +163,11 @@ class WiiRA_VM_App:
             xml_file.write("</app>\n")
             xml_file.close()
 
-    def settings_list(self):
+    def settings_dict(self):
         app_dir = self.wii_app_directory()
         data_dir = self.wii_data_directory()
 
-        list_ret = [
+        settings_list = [
             # 游戏画面宽高比：0=4:3 1=16:9 22=Core provided
             'aspect_ratio_index = "0"',
             # 分辨率：0=默认 24=384x448 30=640x448
@@ -254,34 +254,31 @@ class WiiRA_VM_App:
         ]
 
         if self.configs.rom is None:
-            list_ret.append('content_show_favorites = "true"')
-            list_ret.append('content_show_history = "true"')
-            list_ret.append('menu_show_restart_retroarch = "true"')
-            list_ret.append('playlist_entry_remove_enable = "1"')
-            list_ret.append('quick_menu_show_add_to_favorites = "true"')
+            settings_list.append('content_show_favorites = "true"')
+            settings_list.append('content_show_history = "true"')
+            settings_list.append('menu_show_restart_retroarch = "true"')
+            settings_list.append('playlist_entry_remove_enable = "1"')
+            settings_list.append('quick_menu_show_add_to_favorites = "true"')
         else:
-            list_ret.append('content_show_favorites = "false"')
-            list_ret.append('content_show_history = "false"')
-            list_ret.append('menu_show_restart_retroarch = "false"')
-            list_ret.append('playlist_entry_remove_enable = "2"')
-            list_ret.append('quick_menu_show_add_to_favorites = "false"')
+            settings_list.append('content_show_favorites = "false"')
+            settings_list.append('content_show_history = "false"')
+            settings_list.append('menu_show_restart_retroarch = "false"')
+            settings_list.append('playlist_entry_remove_enable = "2"')
+            settings_list.append('quick_menu_show_add_to_favorites = "false"')
 
-        if WiiRA_Configs.settings_list is not None:
-            for line in WiiRA_Configs.settings_list:
-                list_ret.append(line)
+        for key, value in WiiRA_Configs.settings_dict.items():
+            line = f'{key} = "{value}"'
+            settings_list.append(line)
 
-        return list_ret
-
-    def settings_dict(self):
         dict_ret = {}
-        for line in self.settings_list():
+        for line in settings_list:
             key = line[: line.find("=")]
             dict_ret[key] = line
 
         return dict_ret
 
     def cfg_file_path(self) -> Path:
-        return self.win_data_directory().joinpath(self.configs.cfg_file_name)
+        return WiiRA_Configs.win_data_directory().joinpath(self.configs.cfg_file_name)
 
     def export_cfg_file(self):
         dst_cfg_file_path = self.cfg_file_path()
@@ -289,14 +286,13 @@ class WiiRA_VM_App:
             dst_cfg_file_path.unlink()
 
         with open(dst_cfg_file_path, "w", encoding="utf-8") as dst_file:
-            configs_dict = self.settings_dict()
             src_cfg_file_path = WiiRA_Configs.repository_directory().joinpath(
                 WiiRA_Configs.template_cfg_file_name,
             )
             with open(src_cfg_file_path, "r", encoding="utf-8") as src_file:
                 line = src_file.readline()
                 while line:
-                    for key, value in configs_dict.items():
+                    for key, value in self.settings_dict().items():
                         if line.startswith(key):
                             line = value + "\n"
                             break
@@ -365,7 +361,7 @@ class WiiRA_VM_App:
             print(f"【错误】无效的目标文件夹 {app_dir}")
             return
 
-        data_dir = self.win_data_directory()
+        data_dir = WiiRA_Configs.win_data_directory()
         if not Helper.verify_exist_directory_ex(data_dir):
             print(f"【错误】无效的目标文件夹 {data_dir}")
             return
