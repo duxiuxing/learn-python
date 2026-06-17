@@ -48,10 +48,8 @@ class Init_Global_Configs:
         WiiRA_Configs.core_name = "Arcade (FB Alpha 2012 Neo Geo)"
         WiiRA_Configs.release_date = "20200116"
         WiiRA_Configs.version = "1.8.4"
-        WiiRA_Configs.settings_list = [
-            # NeoGeo 的原生分辨率是 320x224，故使用 30=640x448
-            'current_resolution_id = "30"'
-        ]
+        # NeoGeo 的原生分辨率是 320x224，故使用 30=640x448
+        WiiRA_Configs.settings_dict["current_resolution_id"] = "30"
         WiiRA_Configs.remaps_relative_directory = Path(
             "retroarch\\remaps\\FB Alpha 2012 Neo Geo"
         )
@@ -60,13 +58,11 @@ class Init_Global_Configs:
         WiiSS_Configs.core_file_name = Path("Arcade NEO VM.dol")
         WiiSS_Configs.data_folder_name = "NGMOD"
         WiiSS_Configs.release_date = "20220508"
-        WiiSS_Configs.settings_list = [
-            # 宽高比：0=4:3
-            'aspect_ratio_index = "0"',
-            'aspect_ratio_index_wide = "0"',
-            # NeoGeo 的原生分辨率是 320x224，故使用 29=640x448
-            'video_vres = "29"',
-        ]
+        # 宽高比：0=4:3
+        WiiSS_Configs.settings_dict["aspect_ratio_index"] = "0"
+        WiiSS_Configs.settings_dict["aspect_ratio_index_wide"] = "0"
+        # NeoGeo 的原生分辨率是 320x224，故使用 29=640x448
+        WiiSS_Configs.settings_dict["video_vres"] = "29"
 
         # WiiFlow_Configs
         WiiFlow_Configs.plugin_name = "NEOGEO-VM"

@@ -7,28 +7,32 @@ from ra_playlist import RA_Playlist
 from ra_playlist_configs import RA_PlaylistConfigs
 from wii_app_configs import Wii_AppConfigs
 from wii_app_factory import Wii_AppFactory
+from wii_ra_configs import WiiRA_Configs
 from wii_ra_vm_app import WiiRA_VM_App
 from wii_ss_app import WiiSS_App
+from wii_ss_configs import WiiSS_Configs
 
 if __name__ == "__main__":
     Init_Global_Configs()
 
     # G
     Wii_AppFactory.add_game_app_configs(rom_file_title="garou")
-    
+
     # M
-    Wii_AppFactory.add_game_app_configs(rom_file_title="matrim")    
+    Wii_AppFactory.add_game_app_configs(rom_file_title="matrim")
     Wii_AppFactory.add_game_app_configs(rom_file_title="mslug3")
     Wii_AppFactory.add_game_app_configs(rom_file_title="mslug4")
     Wii_AppFactory.add_game_app_configs(rom_file_title="mslug5")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="mslugx", app_name="Metal Slug X")
+    Wii_AppFactory.add_game_app_configs(
+        rom_file_title="mslugx", app_name="Metal Slug X"
+    )
 
     plugin_ra_app_configs = Wii_AppConfigs(
         app_name="SNK - Neo Geo VM",
         app_folder_base_name="neogeo-vm",
         rom=None,
     )
-    plugin_ra_app_configs.cfg_file_name="neogeo-vm.cfg"
+    plugin_ra_app_configs.cfg_file_name = "neogeo-vm.cfg"
     plugin_ra_app_configs.long_description = (
         "- Emulator for Neo Geo games larger than 23 MB\n"
         "- Based on a snapshot of the FB Alpha codebase from 2012\n"
@@ -40,7 +44,7 @@ if __name__ == "__main__":
         app_folder_base_name="neogeo-vm",
         rom=None,
     )
-    plugin_ss_app_configs.cfg_file_name="main.cfg"
+    plugin_ss_app_configs.cfg_file_name = "main.cfg"
     plugin_ss_app_configs.long_description = (
         "- Mod By RunningSnakes based on RA-SS Hexaeco\n"
         "- Emulator for Neo Geo games larger than 23 MB\n"
@@ -83,24 +87,27 @@ if __name__ == "__main__":
             elif number == 3:
                 # Wiiflow Plugin App (RA 核心， SD 版)
                 plugin_ra_app_configs.device = Wii_AppConfigs.DEVICE_SD
-                
+
                 playlist_configs = WiiRA_VM_App.init_playlist_configs()
                 playlist_configs.boxarts_folder = None
                 playlist_configs.logos_folder = None
-                # playlist_configs.snaps_folder = None
-                # playlist_configs.titles_folder = None
+                playlist_configs.snaps_folder = None
+                playlist_configs.titles_folder = None
 
                 WiiRA_VM_App(plugin_ra_app_configs, playlist_configs).export_all()
             elif number == 4:
                 # Game App (SS 核心， SD 版)
-                Wii_AppFactory.export_game_ss_apps(Wii_AppConfigs.DEVICE_SD)
+                Wii_AppFactory.export_game_ss_vm_apps(Wii_AppConfigs.DEVICE_SD)
             elif number == 5:
                 # Wiiflow Plugin App (SS 核心， SD 版)
                 plugin_ss_app_configs.device = Wii_AppConfigs.DEVICE_SD
+                WiiSS_Configs.settings_dict["system_directory"] = (
+                    f"{WiiRA_Configs.wii_data_directory(Wii_AppConfigs.DEVICE_SD)}/system"
+                )
                 WiiSS_App(plugin_ss_app_configs).export_all()
             elif number == 6:
                 # Game App (SS 核心， USB 版)
-                Wii_AppFactory.export_game_ss_apps(Wii_AppConfigs.DEVICE_USB)
+                Wii_AppFactory.export_game_ss_vm_apps(Wii_AppConfigs.DEVICE_USB)
             else:
                 break
         except ValueError:
