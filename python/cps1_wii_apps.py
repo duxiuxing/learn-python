@@ -13,53 +13,57 @@ from wii_ss_app import WiiSS_App
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    Wii_AppFactory.add_game_app_configs(rom_file_title="1941")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="3wonders")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="captcomm")
-    # Wii_AppFactory.add_game_app_configs(rom_file_title="cawing")
-    Wii_AppFactory.add_game_app_configs(
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="1941")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="3wonders")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="captcomm")
+    # Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="cawing")
+    Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="cworld2j", app_name="Capcom World 2"
     )
-    Wii_AppFactory.add_game_app_configs(rom_file_title="dino")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="dynwar")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="ffight")
-    # Wii_AppFactory.add_game_app_configs(rom_file_title="forgottn")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="ghouls")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="knights")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="kod")
-    Wii_AppFactory.add_game_app_configs(
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="dino")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="dynwar")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="ffight")
+    # Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="forgottn")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="ghouls")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="knights")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="kod")
+    Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="mbombrd", app_name="Slam Masters - UTB"
     )
-    Wii_AppFactory.add_game_app_configs(rom_file_title="megaman", app_name="Mega Man")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="mercs")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="msword", app_name="Magic Sword")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="mtwins")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="nemo")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="pang3")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="pnickj")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="punisher")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="qad")
-    Wii_AppFactory.add_game_app_configs(
+    Wii_AppFactory.add_arcade_game_app_configs(
+        rom_file_title="megaman", app_name="Mega Man"
+    )
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="mercs")
+    Wii_AppFactory.add_arcade_game_app_configs(
+        rom_file_title="msword", app_name="Magic Sword"
+    )
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="mtwins")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="nemo")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="pang3")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="pnickj")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="punisher")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="qad")
+    Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="qtono2j", app_name="Quiz Tonosama no Yabou 2"
     )
-    Wii_AppFactory.add_game_app_configs(
+    Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="sf2", app_name="Street Fighter 2"
     )
-    Wii_AppFactory.add_game_app_configs(
+    Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="sf2ce", app_name="Street Fighter 2' CE"
     )
-    Wii_AppFactory.add_game_app_configs(
+    Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="sf2hf", app_name="Street Fighter 2' HF"
     )
-    Wii_AppFactory.add_game_app_configs(rom_file_title="sfzch")
-    Wii_AppFactory.add_game_app_configs(
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="sfzch")
+    Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="slammast", app_name="Slam Masters"
     )
-    Wii_AppFactory.add_game_app_configs(rom_file_title="strider")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="unsquad")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="varth", app_name="Varth")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="willow")
-    Wii_AppFactory.add_game_app_configs(rom_file_title="wof")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="strider")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="unsquad")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="varth", app_name="Varth")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="willow")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="wof")
 
     plugin_ra_app_configs = Wii_AppConfigs(
         app_name="Capcom - CP System I",
