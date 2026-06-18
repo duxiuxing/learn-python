@@ -82,7 +82,10 @@ class StandardBanner:
                 game, "wallpaper", ".jpg"
             )
             image = Image.open(wallpaper_path).resize(
-                (StandardBannerConfigs.MENU_SCREEN_WIDTH, StandardBannerConfigs.MENU_SCREEN_HEIGHT)
+                (
+                    StandardBannerConfigs.MENU_SCREEN_WIDTH,
+                    StandardBannerConfigs.MENU_SCREEN_HEIGHT,
+                )
             )
             Helper.verify_exist_directory_ex(self.standard_directory())
             image.save(main_screen_bg_path, format="PNG")
@@ -92,8 +95,11 @@ class StandardBanner:
         main_screen_bg = self.load_main_screen_bg()
 
         if self.configs.game_logo_size is not None:
+            logo_png_path = self.standard_directory().joinpath("logo.png")
+            if not logo_png_path.exists() or not logo_png_path.is_file():
+                logo_png_path = None
             game_logo = (
-                WiiChannel_Icon(self.configs.rom_file_title)
+                WiiChannel_Icon(self.configs.rom_file_title, logo_png_path)
                 .load_logo()
                 .resize(self.configs.game_logo_size)
             )
