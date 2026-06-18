@@ -83,4 +83,3 @@ if __name__ == "__main__":
             doc.write(
                 f"{index} | {app_info.game_zhcn_title} | ![](./apps/{app_info.folder_name}/icon.png) | {app_info.name} | {app_info.rom_file_name}\n"
             )
-        doc.close()

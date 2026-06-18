@@ -153,7 +153,6 @@ class WiiRA_App:
                 xml_file.write("  </arguments>\n")
 
             xml_file.write("</app>\n")
-            xml_file.close()
 
     def settings_dict(self):
         app_dir = self.wii_app_directory()
@@ -303,7 +302,6 @@ class WiiRA_App:
                             break
                     dst_file.write(line)
                     line = src_file.readline()
-            dst_file.close()
 
     def core_file_wii_path(self):
         return f"{self.wii_app_directory()}/{WiiRA_Configs.core_file_name}"
