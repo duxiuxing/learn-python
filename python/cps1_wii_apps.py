@@ -13,20 +13,32 @@ from wii_ss_app import WiiSS_App
 if __name__ == "__main__":
     Init_Global_Configs()
 
+    ffight_remap = "ffight"
+
     Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="1941")
     Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="3wonders")
-    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="captcomm")
+    Wii_AppFactory.add_arcade_game_app_configs(
+        rom_file_title="captcomm", remap=ffight_remap
+    )
     # Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="cawing")
     Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="cworld2j", app_name="Capcom World 2"
     )
-    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="dino")
-    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="dynwar")
-    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="ffight")
+    Wii_AppFactory.add_arcade_game_app_configs(
+        rom_file_title="dino", remap=ffight_remap
+    )
+    Wii_AppFactory.add_arcade_game_app_configs(
+        rom_file_title="dynwar", remap=ffight_remap
+    )
+    Wii_AppFactory.add_arcade_game_app_configs(
+        rom_file_title="ffight", remap=ffight_remap
+    )
     # Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="forgottn")
     Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="ghouls")
-    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="knights")
-    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="kod")
+    Wii_AppFactory.add_arcade_game_app_configs(
+        rom_file_title="knights", remap=ffight_remap
+    )
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="kod", remap=ffight_remap)
     Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="mbombrd", app_name="Slam Masters - UTB"
     )
@@ -41,7 +53,9 @@ if __name__ == "__main__":
     Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="nemo")
     Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="pang3")
     Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="pnickj")
-    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="punisher")
+    Wii_AppFactory.add_arcade_game_app_configs(
+        rom_file_title="punisher", remap=ffight_remap
+    )
     Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="qad")
     Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="qtono2j", app_name="Quiz Tonosama no Yabou 2"
@@ -63,7 +77,7 @@ if __name__ == "__main__":
     Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="unsquad")
     Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="varth", app_name="Varth")
     Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="willow")
-    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="wof")
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="wof", remap=ffight_remap)
 
     plugin_ra_app_configs = Wii_AppConfigs(
         app_name="Capcom - CP System I",
