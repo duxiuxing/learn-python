@@ -72,5 +72,3 @@ if __name__ == "__main__":
             doc.write(
                 f"{index} | {rom_file_name} | {game.en_title} | {game.zhcn_title[4:]} | {bug}\n"
             )
-
-        doc.close()

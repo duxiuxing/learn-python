@@ -75,5 +75,3 @@ if __name__ == "__main__":
             "- 使用游戏手柄的时候，选择 Arcade (FinalBurn Neo) 核心，采用游戏手柄的按键映射方案；\n"
             "- 使用街机摇杆的时候，选择 Arcade (FB Alpha 2012) 核心，采用街机摇杆的按键映射方案。\n"
         )
-
-        doc.close()
