@@ -18,7 +18,7 @@ class Wii_AppConfigs:
         app_name: str,
         app_folder_base_name: str,
         rom: WiiFlow_Rom | None,
-        remap=None,
+        remap: str | None = None,
     ):
         self.app_name = app_name
         self.app_folder_base_name = app_folder_base_name
