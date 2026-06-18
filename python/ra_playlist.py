@@ -19,7 +19,7 @@ class RA_Playlist:
         self.configs = configs
 
     @staticmethod
-    def export_rom_file(rom: Rom, dst_dir: Path):
+    def export_rom_file(rom: Rom, dst_dir: Path, dst_file_name: str | None):
         if rom is None:
             return
 
@@ -31,7 +31,17 @@ class RA_Playlist:
             print(f"【错误】无效的源文件 {src_file_path}")
             return
 
-        Helper.copy_file_to_directory(src_file_path, dst_dir)
+        if dst_file_name is None:
+            Helper.copy_file_to_directory(src_file_path, dst_dir)
+        elif RA_Configs.rom_file_renameable:
+            dst_file_path = dst_dir.joinpath(dst_file_name)
+            Helper.copy_file_if_not_exist(src_file_path, dst_file_path)
+        else:
+            if src_file_path.name != dst_file_name:
+                print(
+                    f"【错误】{src_file_path.name} 与 lpl 中的文件名 {dst_file_name} 不匹配"
+                )
+            Helper.copy_file_to_directory(src_file_path, dst_dir)
 
     def export_rom_files(self):
         dst_dir = LocalConfigs.export_to_directory.joinpath(
@@ -39,8 +49,8 @@ class RA_Playlist:
         )
         for item in self.configs.item_list:
             rom = RomsDB.query_rom(rom_crc32=item.crc32)
-            RA_Playlist.export_rom_file(rom, dst_dir)
-            RA_Playlist.export_rom_file(rom.parent_rom, dst_dir)
+            RA_Playlist.export_rom_file(rom, dst_dir, Path(item.path).name)
+            RA_Playlist.export_rom_file(rom.parent_rom, dst_dir, None)
 
     def export_lpl_file(self):
         lpl_file_path = self.configs.get_lpl_file_path()
@@ -70,7 +80,6 @@ class RA_Playlist:
                 lpl_file.write("    }")
 
             lpl_file.write("\n  ]\n}\n")
-            lpl_file.close()
 
     def export_thumbnails(self, src_folder_name, dst_folder_name):
         if src_folder_name is None:

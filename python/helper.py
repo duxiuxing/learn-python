@@ -153,7 +153,10 @@ class Helper:
             remainder = dec_num % 36
             channel_id = digits[remainder] + channel_id
             dec_num //= 36
-        return channel_id.rjust(4, "0")
+        if len(channel_id) < 4:
+            return channel_id.rjust(4, "0")
+        else:
+            return channel_id[-4:]
 
 
 if __name__ == "__main__":

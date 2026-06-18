@@ -17,7 +17,7 @@ class Wii_AppFactory:
     game_app_configs_list = []
 
     @staticmethod
-    def add_game_app_configs(
+    def add_arcade_game_app_configs(
         rom_file_title: str, app_name: str | None = None, remap: str | None = None
     ):
         rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
@@ -29,6 +29,16 @@ class Wii_AppFactory:
 
         app_configs = Wii_AppConfigs(
             app_name=app_name, app_folder_base_name=rom_file_title, rom=rom, remap=remap
+        )
+        Wii_AppFactory.game_app_configs_list.append(app_configs)
+
+    @staticmethod
+    def add_console_game_app_configs(rom_file_title: str, app_folder_base_name: str):
+        rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
+        game = WiiFlow_GamesDB.query_game(rom.game_id)
+
+        app_configs = Wii_AppConfigs(
+            app_name=rom_file_title, app_folder_base_name=app_folder_base_name, rom=rom
         )
         Wii_AppFactory.game_app_configs_list.append(app_configs)
 

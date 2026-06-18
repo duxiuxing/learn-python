@@ -115,7 +115,23 @@ class WiiSS_App:
                 xml_file.write("  </arguments>\n")
 
             xml_file.write("</app>\n")
-            xml_file.close()
+
+    def remap_list(self):
+        list_ret = []
+        if self.configs.rom is None or self.configs.remap is None:
+            return list_ret
+
+        remap_file_path = WiiSS_Configs.repository_directory().joinpath(
+            f"remaps\\{self.configs.remap}.rmp"
+        )
+        with open(remap_file_path, "r", encoding="utf-8") as src_file:
+            line = src_file.readline()
+            while line:
+                if line.find("=") > 0:
+                    list_ret.append(line.strip())
+                line = src_file.readline()
+
+        return list_ret
 
     def settings_dict(self):
         data_dir = self.wii_data_directory()
@@ -166,6 +182,9 @@ class WiiSS_App:
             line = f'{key} = "{value}"'
             settings_list.append(line)
 
+        for line in self.remap_list():
+            settings_list.append(line)
+
         dict_ret = {}
         for line in settings_list:
             key = line[: line.find("=")]
@@ -194,7 +213,6 @@ class WiiSS_App:
                             break
                     dst_file.write(line)
                     line = src_file.readline()
-            dst_file.close()
 
     def export_all(self):
         app_dir = self.win_app_directory()

@@ -1,6 +1,6 @@
 # -- coding: UTF-8 --
 
-from wiiflow_configs import WiiFlow_Configs
+from ra_configs import RA_Configs
 
 
 class WiiFlow_Rom:
@@ -10,4 +10,4 @@ class WiiFlow_Rom:
         self.file_title = file_title
 
     def file_name(self):
-        return f"{self.file_title}{WiiFlow_Configs.rom_file_extension()}"
+        return f"{self.file_title}{RA_Configs.rom_file_extension}"

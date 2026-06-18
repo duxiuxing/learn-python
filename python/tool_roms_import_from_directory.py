@@ -9,6 +9,7 @@ from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
+from ra_configs import RA_Configs
 from resource_file_helper import ResourceFileHelper
 from rom import Rom
 from roms_db import RomsDB
@@ -43,7 +44,7 @@ if __name__ == "__main__":
     new_roms_count = 0
     for rom_file_name in os.listdir(src_dir):
         if not fnmatch.fnmatch(
-            rom_file_name, f"*{WiiFlow_Configs.rom_file_extension()}"
+            rom_file_name, f"*{RA_Configs.rom_file_extension}"
         ):
             continue
 
@@ -98,9 +99,9 @@ if __name__ == "__main__":
             en_title="",
             zhcn_title="",
         )
-        if WiiFlow_Configs.rom_file_renameable():
+        if RA_Configs.rom_file_renameable:
             rom.file_name = (
-                f"{wiiflow_rom.file_title}{WiiFlow_Configs.rom_file_extension()}"
+                f"{wiiflow_rom.file_title}{RA_Configs.rom_file_extension}"
             )
         RomsDB.add_rom(rom)
 
