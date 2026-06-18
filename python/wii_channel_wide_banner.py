@@ -96,8 +96,11 @@ class WideBanner:
         main_screen_bg = self.load_main_screen_bg()
 
         if self.configs.game_logo_size is not None:
+            logo_png_path = self.wide_directory().joinpath("logo.png")
+            if not logo_png_path.exists() or not logo_png_path.is_file():
+                logo_png_path = None
             game_logo = (
-                WiiChannel_Icon(self.configs.rom_file_title)
+                WiiChannel_Icon(self.configs.rom_file_title, logo_png_path)
                 .load_logo()
                 .resize(self.configs.game_logo_size)
             )
