@@ -4,6 +4,7 @@ from game import Game
 from games_db import GamesDB
 from helper import Helper
 from local_configs import LocalConfigs
+from pathlib import Path
 from PIL import Image
 from resource_file_helper import ResourceFileHelper
 from wiiflow_rom import WiiFlow_Rom
@@ -13,24 +14,30 @@ rom_file_title_list = []
 
 
 class WiiChannel_Icon:
-    def __init__(self, rom_file_title):
+    def __init__(self, rom_file_title, logo_png_path: Path | None = None):
         self.rom_file_title = rom_file_title
+        self._logo_png_path = logo_png_path
 
     def res_directory(self):
         return LocalConfigs.repository_directory.joinpath(
             f"wii\\wad\\{self.rom_file_title}\\res",
         )
 
-    # 优先使用 res 文件夹里的 logo.png，如果没有则使用 media\logo 文件夹里的
+    def logo_png_path(self):
+        if self._logo_png_path is None:
+            # 如果没有指定路径，优先使用 res 文件夹里的 logo.png，如果没有则使用 media\logo 文件夹里的
+            self._logo_png_path = self.res_directory().joinpath("logo.png")
+            if not self._logo_png_path.exists() or not self._logo_png_path.is_file():
+                rom = WiiFlow_RomsDB.query_rom(rom_file_title=self.rom_file_title)
+                game = GamesDB.query_game(game_id=rom.game_id)
+                self._logo_png_path = ResourceFileHelper.compute_game_media_file_path(
+                    game, "logo", ".png"
+                )
+
+        return self._logo_png_path
+
     def load_logo(self):
-        logo_png_path = self.res_directory().joinpath("logo.png")
-        if not logo_png_path.exists() or not logo_png_path.is_file():
-            rom = WiiFlow_RomsDB.query_rom(rom_file_title=self.rom_file_title)
-            game = GamesDB.query_game(game_id=rom.game_id)
-            logo_png_path = ResourceFileHelper.compute_game_media_file_path(
-                game, "logo", ".png"
-            )
-        return Image.open(logo_png_path)
+        return Image.open(self.logo_png_path())
 
     @staticmethod
     def check_logo_left(logo, pixel_test):

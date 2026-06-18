@@ -4,6 +4,9 @@ from pathlib import Path
 
 
 class RA_Configs:
+    rom_file_extension = ".zip"
+    rom_file_renameable = False
+    
     lpl_file_name = None
 
     win_roms_relative_directory = None
