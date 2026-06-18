@@ -12,18 +12,18 @@ from wii_ra_app import WiiRA_App
 if __name__ == "__main__":
     Init_Global_Configs()
 
-    Wii_AppFactory.add_game_app_configs(rom_file_title="jojo", remap="jojo")
-    Wii_AppFactory.add_game_app_configs(
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="jojo", remap="jojo")
+    Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="jojoba", app_name="JoJo's Venture 2", remap="jojo"
     )
-    Wii_AppFactory.add_game_app_configs(rom_file_title="redearth")
-    Wii_AppFactory.add_game_app_configs(
+    Wii_AppFactory.add_arcade_game_app_configs(rom_file_title="redearth")
+    Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="sfiii", app_name="Street Fighter 3.1"
     )
-    Wii_AppFactory.add_game_app_configs(
+    Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="sfiii2", app_name="Street Fighter 3.2"
     )
-    Wii_AppFactory.add_game_app_configs(
+    Wii_AppFactory.add_arcade_game_app_configs(
         rom_file_title="sfiii3", app_name="Street Fighter 3.3"
     )
 
