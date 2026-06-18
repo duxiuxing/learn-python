@@ -80,7 +80,6 @@ class RA_Playlist:
                 lpl_file.write("    }")
 
             lpl_file.write("\n  ]\n}\n")
-            lpl_file.close()
 
     def export_thumbnails(self, src_folder_name, dst_folder_name):
         if src_folder_name is None:
