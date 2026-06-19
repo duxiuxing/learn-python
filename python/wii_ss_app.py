@@ -122,8 +122,11 @@ class WiiSS_App:
             return list_ret
 
         remap_file_path = WiiSS_Configs.repository_directory().joinpath(
-            f"remaps\\{self.configs.remap}.rmp"
+            f"remaps\\{self.configs.remap}.txt"
         )
+        if not remap_file_path.exists():
+            return list_ret
+
         with open(remap_file_path, "r", encoding="utf-8") as src_file:
             line = src_file.readline()
             while line:
