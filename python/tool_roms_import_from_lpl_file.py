@@ -10,11 +10,11 @@ from helper import Helper
 from init_global_configs import Init_Global_Configs
 from local_configs import LocalConfigs
 from pathlib import Path
+from ra_configs import RA_Configs
 from ra_rom import RA_Rom
 from resource_file_helper import ResourceFileHelper
 from rom import Rom
 from roms_db import RomsDB
-from wii_ra_configs import WiiRA_Configs
 from wiiflow_configs import WiiFlow_Configs
 from wiiflow_game import WiiFlow_Game
 from wiiflow_games_db import WiiFlow_GamesDB
@@ -27,8 +27,8 @@ if __name__ == "__main__":
 
     lpl_file_path = None
     while True:
-        lpl_file_path = LocalConfigs.retroarch_directory().joinpath(
-            "playlists", WiiRA_Configs.db_name()
+        lpl_file_path = LocalConfigs.retroarch_directory.joinpath(
+            f"playlists\\{RA_Configs.lpl_file_name}"
         )
         print("\n即将根据 .lpl 文件导入 ROM 文件")
         print(f"默认 .lpl 文件路径：{lpl_file_path}")
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     new_roms_count = 0
     for ra_rom in ra_rom_list:
         if not fnmatch.fnmatch(
-            ra_rom.file_path, f"*{WiiFlow_Configs.rom_file_extension()}"
+            ra_rom.file_path, f"*{RA_Configs.rom_file_extension}"
         ):
             continue
 
@@ -66,7 +66,7 @@ if __name__ == "__main__":
             continue
 
         wiiflow_rom = WiiFlow_RomsDB.query_rom(
-            rom_crc32=ra_rom.crc32, rom_file_title=ra_rom.file_path.stem
+            rom_crc32=ra_rom.crc32, rom_file_title=ra_rom.file_title()
         )
         if wiiflow_rom is None:
             print(
@@ -108,9 +108,9 @@ if __name__ == "__main__":
             en_title="",
             zhcn_title="",
         )
-        if WiiFlow_Configs.rom_file_renameable():
+        if RA_Configs.rom_file_renameable:
             rom.file_name = (
-                f"{wiiflow_rom.file_title}{WiiFlow_Configs.rom_file_extension()}"
+                f"{wiiflow_rom.file_title}{RA_Configs.rom_file_extension}"
             )
         RomsDB.add_rom(rom)
 

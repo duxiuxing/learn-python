@@ -5,43 +5,20 @@ from pathlib import Path
 
 
 class LocalConfigs:
-    _repository_directory = None
+    # 本地仓库路径
+    repository_directory = None
 
-    @staticmethod
-    def repository_directory() -> Path:
-        # 本地仓库路径
-        return LocalConfigs._repository_directory
+    # 导出文件夹路径
+    export_to_directory = None
 
-    _export_to_directory = None
+    # 导入文件夹路径
+    import_from_directory = None
 
-    @staticmethod
-    def export_to_directory() -> Path:
-        # 导出根目录路径
-        return LocalConfigs._export_to_directory
+    # 本机 RetroArch 的文件夹路径 
+    retroarch_directory = None
 
-    _import_from_directory = None
+    # 本机 7z.exe 的路径
+    seven_zip_exe_path = None
 
-    @staticmethod
-    def import_from_directory() -> Path:
-        # 导入根目录路径
-        return LocalConfigs._import_from_directory
-
-    _retroarch_directory = None
-
-    @staticmethod
-    def retroarch_directory() -> Path:
-        return LocalConfigs._retroarch_directory
-
-    _seven_zip_exe_path = None
-
-    @staticmethod
-    def seven_zip_exe_path() -> Path:
-        # 本机 7z.exe 的路径
-        return LocalConfigs._seven_zip_exe_path
-
-    _wfc_conv_exe_path = None
-
-    @staticmethod
-    def wfc_conv_exe_path() -> Path:
-        # 本机 wfc_conv.exe 的路径
-        return LocalConfigs._wfc_conv_exe_path
+    # 本机 wfc_conv.exe 的路径
+    wfc_conv_exe_path = None

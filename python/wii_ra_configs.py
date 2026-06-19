@@ -1,59 +1,48 @@
 # -- coding: UTF-8 --
 
+from local_configs import LocalConfigs
 from pathlib import Path
+from ra_configs import RA_Configs
 
 
 class WiiRA_Configs:
-    _core_cfg_file_name = Path("retroarch.cfg")
+    template_cfg_file_name = Path("retroarch.cfg")
+
+    core_file_name = None
+    core_info_file_name = None
+    core_name = None
 
     @staticmethod
-    def core_cfg_file_name() -> Path:
-        return WiiRA_Configs._core_cfg_file_name
+    def repository_directory() -> Path:
+        return LocalConfigs.repository_directory.joinpath(
+            f"wii\\retroarch-wii-v{WiiRA_Configs.version}"
+        )
 
-    _core_name = None
-
-    @staticmethod
-    def core_name() -> str:
-        return WiiRA_Configs._core_name
-
-    _core_file_name = None
+    # 设备根目录的 retroarch 文件夹
+    data_folder_name = "retroarch"
 
     @staticmethod
-    def core_file_name() -> Path:
-        return WiiRA_Configs._core_file_name
-
-    _core_folder_name = "retroarch-wii"
+    def win_data_directory() -> Path:
+        return LocalConfigs.export_to_directory.joinpath(WiiRA_Configs.data_folder_name)
 
     @staticmethod
-    def core_folder_name() -> str:
-        return WiiRA_Configs._core_folder_name
+    def wii_data_directory(wii_device) -> str:
+        return f"{wii_device}:/{WiiRA_Configs.data_folder_name}"
 
-    _core_info_file_name = None
+    # Wii 版 RetroArch 发布的年月日，比如 "20251120"
+    release_date = None
 
-    @staticmethod
-    def core_info_file_name() -> Path:
-        return WiiRA_Configs._core_info_file_name
-
-    _db_name = None
+    # Wii 版 RetroArch 的版本号，比如 "1.22.2"
+    version = None
 
     @staticmethod
-    def db_name() -> Path:
-        return WiiRA_Configs._db_name
-
-    _release_date = None
+    def wii_roms_directory(device) -> str:
+        return f"{device}:/{RA_Configs.wii_roms_relative_directory}"
 
     @staticmethod
-    def release_date() -> str:
-        return WiiRA_Configs._release_date
+    def wii_data_directory(device) -> str:
+        return f"{device}:/retroarch"
 
-    _version = None
+    settings_dict = {}
 
-    @staticmethod
-    def version() -> str:
-        return WiiRA_Configs._version
-
-    _roms_directory = None
-
-    @staticmethod
-    def roms_directory() -> Path:
-        return WiiRA_Configs._roms_directory
+    remaps_relative_directory = None

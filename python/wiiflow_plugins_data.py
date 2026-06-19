@@ -17,8 +17,8 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 class WiiFlow_PluginsData:
     @staticmethod
     def _parse_xml_file():
-        plugin_name = WiiFlow_Configs.plugin_name()
-        xml_file_path = LocalConfigs.repository_directory().joinpath(
+        plugin_name = WiiFlow_Configs.plugin_name
+        xml_file_path = LocalConfigs.repository_directory.joinpath(
             f"wii\\wiiflow\\plugins_data\\{plugin_name}\\{plugin_name}.xml"
         )
 
@@ -94,8 +94,8 @@ class WiiFlow_PluginsData:
 
     @staticmethod
     def _parse_ini_file():
-        plugin_name = WiiFlow_Configs.plugin_name()
-        ini_file_path = LocalConfigs.repository_directory().joinpath(
+        plugin_name = WiiFlow_Configs.plugin_name
+        ini_file_path = LocalConfigs.repository_directory.joinpath(
             f"wii\\wiiflow\\plugins_data\\{plugin_name}\\{plugin_name}.ini"
         )
 
@@ -105,19 +105,21 @@ class WiiFlow_PluginsData:
 
         ini_parser = ConfigParser()
         ini_parser.read(ini_file_path)
-        if ini_parser.has_section(plugin_name):
-            for rom_file_title in ini_parser[plugin_name]:
-                values = ini_parser[plugin_name][rom_file_title].split("|")
-                game_id = values[0]
+        if not ini_parser.has_section(plugin_name):
+            print(f"【错误】找不到 [{plugin_name}]：{ini_file_path}")
+            return
+        for rom_file_title in ini_parser[plugin_name]:
+            values = ini_parser[plugin_name][rom_file_title].split("|")
+            game_id = values[0]
 
-                for index in range(1, len(values) - 1):
-                    rom_crc32 = values[index].rjust(8, "0")
-                    rom = WiiFlow_Rom(
-                        game_id=game_id,
-                        crc32=rom_crc32,
-                        file_title=rom_file_title,
-                    )
-                    WiiFlow_RomsDB.add_rom(rom)
+            for index in range(1, len(values) - 1):
+                rom_crc32 = values[index].rjust(8, "0")
+                rom = WiiFlow_Rom(
+                    game_id=game_id,
+                    crc32=rom_crc32,
+                    file_title=rom_file_title,
+                )
+                WiiFlow_RomsDB.add_rom(rom)
 
     def __init__(self):
         WiiFlow_PluginsData._parse_xml_file()

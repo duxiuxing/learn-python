@@ -4,20 +4,14 @@ from pathlib import Path
 
 
 class Rom:
-    def __init__(
-        self,
-        game_id,
-        crc32,
-        bytes,
-        file_name,
-        parent_rom,
-        en_title,
-        zhcn_title,
-    ):
-        self.game_id = game_id
+    def __init__(self, file_name: str, crc32: str | None = None):
+        self.file_name = file_name
         self.crc32 = crc32
-        self.bytes = bytes
-        self.file_name = Path(file_name)
-        self.parent_rom = parent_rom
-        self.en_title = en_title
-        self.zhcn_title = zhcn_title
+        self.bytes = None
+        self.game_id = None
+        self.parent_rom = None
+        self.en_title = None
+        self.zhcn_title = None
+
+    def file_title(self):
+        return Path(self.file_name).stem
