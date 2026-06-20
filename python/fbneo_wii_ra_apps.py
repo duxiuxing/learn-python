@@ -25,6 +25,7 @@ if __name__ == "__main__":
     ss_app_configs.long_description = (
         "- Mod By RunningSnakes.\n"
         "- Emulator for arcade games based on RA-SS Hexaeco."
+        "FinalBurn Neo v0.2.97.44"
     )
 
     while True:
