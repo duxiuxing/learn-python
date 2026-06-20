@@ -13,6 +13,8 @@ from wii_channel_wide_banner import WideBanner
 if __name__ == "__main__":
     Init_Global_Configs()
 
+    rom_file_title_filter = None
+
     rom_file_title = "captcomm"
     rom_file_title_list.append(rom_file_title)
     standard_banner_configs = StandardBannerConfigs(
@@ -54,14 +56,45 @@ if __name__ == "__main__":
     )
     wide_banner_configs_list.append(wide_banner_configs)
 
+    rom_file_title = "sf2ce"
+    rom_file_title_list.append(rom_file_title)
+    standard_banner_configs = StandardBannerConfigs(
+        rom_file_title,
+        game_logo_size=(340, 170),
+        game_logo_left_top=(240, 80),
+        company_logo_left_top=StandardBannerConfigs.COMPANY_LOGO_ALIGN_RIGHT_BOTTOM,
+    )
+    standard_banner_configs_list.append(standard_banner_configs)
+    wide_banner_configs = WideBannerConfigs(
+        rom_file_title,
+        game_logo_size=(400, 200),
+        game_logo_left_top=(35, 80),
+        company_logo_left_top=WideBannerConfigs.COMPANY_LOGO_ALIGN_LEFT_TOP,
+    )
+    wide_banner_configs_list.append(wide_banner_configs)
+
+    rom_file_title_filter = rom_file_title
+
     for title in rom_file_title_list:
-        WiiChannel_Icon(title).make()
+        if rom_file_title_filter is None:
+            WiiChannel_Icon(title).make()
+        elif rom_file_title_filter == title:
+            WiiChannel_Icon(title).make()
+            break
 
     for configs in standard_banner_configs_list:
-        StandardBanner(configs).make()
+        if rom_file_title_filter is None:
+            StandardBanner(configs).make()
+        elif rom_file_title_filter == configs.rom_file_title:
+            StandardBanner(configs).make()
+            break
 
     for configs in wide_banner_configs_list:
-        WideBanner(configs).make()
+        if rom_file_title_filter is None:
+            WideBanner(configs).make()
+        elif rom_file_title_filter == configs.rom_file_title:
+            WideBanner(configs).make()
+            break
 
     # WiiChannel_Icon(rom_file_title).make()
     # StandardBanner(standard_banner_configs).make()
