@@ -15,6 +15,8 @@ from wiiflow_roms_db import WiiFlow_RomsDB
 
 class Wii_AppFactory:
     game_app_configs_list = []
+    game_ra_app_white_list = []
+    game_ss_app_black_list = []
 
     @staticmethod
     def add_arcade_game_app_configs(
@@ -45,6 +47,12 @@ class Wii_AppFactory:
     @staticmethod
     def export_game_ra_apps(wii_device: str):
         for app_configs in Wii_AppFactory.game_app_configs_list:
+            if (
+                len(Wii_AppFactory.game_ra_app_white_list) > 0
+                and app_configs.rom.file_title
+                not in Wii_AppFactory.game_ra_app_white_list
+            ):
+                continue
             app_configs.device = wii_device
             ra_app = WiiRA_App(app_configs).export_all()
 
@@ -67,6 +75,12 @@ class Wii_AppFactory:
     @staticmethod
     def export_game_ss_apps(wii_device: str):
         for app_configs in Wii_AppFactory.game_app_configs_list:
+            if (
+                len(Wii_AppFactory.game_ss_app_black_list) > 0
+                and app_configs.rom.file_title in Wii_AppFactory.game_ss_app_black_list
+            ):
+                continue
+
             app_configs.cfg_file_name = f"{app_configs.rom.file_title}.cfg"
             app_configs.device = wii_device
             WiiSS_App(app_configs).export_all()

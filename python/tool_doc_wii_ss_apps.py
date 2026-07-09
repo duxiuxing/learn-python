@@ -19,7 +19,7 @@ if __name__ == "__main__":
     Init_Global_Configs()
 
     doc_path = LocalConfigs.export_to_directory.joinpath(
-        f"{WiiFlow_Configs.plugin_name} Apps (SS核心).md",
+        f"{WiiFlow_Configs.plugin_name}的App (SS核心).md",
     )
     if doc_path.exists() and doc_path.is_file():
         doc_path.unlink()

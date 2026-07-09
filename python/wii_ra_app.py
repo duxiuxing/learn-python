@@ -94,18 +94,22 @@ class WiiRA_App:
 
     # logo 转 icon
     def export_icon_png(self):
-        game = Game(id=None, en_title=self.configs.app_name, zhcn_title=None)
-        src_icon_png_path = ResourceFileHelper.compute_game_media_file_path(
-            game, "logo", ".png"
+        src_icon_png_path = LocalConfigs.repository_directory.joinpath(
+            f"wii\\wad\\{self.configs.app_folder_base_name}\\res\\logo.png",
         )
         if not src_icon_png_path.exists():
-            game = GamesDB.query_game(game_id=self.configs.rom.game_id)
+            game = Game(id=None, en_title=self.configs.app_name, zhcn_title=None)
             src_icon_png_path = ResourceFileHelper.compute_game_media_file_path(
                 game, "logo", ".png"
             )
             if not src_icon_png_path.exists():
-                print(f"【错误】无效的源文件 {src_icon_png_path}")
-                return
+                game = GamesDB.query_game(game_id=self.configs.rom.game_id)
+                src_icon_png_path = ResourceFileHelper.compute_game_media_file_path(
+                    game, "logo", ".png"
+                )
+                if not src_icon_png_path.exists():
+                    print(f"【错误】无效的源文件 {src_icon_png_path}")
+                    return
 
         dst_icon_png_path = self.win_app_directory().joinpath("icon.png")
         if dst_icon_png_path.exists() and dst_icon_png_path.is_file():

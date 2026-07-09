@@ -6,7 +6,6 @@ from helper import Helper
 from local_configs import LocalConfigs
 from PIL import Image
 from resource_file_helper import ResourceFileHelper
-from wii_channel_icon import WiiChannel_Icon
 from wiiflow_rom import WiiFlow_Rom
 from wiiflow_roms_db import WiiFlow_RomsDB
 
@@ -69,6 +68,20 @@ class StandardBanner:
                 f"standard-{self.configs.index}",
             )
 
+    def load_game_logo(self):
+        logo_png_path = self.standard_directory().joinpath("logo.png")
+        if not logo_png_path.exists() or not logo_png_path.is_file():
+            logo_png_path = self.res_directory().joinpath("logo.png")
+            if not logo_png_path.exists() or not logo_png_path.is_file():
+                rom = WiiFlow_RomsDB.query_rom(
+                    rom_file_title=self.configs.rom_file_title
+                )
+                game = GamesDB.query_game(game_id=rom.game_id)
+                logo_png_path = ResourceFileHelper.compute_game_media_file_path(
+                    game, "logo", ".png"
+                )
+        return Image.open(logo_png_path)
+
     def load_main_screen_bg(self):
         main_screen_bg_path = self.standard_directory().joinpath(
             "MenuScreen1-bg.png",
@@ -98,11 +111,7 @@ class StandardBanner:
             logo_png_path = self.standard_directory().joinpath("logo.png")
             if not logo_png_path.exists() or not logo_png_path.is_file():
                 logo_png_path = None
-            game_logo = (
-                WiiChannel_Icon(self.configs.rom_file_title, logo_png_path)
-                .load_logo()
-                .resize(self.configs.game_logo_size)
-            )
+            game_logo = self.load_game_logo().resize(self.configs.game_logo_size)
             main_screen_bg.paste(
                 game_logo, self.configs.game_logo_left_top, mask=game_logo
             )
