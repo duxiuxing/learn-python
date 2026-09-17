@@ -20,7 +20,10 @@ class Wii_AppFactory:
 
     @staticmethod
     def add_arcade_game_app_configs(
-        rom_file_title: str, app_name: str | None = None, remap: str | None = None
+        rom_file_title: str,
+        app_name: str | None = None,
+        app_folder_base_name: str | None = None,
+        remap: str | None = None,
     ):
         rom = WiiFlow_RomsDB.query_rom(rom_file_title=rom_file_title)
         game = WiiFlow_GamesDB.query_game(rom.game_id)
@@ -29,8 +32,14 @@ class Wii_AppFactory:
         elif app_name == game.name:
             print(f"【提示】{rom.file_title} App 无需指定 app_name")
 
+        if app_folder_base_name is None:
+            app_folder_base_name = rom_file_title
+
         app_configs = Wii_AppConfigs(
-            app_name=app_name, app_folder_base_name=rom_file_title, rom=rom, remap=remap
+            app_name=app_name,
+            app_folder_base_name=app_folder_base_name,
+            rom=rom,
+            remap=remap,
         )
         Wii_AppFactory.game_app_configs_list.append(app_configs)
 
